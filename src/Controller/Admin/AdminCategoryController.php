@@ -7,9 +7,10 @@ use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Requirement\Requirement;
 
 #[Route('/admin/category', name: 'admin.category.')]
 class AdminCategoryController extends AbstractController
@@ -31,7 +32,7 @@ class AdminCategoryController extends AbstractController
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() ) {
             $em->persist($category);
             $em->flush();
             $this->addFlash('success', 'Catégorie ajoutée avec succès');
@@ -41,6 +42,32 @@ class AdminCategoryController extends AbstractController
         return $this->render('Admin/admin_category/edit.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/{id}', name: 'edit', requirements: ['id' => Requirement::DIGITS], methods: ['GET', 'POST'])]
+    public function edit(Category $category, Request $request, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            $this->addFlash('success', 'Catégorie modifiée avec succès');
+            return $this->redirectToRoute('admin.category.index');
+        }
+
+        return $this->render('Admin/admin_category/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/{id}', name: 'delete', requirements: ['id' => Requirement::DIGITS], methods: ['DELETE'])]
+    public function delete(Category $category, EntityManagerInterface $em): Response
+    {
+        $em->remove($category);
+        $em->flush();
+        $this->addFlash('success', 'Catégorie supprimée avec succès');
+        return $this->redirectToRoute('admin.category.index');
     }
 
 }

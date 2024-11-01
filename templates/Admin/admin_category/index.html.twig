@@ -5,28 +5,30 @@
 {% block body %}
     <a href="{{path('admin.category.create')}}">add category</a>
 
-    {% for categori in categories %}
         <table>
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
+                    <th>Parent</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>{{ categori.id }}</td>
-                    <td>{{ categori.name }}</td>
-                    <td>
-                        <a href="{{ path('admin.category.edit', {'id': categori.id}) }}">edit</a>
-                        <form action="{{ path('admin.category.delete', {'id': categori.id}) }}" method="post">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
-                        </form>
-                    </td>
-                </tr>
+                {% for categori in categories %}
+                    <tr>
+                        <td>{{ categori.id }}</td>
+                        <td>{{ categori.name }}</td>
+                        <td>{{ categori.parent.name |default('') }}</td>
+                        <td>
+                            <a href="{{ path('admin.category.edit', {'id': categori.id}) }}">edit</a>
+                            <form action="{{ path('admin.category.delete', {'id': categori.id}) }}" method="post">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
-    {% endfor %}
 {% endblock %}
