@@ -18,6 +18,7 @@
             {{ include("Admin/Partial/Menu.html.twig") }}
         
             <div class="relative flex flex-1 overflow-y-auto overflow-x-hidden">
+                {{ include("Admin/Partial/flash.html.twig") }}
                 {% block body %}{% endblock %}
             </div>
 

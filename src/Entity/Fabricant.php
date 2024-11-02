@@ -30,9 +30,19 @@ class Fabricant
     #[ORM\OneToMany(targetEntity: Family::class, mappedBy: 'fabricant')]
     private Collection $families;
 
+    /**
+     * @var Collection<int, Link>
+     */
+    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'fabricant', orphanRemoval: true)]
+    private Collection $lien;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $sousTitre = null;
+
     public function __construct()
     {
         $this->families = new ArrayCollection();
+        $this->lien = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -102,6 +112,48 @@ class Fabricant
                 $family->setFabricant(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Link>
+     */
+    public function getLien(): Collection
+    {
+        return $this->lien;
+    }
+
+    public function addLien(Link $lien): static
+    {
+        if (!$this->lien->contains($lien)) {
+            $this->lien->add($lien);
+            $lien->setFabricant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLien(Link $lien): static
+    {
+        if ($this->lien->removeElement($lien)) {
+            // set the owning side to null (unless already changed)
+            if ($lien->getFabricant() === $this) {
+                $lien->setFabricant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSousTitre(): ?string
+    {
+        return $this->sousTitre;
+    }
+
+    public function setSousTitre(?string $sousTitre): static
+    {
+        $this->sousTitre = $sousTitre;
 
         return $this;
     }
