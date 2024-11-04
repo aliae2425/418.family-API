@@ -40,6 +40,9 @@ class Category
     #[ORM\OneToMany(targetEntity: Family::class, mappedBy: 'categori')]
     private Collection $families;
 
+    #[ORM\ManyToOne]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -155,6 +158,18 @@ class Category
                 $family->setCategori(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
