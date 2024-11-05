@@ -50,6 +50,12 @@ class Family
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $categori = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $familyFileName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $thumbnailFile = null;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -188,6 +194,30 @@ class Family
     public function setCategori(?Category $categori): static
     {
         $this->categori = $categori;
+
+        return $this;
+    }
+
+    public function getFamilyFileName(): ?string
+    {
+        return $this->familyFileName;
+    }
+
+    public function setFamilyFileName(string $familyFileName): static
+    {
+        $this->familyFileName = $familyFileName;
+
+        return $this;
+    }
+
+    public function getThumbnailFile(): ?string
+    {
+        return $this->thumbnailFile;
+    }
+
+    public function setThumbnailFile(?string $thumbnailFile): static
+    {
+        $this->thumbnailFile = $thumbnailFile;
 
         return $this;
     }

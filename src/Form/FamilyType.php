@@ -5,41 +5,37 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\Fabricant;
 use App\Entity\Family;
-use App\Entity\Tag;
+use App\Form\FormFactory\FormListenerFactory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FamilyType extends AbstractType
 {
+
+    public function __construct(
+        private FormListenerFactory $formListenerFactory
+    ){}
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name')
-            ->add('slug')
             ->add('description')
-            ->add('ratingSum')
-            ->add('ratingCount')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('tags', EntityType::class, [
-                'class' => Tag::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
+            ->add('familyFileName')
+            ->add('thumbnailFile')
             ->add('fabricant', EntityType::class, [
                 'class' => Fabricant::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
+                "required" => false,
             ])
             ->add('categori', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
+            ->addEventListener(FormEvents::PRE_SUBMIT, $this->formListenerFactory->AutoSlug('name'));
         ;
     }
 
