@@ -56,6 +56,12 @@ class Family
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $thumbnailFile = null;
 
+    #[ORM\ManyToOne(inversedBy: 'families')]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'families')]
+    private ?Entreprise $company = null;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -218,6 +224,30 @@ class Family
     public function setThumbnailFile(?string $thumbnailFile): static
     {
         $this->thumbnailFile = $thumbnailFile;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Entreprise
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Entreprise $company): static
+    {
+        $this->company = $company;
 
         return $this;
     }

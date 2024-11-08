@@ -36,6 +36,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $APIToken = null;
 
+    /**
+     * @var Collection<int, Family>
+     */
+    #[ORM\OneToMany(targetEntity: Family::class, mappedBy: 'user')]
+    private Collection $families;
+
+    public function __construct()
+    {
+        $this->families = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -120,6 +131,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAPIToken(string $APIToken): static
     {
         $this->APIToken = $APIToken;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Family>
+     */
+    public function getFamilies(): Collection
+    {
+        return $this->families;
+    }
+
+    public function addFamily(Family $family): static
+    {
+        if (!$this->families->contains($family)) {
+            $this->families->add($family);
+            $family->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFamily(Family $family): static
+    {
+        if ($this->families->removeElement($family)) {
+            // set the owning side to null (unless already changed)
+            if ($family->getUser() === $this) {
+                $family->setUser(null);
+            }
+        }
 
         return $this;
     }
