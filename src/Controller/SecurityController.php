@@ -33,6 +33,13 @@ class SecurityController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
+
+    #[Route(path: '/register/entreprise', name: 'app_register')]
+    //todo
+
+    #[Route(path: '/entreprise/{id}/create/user', name: 'family.register')]
+    //todo
+
     #[Route(path: '/register/user', name : 'user.register')]
     public function register(EntityManagerInterface $em): Response
     {
