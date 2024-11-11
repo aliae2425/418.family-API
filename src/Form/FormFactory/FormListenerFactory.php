@@ -32,4 +32,12 @@ class FormListenerFactory
         };
     }
 
+    public function GenerateToken(): callable
+    {
+        return function (PostSubmitEvent $event){
+            $data = $event->getData();
+            $data->setToken(bin2hex(random_bytes(32)));
+        };
+    }
+
 }

@@ -35,18 +35,28 @@ class SecurityController extends AbstractController
 
 
     #[Route(path: '/register/entreprise', name: 'app_register')]
-    //todo
+    public function registerEntreprise()
+    {
+        //todo
+    }
 
     #[Route(path: '/entreprise/{id}/create/user', name: 'family.register')]
-    //todo
+    public function registerCompanyUser(EntityManagerInterface $em)
+    {
+        //todo
+    }
 
-    #[Route(path: '/register/user', name : 'user.register')]
+
+    #[Route(path: '/register/user', name : 'user.register', methods: ['GET', 'POST'])]
     public function register(EntityManagerInterface $em): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
+        echo($form->isSubmitted());
+
         if($form->isSubmitted() && $form->isValid()){
+            dd($user);
             $em->persist($user);
             $em->flush();
             return $this->redirectToRoute('app_login');
