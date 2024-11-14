@@ -29,7 +29,7 @@ class UserType extends AbstractType
                     'class' => 'btn btn-primary'
                 ]
             ])
-            ->addEventListener(FormEvents::PRE_SUBMIT, $this->formListenerFactory->GenerateToken())
+            // ->addEventListener(FormEvents::PRE_SUBMIT, $this->formListenerFactory->GenerateToken())
         ;
     }
 
