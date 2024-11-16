@@ -47,23 +47,21 @@ class SecurityController extends AbstractController
     }
 
 
-    #[Route(path: '/register/user', name : 'user.register', methods: ['GET', 'POST'])]
+    #[Route(path: '/register', name : 'user.register', methods: ['GET', 'POST'])]
     public function register(EntityManagerInterface $em): Response
     {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        // $user = new User();
+        // $form = $this->createForm(UserType::class, $user);
 
-        // dd($form->isSubmitted());
+        // // dd($form->isSubmitted());
 
-        if($form->isSubmitted() && $form->isValid()){
-            dd($user);
-            $em->persist($user);
-            $em->flush();
-            return $this->redirectToRoute('app_login');
-        }
+        // if($form->isSubmitted() && $form->isValid()){
+        //     dd($user);
+        //     $em->persist($user);
+        //     $em->flush();
+        //     return $this->redirectToRoute('app_login');
+        // }
 
-        return $this->render('security/register.html.twig', [
-            'form' => $form->createView()
-        ]);
+        return $this->render('security/register.html.twig');
     }
 }

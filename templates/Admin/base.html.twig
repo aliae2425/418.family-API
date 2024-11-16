@@ -11,17 +11,21 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body>
+    <body class="font-inter antialiased bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-400">
 
-        <div class="flex h-screen overflow-hidden">
-            {{ include("Admin/Partial/Menu.html.twig") }}
-        
-            <div class="relative flex flex-1 overflow-y-auto overflow-x-hidden">
-                {{ include("Admin/Partial/flash.html.twig") }}
-                {% block body %}{% endblock %}
+        <div class="root">
+            <div class="flex h-screen overflow-hidden">
+                {{ include("Admin/Partial/Menu.html.twig") }}
+                
+                <div class="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+                    {{ include("Admin/Partial/flash.html.twig") }}
+                    {% block body %}{% endblock %}
+                </div>
+
             </div>
-
         </div>
+        
+
 
     </body>
 </html>
