@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Requirement\Requirement;
 class AdminCategoryController extends AbstractController
 {
 
-    #[Route('/', name: 'index')]
+    #[Route('/', name: 'home')]
     public function index(CategoryRepository $categoryRepository): Response
     {
         $cat = $categoryRepository->findAll();
@@ -25,7 +25,7 @@ class AdminCategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/create', name: 'create')]
+    #[Route('/create', name: 'add')]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $category = new Category();

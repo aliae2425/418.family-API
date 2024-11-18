@@ -5,12 +5,15 @@
 			
 		</div>
 		
-		<ul class="nav sidebar__nav text-lg">
-			<li class="nav-item flex">
-				<div class="nav-item__icon">{{ ux_icon('openmoji:teapot') }}</div>
-				<div class="nav-item__text text-3xl">Dashboard</div>
-			</li>
-		</ul>
+
+        <ul>
+            <li><a href="{{path('admin.home')}}">Dashboard</a></li>
+            <li><a href="{{path('admin.category.home')}}">Category</a></li>
+            <li><a href="{{path('admin.marque.home')}}">Brand</a></li>
+            <li><a href="{{path('admin.family.home')}}">Familles</a></li>
+            <li><a href="{#{path('admin.user.home')}#}">Users</a></li>
+            <li><a href="{{path('admin.tag.home')}}">Tags</a></li>
+        </ul>
 
 		
 	</div>

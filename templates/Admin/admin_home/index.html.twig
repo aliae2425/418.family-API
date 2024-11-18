@@ -3,18 +3,29 @@
 {% block title %}Hello AdminHomeController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div>
+        <table class="table-auto">
+            <thead>
+                <tr>
+                    <turbo-frame id="category-form">
+                        <th>Name</th>
+                        <th>Parent</th>
+                        <th>
+                                <a href="{{ path('admin.category.add') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Add</a>
+                        </th>
+                    </turbo-frame>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ category.name }}</td>
+                        <td>{{ category.parent | default('-') }}</td>
+                        <td><button>🚮</button></td>
+                    </tr>
+                {% endfor %}
+        </table>
+    </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>E:/07_Git/418.family-API/src/Controller/AdminHomeController.php</code></li>
-        <li>Your template at <code>E:/07_Git/418.family-API/templates/admin_home/index.html.twig</code></li>
-    </ul>
-</div>
 {% endblock %}

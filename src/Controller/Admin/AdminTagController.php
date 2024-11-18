@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Requirement\Requirement;
 #[Route('/admin/tag', name: 'admin.tag.')]
 class AdminTagController extends AbstractController
 {
-    #[Route('/', name: 'index')]
+    #[Route('/', name: 'home')]
     public function index(TagRepository $tag): Response
     {
 

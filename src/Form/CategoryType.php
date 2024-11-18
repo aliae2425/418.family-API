@@ -26,9 +26,6 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('slug', TextType::class, [
-                'required' => false,
-            ])
             ->add('description',TextareaType::class, [
                 'constraints' => [
                     new Length(
