@@ -39,6 +39,9 @@ class Fabricant
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $sousTitre = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $thumbnail = null;
+
     public function __construct()
     {
         $this->families = new ArrayCollection();
@@ -154,6 +157,18 @@ class Fabricant
     public function setSousTitre(?string $sousTitre): static
     {
         $this->sousTitre = $sousTitre;
+
+        return $this;
+    }
+
+    public function getThumbnail(): ?string
+    {
+        return $this->thumbnail;
+    }
+
+    public function setThumbnail(?string $thumbnail): static
+    {
+        $this->thumbnail = $thumbnail;
 
         return $this;
     }
