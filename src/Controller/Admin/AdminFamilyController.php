@@ -12,7 +12,7 @@ class AdminFamilyController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(): Response
     {
-        return $this->render('Admin/admin_family/index.html.twig', [
+        return $this->render('Admin/Family/index.html.twig', [
             'controller_name' => 'AdminFamilyController',
         ]);
     }

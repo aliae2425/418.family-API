@@ -20,7 +20,7 @@ class AdminCategoryController extends AbstractController
     public function index(CategoryRepository $categoryRepository): Response
     {
         $cat = $categoryRepository->findAll();
-        return $this->render('Admin/admin_category/index.html.twig', [
+        return $this->render('Admin/Category/index.html.twig', [
             'categories' => $cat,
         ]);
     }
@@ -39,7 +39,7 @@ class AdminCategoryController extends AbstractController
             return $this->redirectToRoute('admin.category.index');
         }
 
-        return $this->render('Admin/admin_category/edit.html.twig', [
+        return $this->render('Admin/Category/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -56,7 +56,7 @@ class AdminCategoryController extends AbstractController
             return $this->redirectToRoute('admin.category.index');
         }
 
-        return $this->render('Admin/admin_category/edit.html.twig', [
+        return $this->render('Admin/Category/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }

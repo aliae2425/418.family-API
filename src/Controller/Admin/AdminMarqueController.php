@@ -29,7 +29,7 @@ class AdminMarqueController extends AbstractController
     {
         $form = $this->createForm(BrandType::class);
         $form->handleRequest($request);
-
+        dd($form->isValid());
         if ($form->isSubmitted() && $form->isValid()) {
             $brand = new Fabricant();
             /** @var UploadedFile */

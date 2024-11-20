@@ -19,7 +19,7 @@ class AdminTagController extends AbstractController
     public function index(TagRepository $tag): Response
     {
 
-        return $this->render('Admin/admin_tag/index.html.twig', [
+        return $this->render('Admin/Tag/index.html.twig', [
             'tags' => $tag->findAll(),
         ]);
     }
@@ -38,7 +38,7 @@ class AdminTagController extends AbstractController
             return $this->redirectToRoute('admin.tag.index');
         }
 
-        return $this->render('Admin/admin_tag/edit.html.twig', [
+        return $this->render('Admin/Tag/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -55,7 +55,7 @@ class AdminTagController extends AbstractController
             return $this->redirectToRoute('admin.tag.index');
         }
 
-        return $this->render('Admin/admin_tag/edit.html.twig', [
+        return $this->render('Admin/Tag/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
