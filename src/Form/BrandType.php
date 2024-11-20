@@ -31,20 +31,14 @@ class BrandType extends AbstractType
             ->add('description', TextareaType::class, [
                 'required' => false,
             ])
-            ->add('thumbnailFile', FileType::class, [
-                'required' => false,
-                'mapped' => false,
-                'constraints' => [
-                    new Image()
-                ],
-            ])
+            ->add('thumbnailFile', FileType::class)
             ->add('submit', SubmitType::class, [
                 'label' => 'Enregistrer',
                 'attr' => [
                     'class' => 'btn btn-primary',
                 ],
             ])
-            ->addEventListener(FormEvents::PRE_SUBMIT, $this->formListenerFactory->AutoSlug('name'))
+            // ->addEventListener(FormEvents::PRE_SUBMIT, $this->formListenerFactory->AutoSlug('name'))
         ;
     }
 

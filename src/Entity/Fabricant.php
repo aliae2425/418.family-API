@@ -6,8 +6,12 @@ use App\Repository\FabricantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FabricantRepository::class)]
+#[Vich\Uploadable()]
 class Fabricant
 {
     #[ORM\Id]
@@ -41,6 +45,10 @@ class Fabricant
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $thumbnail = null;
+
+    #[Vich\UploadableField(mapping : "Fabricant", fileNameProperty : "thumbnail")]
+    #[Assert\Image()]
+    private ?File $thumbnailFile = null;
 
     public function __construct()
     {
@@ -172,4 +180,17 @@ class Fabricant
 
         return $this;
     }
+    
+    public function getThumbnailFile(): ?File
+    {
+        return $this->thumbnailFile;
+    }
+
+    public function setThumbnailFile(?File $thumbnailFile): static
+    {
+        $this->thumbnailFile = $thumbnailFile;
+
+        return $this;
+    }
+
 }

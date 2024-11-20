@@ -14,30 +14,24 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 
 #[Route('/admin/brands', name: 'admin.brand.')]  
-class AdminMarqueController extends AbstractController
+class AdminBrandsController extends AbstractController
 {
     #[Route('/', name: 'home')]
     public function index(FabricantRepository $fabricantRepository): Response
     {
-        return $this->render('Admin/Brand/index.html.twig', [
-            'Marques' => $fabricantRepository->findAll(),
-        ]);
+        return $this->render('Admin/Brand/index.html.twig');
     }
 
     #[Route('/new', name: 'add', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
-        $form = $this->createForm(BrandType::class);
+        $brand = new Fabricant();
+        $form = $this->createForm(BrandType::class, $brand);
         $form->handleRequest($request);
-        dd($form->isValid());
+        // dd($form->isValid());
         if ($form->isSubmitted() && $form->isValid()) {
-            $brand = new Fabricant();
-            /** @var UploadedFile */
-            $file = $form->get('thumbnailFile')->getData();
-            $fileName = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
-            dd($fileName);
-            //todo : Gestion de l'upload de fichier
-            $em->persist($form->getData());
+            $brand->setSlug($form->get('name')->getData());
+            $em->persist($brand);
             $em->flush();
             $this->addFlash('success', 'Marque ajoutée avec succès');
             return $this->redirectToRoute('admin.brand.home');
@@ -56,9 +50,6 @@ class AdminMarqueController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile */
-            $file = $form->get('thumbnailFile')->getData();
-            //todo : Gestion de l'upload de fichier
             $em->flush();
             $this->addFlash('success', 'Marque modifiée avec succès');
             return $this->redirectToRoute('admin.brand.home');
