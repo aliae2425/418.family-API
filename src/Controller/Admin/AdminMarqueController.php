@@ -13,18 +13,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 
-#[Route('/admin/marque', name: 'admin.marque.')]  
+#[Route('/admin/brands', name: 'admin.brand.')]  
 class AdminMarqueController extends AbstractController
 {
     #[Route('/', name: 'home')]
     public function index(FabricantRepository $fabricantRepository): Response
     {
-        return $this->render('admin_marque/index.html.twig', [
+        return $this->render('Admin/Brand/index.html.twig', [
             'Marques' => $fabricantRepository->findAll(),
         ]);
     }
 
-    #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'add', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(BrandType::class);
@@ -34,15 +34,19 @@ class AdminMarqueController extends AbstractController
             $brand = new Fabricant();
             /** @var UploadedFile */
             $file = $form->get('thumbnailFile')->getData();
+            $fileName = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            dd($fileName);
             //todo : Gestion de l'upload de fichier
             $em->persist($form->getData());
             $em->flush();
             $this->addFlash('success', 'Marque ajoutée avec succès');
-            return $this->redirectToRoute('admin.marque.home');
+            return $this->redirectToRoute('admin.brand.home');
         }
 
         
-        return $this->render('admin_marque/edit.html.twig');
+        return $this->render('Admin/Brand/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     #[Route('/{id}', name: 'edit', methods: ['GET', 'POST'], requirements: ['id' => Requirement::DIGITS])]
@@ -57,10 +61,10 @@ class AdminMarqueController extends AbstractController
             //todo : Gestion de l'upload de fichier
             $em->flush();
             $this->addFlash('success', 'Marque modifiée avec succès');
-            return $this->redirectToRoute('admin.marque.home');
+            return $this->redirectToRoute('admin.brand.home');
         }
 
-        return $this->render('admin_marque/edit.html.twig', [
+        return $this->render('Admin/Brand/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
