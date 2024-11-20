@@ -3,7 +3,7 @@
 {% block title %}Hello AdminHomeController!{% endblock %}
 
 {% block body %}
-
+<main class="p-4 md:ml-64 h-auto pt-20">
     <div>
         <table class="table-auto">
             <thead>
@@ -12,20 +12,21 @@
                         <th>Name</th>
                         <th>Parent</th>
                         <th>
-                                <a href="{{ path('admin.category.add') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Add</a>
+                            <a href="{{ path('admin.category.add') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Add</a>
                         </th>
                     </turbo-frame>
                 </tr>
             </thead>
             <tbody>
                 {% for category in categories %}
-                    <tr>
-                        <td>{{ category.name }}</td>
-                        <td>{{ category.parent | default('-') }}</td>
-                        <td><button>🚮</button></td>
-                    </tr>
+                <tr>
+                    <td>{{ category.name }}</td>
+                    <td>{{ category.parent | default('-') }}</td>
+                    <td><button>🚮</button></td>
+                </tr>
                 {% endfor %}
-        </table>
-    </div>
-
-{% endblock %}
+            </table>
+        </div>
+    </main>
+        
+        {% endblock %}
