@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Fabricant;
+use App\DTO\BrandsIndexDTO;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,6 +15,22 @@ class FabricantRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Fabricant::class);
+    }
+
+
+    /**
+     * @return BrandsIndexDTO[]
+     */
+    public function index(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->select('NEW App\\DTO\\BrandsIndexDTO(b.id, b.name, c.name, COUNT(l), COUNT(f))')
+            ->leftJoin('b.category', 'c')
+            ->leftJoin('b.lien', 'l')
+            ->leftJoin('b.families', 'f')
+            ->groupBy('b.id')
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**

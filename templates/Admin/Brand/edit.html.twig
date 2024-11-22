@@ -1,5 +1,21 @@
 {% extends 'Admin/base.html.twig' %}
 
 {% block body %}
-        {{ form(form) }}
+        <main class="p-5 md:ml-64 h-auto pt-20">
+                <section class="p-6 sm:p-5">
+                        {{ form_start(form) }}
+                                <div class="flex">
+                                        <div class="flex-auto px-2">
+                                                {{ form_row(form.name) }}
+                                        </div>
+                                        <div class="flex-auto px-2">
+                                              {{ form_row(form.category) }}
+                                        </div>
+                                        <div class="flex-auto px-2">
+                                                {{ form_row(form.thumbnailFile) }}
+                                        </div>
+                                </div>
+                        {{ form_end(form) }}
+                </section>
+        </main>
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Fabricant;
 use App\Form\FormFactory\FormListenerFactory;
 use Doctrine\DBAL\Types\Type;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -17,6 +18,11 @@ use Symfony\Component\Validator\Constraints\Image;
 
 class BrandType extends AbstractType
 {
+
+    private $paddingAttr = [
+        'class' => 'mx-5'
+    ];
+
     public function __construct(
         private FormListenerFactory $formListenerFactory
     ){}
@@ -24,19 +30,25 @@ class BrandType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class)
+            ->add('name', TextType::class, [
+                'label' => 'Nom de la marque',
+            ])
+            ->add('thumbnailFile', FileType::class, [
+                'label' => 'Banière',
+            ])
+            ->add('category', EntityType::class, [
+                'class' => 'App\Entity\BrandCategory',
+                'choice_label' => 'name',
+                'label' => 'Catégorie',
+            ])
             ->add('sousTitre', TextType::class, [
                 'required' => false,
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
             ])
-            ->add('thumbnailFile', FileType::class)
             ->add('submit', SubmitType::class, [
                 'label' => 'Enregistrer',
-                'attr' => [
-                    'class' => 'btn btn-primary',
-                ],
             ])
             // ->addEventListener(FormEvents::PRE_SUBMIT, $this->formListenerFactory->AutoSlug('name'))
         ;

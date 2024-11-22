@@ -50,6 +50,10 @@ class Fabricant
     #[Assert\Image()]
     private ?File $thumbnailFile = null;
 
+    #[ORM\ManyToOne(inversedBy: 'fabricants')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?BrandCategory $category = null;
+
     public function __construct()
     {
         $this->families = new ArrayCollection();
@@ -189,6 +193,18 @@ class Fabricant
     public function setThumbnailFile(?File $thumbnailFile): static
     {
         $this->thumbnailFile = $thumbnailFile;
+
+        return $this;
+    }
+
+    public function getCategory(): ?BrandCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?BrandCategory $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }

@@ -19,7 +19,10 @@ class AdminBrandsController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(FabricantRepository $fabricantRepository): Response
     {
-        return $this->render('Admin/Brand/index.html.twig');
+        // dd($fabricantRepository->index());
+        return $this->render('Admin/Brand/index.html.twig', [
+            'brands' => $fabricantRepository->index(),
+        ]);
     }
 
     #[Route('/new', name: 'add', methods: ['GET', 'POST'])]
