@@ -21,10 +21,10 @@ class FabricantRepository extends ServiceEntityRepository
     /**
      * @return BrandsIndexDTO[]
      */
-    public function index(): array
+    public function adminIndex(): array
     {
         return $this->createQueryBuilder('b')
-            ->select('NEW App\\DTO\\BrandsIndexDTO(b.id, b.name, c.name, COUNT(l), COUNT(f))')
+            ->select('NEW App\\DTO\\Admin\\BrandsIndexDTO(b.id, b.name, c.name, COUNT(l), COUNT(f))')
             ->leftJoin('b.category', 'c')
             ->leftJoin('b.lien', 'l')
             ->leftJoin('b.families', 'f')
