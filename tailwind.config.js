@@ -6,7 +6,7 @@ module.exports = {
     "./templates/**/*.html.twig",
     "./node_modules/flowbite/**/*.js"
   ],
-  darkMode: 'class',
+  darkMode: 'media',
   theme: {
     extend: {
       flex: {

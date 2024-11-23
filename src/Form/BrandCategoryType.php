@@ -6,6 +6,7 @@ use App\Entity\BrandCategory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class BrandCategoryType extends AbstractType
 {
@@ -13,6 +14,9 @@ class BrandCategoryType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('submit', SubmitType::class, [
+                'label' => 'Enregistrer',
+            ])
         ;
     }
 
