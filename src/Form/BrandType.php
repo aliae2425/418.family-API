@@ -47,6 +47,9 @@ class BrandType extends AbstractType
             ->add('description', TextareaType::class, [
                 'required' => false,
             ])
+            ->add('link', LinkType::class, [
+                'required' => false,
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Enregistrer',
             ])

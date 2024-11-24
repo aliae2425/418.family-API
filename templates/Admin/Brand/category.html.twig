@@ -2,8 +2,17 @@
 
 {% block body %}
 
-        <turbo-frame id="categoryBrandForm">
-            {{ form(form) }}
+        <turbo-frame id="categoryBrandForm" >
+            {{ form_start(form) }}
+            <div class="flex">
+                <div class="flex-auto px-2">
+                    {{ form_row(form.name) }}
+                </div>
+                <div class="flex-auto px-2">
+                    {{ form_row(form.submit) }}
+                </div>
+            </div>
+            {{ form_end(form) }}
         </turbo-frame>
 
 {% endblock %}

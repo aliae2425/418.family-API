@@ -15,7 +15,7 @@ class BrandCategoryType extends AbstractType
         $builder
             ->add('name')
             ->add('submit', SubmitType::class, [
-                'label' => 'Enregistrer',
+                'label' => 'Ajouter',
             ])
         ;
     }
