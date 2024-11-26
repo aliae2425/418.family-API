@@ -37,7 +37,7 @@ class Fabricant
     /**
      * @var Collection<int, Link>
      */
-    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'fabricant', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'fabricant', orphanRemoval: true, cascade: ["persist"])]
     private Collection $lien;
 
     #[ORM\Column(length: 255, nullable: true)]
