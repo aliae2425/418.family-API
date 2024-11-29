@@ -56,7 +56,6 @@ class BrandType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'label' => 'Liens',
                 'attr' => [
                     'data-controller' => 'form_collection',
                 ]

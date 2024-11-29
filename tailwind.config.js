@@ -5,6 +5,7 @@ module.exports = {
     "./assets/**/*.js",
     "./templates/**/*.html.twig",
   ],
+  darkMode: 'media',
   theme: {
     extend: {},
   },
