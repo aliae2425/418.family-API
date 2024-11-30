@@ -1,8 +1,0 @@
-vich_uploader:
-    db_driver: orm
-
-    mappings:
-        Fabricant:
-           uri_prefix: /images/Brands
-           upload_destination: '%kernel.project_dir%/public/images/Brands'
-           namer: Vich\UploaderBundle\Naming\HashNamer
