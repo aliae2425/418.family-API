@@ -4,12 +4,66 @@
 
 {% block body %}
 
-    <a href="">ajouter catégories</a>
-    <a href="">ajouter marques</a>
+    {# Js controller test  #}
+    {# <h1 data-controller="trash"></h1> #}
+
+    <a href="{{path('admin.brand.categories.add')}}">ajouter catégories</a>
+    <a href="{{path('admin.brands.add')}}">ajouter marques</a>
 
 
-    {% for brand in brands %}
-        <p><span>{{brand.id }}</span>{{ brand.name }} : {{brand.category}}, {{brand.links}}</p>
-    {% endfor %}
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>category</th>
+                <th>link</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for brand in brands %}
+                <tr>
+                    <td>{{brand.id}}</td>
+                    <td>
+                        <a href="{{ path('admin.brands.show', {"id" : brand.id }) }}">{{brand.name}}</a>
+                    </td>
+                    <td>{{brand.category}}</td>
+                    <td>{{brand.links}}</td>
+                    <td>
+                        <a href="{{ path('admin.brands.edit', {"id" : brand.id }) }}">edit</a>
+                        <a href="{{ path('admin.brands.delete', {"id" : brand.id }) }}">delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories %}
+                <tr>
+                    <td>{{category.id}}</td>
+                    <td>
+                        <a href="{{ path('admin.brands.show', {"id" : category.id }) }}">{{category.name}}</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('admin.brands.edit', {"id" : category.id }) }}">edit</a>
+                        <form action="{{ path('admin.brand.categories.delete', {"id" : category.id }) }}" method="post">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-sm btn-danger">delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

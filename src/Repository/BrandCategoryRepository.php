@@ -16,28 +16,14 @@ class BrandCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, BrandCategory::class);
     }
 
-    //    /**
-    //     * @return BrandCategory[] Returns an array of BrandCategory objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('b.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function index()
+    {
+        return $this->createQueryBuilder('bc')
+            ->select('NEW App\\DTO\\Admin\\BrandCategoryIndexDTO(bc.id, bc.name, COUNT(c))')
+            ->leftJoin('bc.brands', 'c')
+            ->groupBy('bc.id')
+            ->getQuery()
+            ->getResult();
+    }
 
-    //    public function findOneBySomeField($value): ?BrandCategory
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }
