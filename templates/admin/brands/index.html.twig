@@ -1,0 +1,15 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}marques{% endblock %}
+
+{% block body %}
+
+    <a href="">ajouter catégories</a>
+    <a href="">ajouter marques</a>
+
+
+    {% for brand in brands %}
+        <p><span>{{brand.id }}</span>{{ brand.name }} : {{brand.category}}, {{brand.links}}</p>
+    {% endfor %}
+
+{% endblock %}
