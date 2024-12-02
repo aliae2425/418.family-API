@@ -12,8 +12,13 @@
         {% endblock %}
     </head>
     <body>
-        {{ include("admin/partial/sidebar.html.twig") }}
-        {{ include("admin/partial/flashes.html.twig") }}
-        {% block body %}{% endblock %}
-    </body>
+    <body>
+        {{ include("admin/partial/navbar.html.twig") }}
+        <div class="h-screen flex flex-row flex-wrap">
+            {{ include("admin/partial/sidebar.html.twig") }}
+                <div class="bg-gray-100 flex-1 p-6 md:mt-16">
+                    {{ include("admin/partial/flashes.html.twig") }}
+                    {% block body %}{% endblock %}
+                </div>
+        </div>
 </html>
