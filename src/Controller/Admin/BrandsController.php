@@ -28,7 +28,7 @@ class BrandsController extends AbstractController
         ]);
     }
 
-    //todo : add css ans js
+    //ok
     #[Route('/{id}', name: 'show', requirements:['id' => Requirement::DIGITS])]
     public function show(Brands $brand): Response
     {
@@ -37,7 +37,7 @@ class BrandsController extends AbstractController
         ]);
     }
 
-    //todo: test
+    //ok
     #[Route('/{id}/edit', name: 'edit', methods:['GET','POST'],  requirements:['id' => '\d+'])]
     public function edit(Request $request, Brands $brand, EntityManagerInterface $em): Response
     {
@@ -48,8 +48,6 @@ class BrandsController extends AbstractController
             $em->flush();
             $this->addFlash('success', $brand->getName().' mis à jour');
             return $this->redirectToRoute('admin.brands.home');
-        }else{
-            $this->addFlash('danger', 'Erreur lors de la mise à jour');
         }
 
         return $this->render('admin/brands/brandForm.html.twig', [
@@ -57,7 +55,7 @@ class BrandsController extends AbstractController
         ]);
     }
 
-    //todo: test
+    //ok
     #[Route('/add', name: 'add', methods:['GET','POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
@@ -79,8 +77,8 @@ class BrandsController extends AbstractController
         ]);
     }
 
-    //todo: test
-    #[Route('/{id}/delete', name: 'delete', methods:['DELETE'], requirements:['id' => '\d+'])]
+    //ok
+    #[Route('/{id}/delete', name: 'delete', requirements:['id' => '\d+'])]
     public function delete(Request $request, Brands $brand, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$brand->getId(), $request->request->get('_token'))) {

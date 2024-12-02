@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class BrandType extends AbstractType
 {
@@ -16,10 +17,17 @@ class BrandType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('thumbail')
+            ->add('slug')
             ->add('categories', EntityType::class, [
                 'class' => BrandCategory::class,
                 'choice_label' => 'name',
+            ])
+            ->add('File', DropzoneType::class, [
+                'label' => 'Image',
+                "required" => false,
+                'attr' => [
+                    'placeholder' => 'Choisir une image'
+                ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Enregistrer'

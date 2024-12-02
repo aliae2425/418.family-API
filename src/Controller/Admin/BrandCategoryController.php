@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\BrandCategory;
 use App\Form\BrandCategoryType;
+use App\Repository\BrandCategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,11 +12,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 
-#[Route('/brand/categories', 'admin.brand.categories.')]
+#[Route('/admin/brands/categories', 'admin.brand.categories.')]
 class BrandCategoryController extends AbstractController
 {
 
-    //todo: add category show
+    //ok
+    #[Route('/{id}', name: 'show', requirements:['id' => Requirement::DIGITS])]
+    public function showCategory(BrandCategoryRepository $brandCategoryRepository, int $id): Response
+    {
+        return $this->render('admin/brands/category.html.twig', [
+            'category' => $brandCategoryRepository->show($id)
+        ]);
+    }
 
     //ok
     #[Route('/add', name: 'add', methods:['GET','POST'])]
@@ -59,8 +67,8 @@ class BrandCategoryController extends AbstractController
         ]);
     }
 
-    //todo: fixe delete no response
-    #[Route('/{id}/delete', name: 'delete', methods:['DELETE'], requirements:['id' => Requirement::DIGITS])]
+    //ok
+    #[Route('/{id}/delete', name: 'delete', requirements:['id' => Requirement::DIGITS])]
     public function deleteCategory(BrandCategory $category, EntityManagerInterface $em): Response
     {
         $em->remove($category);
@@ -69,4 +77,5 @@ class BrandCategoryController extends AbstractController
 
         return $this->redirectToRoute('admin.brands.home');
     }
+
 }

@@ -26,4 +26,15 @@ class BrandCategoryRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function show(int $id)
+    {
+        return $this->createQueryBuilder('bc')
+            ->select('bc', 'c')
+            ->leftJoin('bc.brands', 'c')
+            ->where('bc.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 }

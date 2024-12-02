@@ -52,14 +52,11 @@
                 <tr>
                     <td>{{category.id}}</td>
                     <td>
-                        <a href="{{ path('admin.brands.show', {"id" : category.id }) }}">{{category.name}}</a>
+                        <a href="{{ path('admin.brand.categories.show', {"id" : category.id }) }}">{{category.name}}</a>
                     </td>
                     <td>
                         <a href="{{ path('admin.brands.edit', {"id" : category.id }) }}">edit</a>
-                        <form action="{{ path('admin.brand.categories.delete', {"id" : category.id }) }}" method="post">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="btn btn-sm btn-danger">delete</button>
-                        </form>
+                        <a href="{{ path('admin.brand.categories.delete', {"id" : category.id }) }}">delete</a>
                     </td>
                 </tr>
             {% endfor %}

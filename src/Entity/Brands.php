@@ -6,8 +6,13 @@ use App\Repository\BrandsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: BrandsRepository::class)]
+#[Vich\Uploadable]
 class Brands
 {
     #[ORM\Id]
@@ -21,8 +26,12 @@ class Brands
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $thumbail = null;
+
+    #[Vich\UploadableField(mapping : "brands", fileNameProperty : "thumbail")]
+    #[Assert\Image(mimeTypes: ['image/jpeg', 'image/png', 'image/jpg'])]
+    private ?File $File = null;
 
     /**
      * @var Collection<int, Link>
@@ -118,6 +127,18 @@ class Brands
     public function setCategories(?BrandCategory $categories): static
     {
         $this->categories = $categories;
+
+        return $this;
+    }
+
+    public function getFile(): ?File
+    {
+        return $this->File;
+    }
+
+    public function setFile(?File $File): static
+    {
+        $this->File = $File;
 
         return $this;
     }
