@@ -19,8 +19,8 @@ class BrandCategoryRepository extends ServiceEntityRepository
     public function index()
     {
         return $this->createQueryBuilder('bc')
-            ->select('NEW App\\DTO\\Admin\\BrandCategoryIndexDTO(bc.id, bc.name, COUNT(c))')
-            ->leftJoin('bc.brands', 'c')
+            ->select('NEW App\\DTO\\Admin\\BrandCategoryIndexDTO(bc.id, bc.name, COUNT(b))')
+            ->leftJoin('bc.brands', 'b')
             ->groupBy('bc.id')
             ->getQuery()
             ->getResult();

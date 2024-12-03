@@ -24,6 +24,12 @@ class BrandCategory
     #[ORM\OneToMany(targetEntity: Brands::class, mappedBy: 'categories')]
     private Collection $brands;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $_createAt = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $_updateAt = null;
+
     public function __construct()
     {
         $this->brands = new ArrayCollection();
@@ -72,6 +78,30 @@ class BrandCategory
                 $brand->setCategories(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreateAt(): ?\DateTimeImmutable
+    {
+        return $this->_createAt;
+    }
+
+    public function setCreateAt(\DateTimeImmutable $_createAt): static
+    {
+        $this->_createAt = $_createAt;
+
+        return $this;
+    }
+
+    public function getUpdateAt(): ?\DateTimeImmutable
+    {
+        return $this->_updateAt;
+    }
+
+    public function setUpdateAt(\DateTimeImmutable $_updateAt): static
+    {
+        $this->_updateAt = $_updateAt;
 
         return $this;
     }

@@ -34,12 +34,11 @@ class BrandCategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $category->setCreateAt(new \DateTimeImmutable());
             $em->persist($category);
             $em->flush();
             $this->addFlash('success', $category->getName().' ajouté');
             return $this->redirectToRoute('admin.brands.home');
-        }else if($form->isSubmitted() && !$form->isValid()){
-            $this->addFlash('danger', 'Erreur lors de l\'ajout');
         }
 
         return $this->render('admin/brands/brandCategoryForm.html.twig', [

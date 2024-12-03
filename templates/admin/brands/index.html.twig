@@ -17,6 +17,8 @@
                 <th>id</th>
                 <th>name</th>
                 <th>category</th>
+                <th>Date création</th>
+                <th>Last update</th>
                 <th>link</th>
                 <th>action</th>
             </tr>
@@ -28,6 +30,8 @@
                     <td>
                         <a href="{{ path('admin.brands.show', {"id" : brand.id }) }}">{{brand.name}}</a>
                     </td>
+                    <td>{{ brand.createdAt|date('Y-m-d H:i:s', 'Europe/Paris') }}</td>
+                    <td>{{ brand.updatedAt|date('Y-m-d H:i:s', 'Europe/Paris') }}</td>
                     <td>{{brand.category}}</td>
                     <td>{{brand.links}}</td>
                     <td>
@@ -44,6 +48,7 @@
             <tr>
                 <th>id</th>
                 <th>name</th>
+                <th>nombre de categorie</th>
                 <th>action</th>
             </tr>
         </thead>
@@ -54,9 +59,12 @@
                     <td>
                         <a href="{{ path('admin.brand.categories.show', {"id" : category.id }) }}">{{category.name}}</a>
                     </td>
+                    <td>{{category.brandCount}}</td>
                     <td>
-                        <a href="{{ path('admin.brands.edit', {"id" : category.id }) }}">edit</a>
-                        <a href="{{ path('admin.brand.categories.delete', {"id" : category.id }) }}">delete</a>
+                        <a href="{{ path('admin.brand.categories.edit', {"id" : category.id }) }}">edit</a>
+                        {% if category.brandCount == 0 %}
+                            <a href="{{ path('admin.brand.categories.delete', {"id" : category.id }) }}">delete</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

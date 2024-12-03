@@ -43,6 +43,12 @@ class Brands
     #[ORM\JoinColumn(nullable: false)]
     private ?BrandCategory $categories = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $_createAt = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $_updateAt = null;
+
     public function __construct()
     {
         $this->links = new ArrayCollection();
@@ -139,6 +145,30 @@ class Brands
     public function setFile(?File $File): static
     {
         $this->File = $File;
+
+        return $this;
+    }
+
+    public function getCreateAt(): ?\DateTimeImmutable
+    {
+        return $this->_createAt;
+    }
+
+    public function setCreateAt(\DateTimeImmutable $_createAt): static
+    {
+        $this->_createAt = $_createAt;
+
+        return $this;
+    }
+
+    public function getUpdateAt(): ?\DateTimeImmutable
+    {
+        return $this->_updateAt;
+    }
+
+    public function setUpdateAt(\DateTimeImmutable $_updateAt): static
+    {
+        $this->_updateAt = $_updateAt;
 
         return $this;
     }

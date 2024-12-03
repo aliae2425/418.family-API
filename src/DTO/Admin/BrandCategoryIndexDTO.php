@@ -7,7 +7,7 @@ class BrandCategoryIndexDTO
     public function __construct(
         public readonly int $id,
         public readonly string $name,
-        public readonly string $category,
+        public readonly string $brandCount,
     ) {}
 
     public function getId(): int
@@ -22,7 +22,7 @@ class BrandCategoryIndexDTO
 
     public function getCategory(): string
     {
-        return $this->category;
+        return $this->brandCount;
     }
 
 }
