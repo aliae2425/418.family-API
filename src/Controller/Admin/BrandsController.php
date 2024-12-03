@@ -64,12 +64,11 @@ class BrandsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $brand->setCreateAt(new \DateTimeImmutable());
             $em->persist($brand);
             $em->flush();
             $this->addFlash('success', $brand->getName().' ajouté');
             return $this->redirectToRoute('admin.brands.home');
-        }else{
-            $this->addFlash('danger', 'Erreur lors de l\'ajout');
         }
 
         return $this->render('admin/brands/brandForm.html.twig', [

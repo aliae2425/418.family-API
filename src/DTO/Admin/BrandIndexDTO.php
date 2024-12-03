@@ -2,6 +2,9 @@
 
 namespace App\DTO\Admin;
 
+use DateTime;
+use DateTimeImmutable;
+
 class BrandIndexDTO
 {
 
@@ -9,6 +12,8 @@ class BrandIndexDTO
         public readonly int $id,
         public readonly string $name,
         public readonly string $category,
+        public readonly DateTimeImmutable $createdAt,
+        public readonly DateTimeImmutable $updatedAt,
         public readonly int $links
     ){}
 
@@ -30,5 +35,15 @@ class BrandIndexDTO
     public function getLinks(): int
     {
         return $this->links;
+    }
+
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
     }
 }
