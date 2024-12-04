@@ -5,7 +5,6 @@ module.exports = {
     "./assets/**/*.js",
     "./templates/**/*.html.twig",
   ],
-  darkMode: 'media',
   theme: {
     screens: {
       sm: { max: "639px" },

@@ -89,6 +89,8 @@
                             <tr>
                                 <td class="py-4 font-extrabold text-sm text-left">Brand</td>
                                 <td class="py-4 font-extrabold text-sm">category</td>
+                                <td class="py-4 font-extrabold text-sm">Date création</td>
+                                <td class="py-4 font-extrabold text-sm">Last update</td>
                                 <td class="py-4 font-extrabold text-sm">link</td>
                                 <td class="py-4 font-extrabold text-sm">action</td>
                             </tr>
@@ -105,6 +107,8 @@
                                         <a href="{{ path('admin.brands.show', {"id" : brand.id }) }}">{{brand.name}}</a> 
                                     </td>
                                     <td class="py-4 text-xs text-gray-600">{{brand.category}}</td>
+                                    <td class="py-4 text-xs text-gray-600">{{ brand.createdAt|date('Y-m-d H:i:s', 'Europe/Paris') }}</td>
+                                    <td class="py-4 text-xs text-gray-600">{{ brand.updatedAt|date('Y-m-d H:i:s', 'Europe/Paris') }}</td>
                                     <td class="py-4 text-xs text-gray-600">{{brand.links}}</td>
                                     <td class="py-4 text-xs text-gray-600">
                                         <a class="btn-gray text-sm" href="{{ path('admin.brands.edit', {"id" : brand.id }) }}">edit</a>
