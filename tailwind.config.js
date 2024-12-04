@@ -2,6 +2,7 @@
 module.exports = {
   "darkMode": "media",
   content: [
+    "./vendor/tales-from-a-dev/flowbite-bundle/templates/**/*.html.twig",
     "./assets/**/*.js",
     "./templates/**/*.html.twig",
   ],
