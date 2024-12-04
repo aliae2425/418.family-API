@@ -39,19 +39,22 @@ class Brands
     #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'brands')]
     private Collection $links;
 
-    #[ORM\ManyToOne(inversedBy: 'brands')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?BrandCategory $categories = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $_createAt = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $_updateAt = null;
 
+    /**
+     * @var Collection<int, BrandCategory>
+     */
+    #[ORM\ManyToMany(targetEntity: BrandCategory::class, inversedBy: 'brands')]
+    private Collection $categories;
+
     public function __construct()
     {
         $this->links = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,18 +128,6 @@ class Brands
         return $this;
     }
 
-    public function getCategories(): ?BrandCategory
-    {
-        return $this->categories;
-    }
-
-    public function setCategories(?BrandCategory $categories): static
-    {
-        $this->categories = $categories;
-
-        return $this;
-    }
-
     public function getFile(): ?File
     {
         return $this->File;
@@ -169,6 +160,30 @@ class Brands
     public function setUpdateAt(\DateTimeImmutable $_updateAt): static
     {
         $this->_updateAt = $_updateAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BrandCategory>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(BrandCategory $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(BrandCategory $category): static
+    {
+        $this->categories->removeElement($category);
 
         return $this;
     }

@@ -23,8 +23,10 @@ class BrandsController extends AbstractController
     public function index(BrandsRepository $brandsRepo, BrandCategoryRepository $brandCategoryRepo): Response
     {
         return $this->render('admin/brands/index.html.twig', [
-            'brands' => $brandsRepo->index(),
-            'categories' => $brandCategoryRepo->index()
+            'brands' => $brandsRepo->findAll(),
+            'categories' => $brandCategoryRepo->findAll()
+            // 'brands' => $brandsRepo->index(),
+            // 'categories' => $brandCategoryRepo->index()
         ]);
     }
 

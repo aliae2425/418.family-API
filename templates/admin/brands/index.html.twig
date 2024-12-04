@@ -7,8 +7,14 @@
     {# Js controller test  #}
     {# <h1 data-controller="trash"></h1> #}
 
-    <a href="{{path('admin.brand.categories.add')}}">ajouter catégories</a>
-    <a href="{{path('admin.brands.add')}}">ajouter marques</a>
+    <a  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
+        href="{{path('admin.brand.categories.add')}}">
+        ajouter catégories
+    </a>
+    <a  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg {% if categories | length == 0 %} opacity-50 cursor-not-allowed {% endif %}"
+        href="{{path('admin.brands.add')}}">
+        ajouter marques
+    </a>
 
 
     {# <table>
@@ -59,10 +65,10 @@
                     <td>
                         <a href="{{ path('admin.brand.categories.show', {"id" : category.id }) }}">{{category.name}}</a>
                     </td>
-                    <td>{{category.brandCount}}</td>
+                    <td>{{category.brands | length}}</td>
                     <td>
                         <a href="{{ path('admin.brand.categories.edit', {"id" : category.id }) }}">edit</a>
-                        {% if category.brandCount == 0 %}
+                        {% if category.brands | length == 0 %}
                             <a href="{{ path('admin.brand.categories.delete', {"id" : category.id }) }}">delete</a>
                         {% endif %}
                     </td>
@@ -71,7 +77,7 @@
         </tbody>
     </table>
 
-    <div class="bg-gray-100 flex-1 p-6 md:mt-16">
+    <div class="flex-1 p-6 md:mt-16">
     
         <div class="grid grid-cols-2 lg:grid-cols-1 gap-5 mt-5">
             <div class="card ">
@@ -106,10 +112,14 @@
                                         </div>
                                         <a href="{{ path('admin.brands.show', {"id" : brand.id }) }}">{{brand.name}}</a> 
                                     </td>
-                                    <td class="py-4 text-xs text-gray-600">{{brand.category}}</td>
-                                    <td class="py-4 text-xs text-gray-600">{{ brand.createdAt|date('Y-m-d H:i:s', 'Europe/Paris') }}</td>
-                                    <td class="py-4 text-xs text-gray-600">{{ brand.updatedAt|date('Y-m-d H:i:s', 'Europe/Paris') }}</td>
-                                    <td class="py-4 text-xs text-gray-600">{{brand.links}}</td>
+                                    <td class="py-4 text-xs text-gray-600">
+                                        {% for cat in brand.categories %}
+                                            {{cat.name}}
+                                        {% endfor %}
+                                    </td>
+                                    <td class="py-4 text-xs text-gray-600">{{ brand.createAt|date('Y-m-d H:i:s', 'Europe/Paris') }}</td>
+                                    <td class="py-4 text-xs text-gray-600">{{ brand.updateAt|date('Y-m-d H:i:s', 'Europe/Paris') }}</td>
+                                    <td class="py-4 text-xs text-gray-600">{{brand.links | length}}</td>
                                     <td class="py-4 text-xs text-gray-600">
                                         <a class="btn-gray text-sm" href="{{ path('admin.brands.edit', {"id" : brand.id }) }}">edit</a>
                                         <a class="btn-gray text-sm" href="{{ path('admin.brands.delete', {"id" : brand.id }) }}">delete</a>
@@ -124,54 +134,6 @@
                 
                 </div>
             </div>
-    
-            <div class="card ">
-
-                <div class="card-body">
-                    <div class="flex flex-row justify-between items-center">
-                        <h1 class="font-extrabold text-lg">Brands</h1>
-                        <a {{path('admin.brands.add')}} class="btn-gray text-sm">Ajouter marques</a>
-                        {# <a href="#" class="btn-gray text-sm">view all</a> #}
-                    </div>
-                
-                    <table class="table-auto w-full mt-5 text-right">
-                
-                        <thead>
-                            <tr>
-                                <td class="py-4 font-extrabold text-sm text-left">Brand</td>
-                                <td class="py-4 font-extrabold text-sm">category</td>
-                                <td class="py-4 font-extrabold text-sm">link</td>
-                                <td class="py-4 font-extrabold text-sm">action</td>
-                            </tr>
-                        </thead>
-                
-                        <tbody>
-                            <!-- item -->
-                            {% for brand in brands %}
-                                <tr class="">
-                                    <td class="py-4 text-sm text-gray-600 flex flex-row items-center text-left">
-                                        <div class="w-8 h-8 overflow-hidden mr-3">
-                                            {{brand.id}}
-                                        </div>
-                                        <a href="{{ path('admin.brands.show', {"id" : brand.id }) }}">{{brand.name}}</a> 
-                                    </td>
-                                    <td class="py-4 text-xs text-gray-600">{{brand.category}}</td>
-                                    <td class="py-4 text-xs text-gray-600">{{brand.links}}</td>
-                                    <td class="py-4 text-xs text-gray-600">
-                                        <a class="btn-gray text-sm" href="{{ path('admin.brands.edit', {"id" : brand.id }) }}">edit</a>
-                                        <a class="btn-gray text-sm" href="{{ path('admin.brands.delete', {"id" : brand.id }) }}">delete</a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            <!-- end item -->
-                
-                        </tbody>
-                
-                    </table>
-                
-                </div>
-            </div>
-    
         
         </div>
     </div>

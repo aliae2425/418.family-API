@@ -19,8 +19,9 @@ class BrandsRepository extends ServiceEntityRepository
     public function index()
     {
         return $this->createQueryBuilder('b')
-            ->select('NEW App\\DTO\\Admin\\BrandIndexDTO(b.id, b.name, c.name, b._createAt, b._updateAt, COUNT(l))')
-            ->leftJoin('b.categories', 'c')
+            ->select('NEW App\\DTO\\Admin\\BrandIndexDTO(b.id, b.name, c, b._createAt, b._updateAt, COUNT(l))')
+            ->innerJoin('b.categories', 'c')
+            // ->innerJoin('o.group', 't')
             ->leftJoin('b.links', 'l')
             ->groupBy('b.id')
             ->getQuery()

@@ -18,17 +18,17 @@ class BrandCategory
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    /**
-     * @var Collection<int, Brands>
-     */
-    #[ORM\OneToMany(targetEntity: Brands::class, mappedBy: 'categories')]
-    private Collection $brands;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $_createAt = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $_updateAt = null;
+
+    /**
+     * @var Collection<int, Brands>
+     */
+    #[ORM\ManyToMany(targetEntity: Brands::class, mappedBy: 'categories')]
+    private Collection $brands;
 
     public function __construct()
     {
@@ -52,35 +52,6 @@ class BrandCategory
         return $this;
     }
 
-    /**
-     * @return Collection<int, Brands>
-     */
-    public function getBrands(): Collection
-    {
-        return $this->brands;
-    }
-
-    public function addBrand(Brands $brand): static
-    {
-        if (!$this->brands->contains($brand)) {
-            $this->brands->add($brand);
-            $brand->setCategories($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBrand(Brands $brand): static
-    {
-        if ($this->brands->removeElement($brand)) {
-            // set the owning side to null (unless already changed)
-            if ($brand->getCategories() === $this) {
-                $brand->setCategories(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getCreateAt(): ?\DateTimeImmutable
     {
@@ -102,6 +73,33 @@ class BrandCategory
     public function setUpdateAt(\DateTimeImmutable $_updateAt): static
     {
         $this->_updateAt = $_updateAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Brands>
+     */
+    public function getBrands(): Collection
+    {
+        return $this->brands;
+    }
+
+    public function addBrand(Brands $brand): static
+    {
+        if (!$this->brands->contains($brand)) {
+            $this->brands->add($brand);
+            $brand->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBrand(Brands $brand): static
+    {
+        if ($this->brands->removeElement($brand)) {
+            $brand->removeCategory($this);
+        }
 
         return $this;
     }
