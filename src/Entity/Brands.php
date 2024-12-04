@@ -36,7 +36,7 @@ class Brands
     /**
      * @var Collection<int, Link>
      */
-    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'brands')]
+    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'brands', orphanRemoval:true, cascade:["persist"])]
     private Collection $links;
 
     #[ORM\Column]

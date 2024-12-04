@@ -8,6 +8,7 @@ use App\Factory\FormEventFactory;
 use Doctrine\Common\EventSubscriber;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,6 +37,18 @@ class BrandType extends AbstractType
                 "required" => false,
                 'attr' => [
                     'placeholder' => 'Choisir une image'
+                ]
+            ])
+            ->add('links', CollectionType::class,[
+                'entry_type' => LinkType::class,
+                'label' => 'Liens',
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype' => true,
+                'attr' => [
+                    'data-controller' => 'links-collection',
                 ]
             ])
             ->add('submit', SubmitType::class, [
