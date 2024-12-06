@@ -6,8 +6,12 @@ use App\Repository\BrandCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File; 
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BrandCategoryRepository::class)]
+#[Vich\Uploadable]
 class BrandCategory
 {
     #[ORM\Id]
@@ -29,6 +33,13 @@ class BrandCategory
      */
     #[ORM\ManyToMany(targetEntity: Brands::class, mappedBy: 'categories')]
     private Collection $brands;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $icon = null;
+
+    #[Vich\UploadableField(mapping : "brandsCategory", fileNameProperty : "thumbail")]
+    #[Assert\Image(mimeTypes: ['image/svg+xml'])]
+    private ?File $File = null;
 
     public function __construct()
     {
@@ -100,6 +111,30 @@ class BrandCategory
         if ($this->brands->removeElement($brand)) {
             $brand->removeCategory($this);
         }
+
+        return $this;
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(?string $icon): static
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getFile(): ?File
+    {
+        return $this->File;
+    }
+
+    public function setFile(?File $File): static
+    {
+        $this->File = $File;
 
         return $this;
     }

@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class BrandCategoryType extends AbstractType
 {
@@ -20,6 +21,13 @@ class BrandCategoryType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('File', DropzoneType::class, [
+                'label' => 'icon',
+                "required" => false,
+                'attr' => [
+                    'placeholder' => 'Choisir une image'
+                ]
+            ])
             ->add('submit', SubmitType::class)
             ->addEventListener(FormEvents::POST_SUBMIT, $this->formEventFactory->dateTimeUpdate())
         ;
