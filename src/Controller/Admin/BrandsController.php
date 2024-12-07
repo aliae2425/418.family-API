@@ -79,19 +79,26 @@ class BrandsController extends AbstractController
     }
 
     //ok
-    #[Route('/{id}/delete', name: 'delete', requirements:['id' => '\d+'])]
+    #[Route('/{id}/delete', name: 'delete', methods:['DELETE'], requirements:['id' => Requirement::DIGITS])]
     public function delete(Request $request, Brands $brand, EntityManagerInterface $em): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$brand->getId(), $request->request->get('_token'))) {
+        dd($request->request);  
+        try {
             $em->remove($brand);
             $em->flush();
             $this->addFlash('success', $brand->getName().' supprimé');
-        }else{
-            $this->addFlash('danger', 'Erreur lors de la suppression');
+        } catch (\Exception $e) {
+            $this->addFlash('danger', $e->getMessage());
         }
+        // if ($this->isCsrfTokenValid('delete'.$brand->getId(), $request->request->get('_token'))) {
+        //     $em->remove($brand);
+        //     $em->flush();
+        //     $this->addFlash('success', $brand->getName().' supprimé');
+        // }else{
+        //     $this->addFlash('danger', 'Erreur lors de la suppression');
+        // }
 
         return $this->redirectToRoute('admin.brands.home');
     }
-
 
 }

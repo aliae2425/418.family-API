@@ -7,8 +7,8 @@
     {# Js controller test  #}
     {# <h1 data-controller="trash"></h1> #}
 
-
-<turbo-frame id="CategoryFrom" class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8">
+{# category #}
+<div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8">
     <div class="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-4 overflow-hidden bg-neutral-800 shadow-lg px-12">
         <div class="flex justify-between">
             <h1 class="text-3xl text-neutral-100 font-bold">Liste des categories</h1>
@@ -40,7 +40,7 @@
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
                             <div class="flex items-center">
                                 <div>
-                                    <div class="text-sm leading-5 text-gray-600">{{category.icon}}</div>
+                                    <img src="{{vich_uploader_asset(category, 'File')}}" alt="Icon" class="w-full rounded-xl">
                                 </div>
                             </div>
                         </td>
@@ -61,8 +61,9 @@
             </tbody>
         </table>
     </div>
-</turbo-frame>
+</div>
 
+{# brands #}
 <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8">
     <div class="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-4 overflow-hidden bg-neutral-800 shadow-lg px-12">
         <div class="flex justify-between">
@@ -95,7 +96,7 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                            <a class="text-sm leading-5 text-neutral-200" href="{{ path('admin.brands.show', {"id" : brand.id }) }}">{{brand.name}}</a> 
+                            <a class="text-sm leading-5 text-neutral-200 font-bold" href="{{ path('admin.brands.show', {"id" : brand.id }) }}">{{brand.name}}</a> 
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap border-b text-neutral-200 border-gray-500 text-sm leading-5"> 
                             {% for cat in brand.categories %}
@@ -106,9 +107,13 @@
                         <td class="px-6 py-4 whitespace-no-wrap border-b text-neutral-200 border-gray-500 text-sm leading-5">{{ brand.updateAt|date('H:i d/m/Y', 'Europe/Paris') }}</td>
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-neutral-200 text-sm leading-5 center">{{brand.links | length}}</td>
-                        <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
+                        <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5 flex">
                             <a href="{{ path('admin.brands.edit', {"id" : brand.id }) }}" class="px-5 py-2 border-blue-500 border text-neutral-100 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">Modifier</a>
-                            <a href="{{ path('admin.brands.delete', {"id" : brand.id }) }}" class="px-5 py-2 border-red-500 border text-neutral-100 rounded transition duration-300 hover:bg-red-700 hover:text-white focus:outline-none">Supprimer</a>
+                            {# <a href="{{ path('admin.brands.delete', {"id" : brand.id }) }}" class="px-5 py-2 border-red-500 border text-neutral-100 rounded transition duration-300 hover:bg-red-700 hover:text-white focus:outline-none">Supprimer</a> #}
+                            <form class="px-5" action="{{ path('admin.brands.delete', {"id" : brand.id }) }}" method="post">
+/                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="px-5 py-2 border-red-500 border text-neutral-100 rounded transition duration-300 hover:bg-red-700 hover:text-white focus:outline-none">Supprimer</button>
+                            </form>
                         </td>
                     </tr>
                 {% endfor %}

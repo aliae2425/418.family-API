@@ -37,7 +37,7 @@ class BrandCategory
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $icon = null;
 
-    #[Vich\UploadableField(mapping : "brandsCategory", fileNameProperty : "thumbail")]
+    #[Vich\UploadableField(mapping : "brandsCategory", fileNameProperty : "icon")]
     #[Assert\Image(mimeTypes: ['image/svg+xml'])]
     private ?File $File = null;
 
