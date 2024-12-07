@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+	background-attachment: fixed;
+	background-color: #262626;
+	background-image: radial-gradient(#525252 1px, transparent 0);
+	background-size: 15px 15px;
+	color: #f3f4f6;
+	line-height: 1.4;
+}
+

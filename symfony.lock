@@ -26,6 +26,9 @@
             "./migrations/.gitignore"
         ]
     },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v6.6.1"
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
@@ -273,6 +276,9 @@
             "./config/routes/ux_autocomplete.yaml"
         ]
     },
+    "symfony/ux-dropzone": {
+        "version": "v2.22.0"
+    },
     "symfony/ux-turbo": {
         "version": "2.22",
         "recipe": {
@@ -310,7 +316,37 @@
     "symfonycasts/tailwind-bundle": {
         "version": "v0.6.1"
     },
+    "tales-from-a-dev/flowbite-bundle": {
+        "version": "0.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "0.4",
+            "ref": "8c5eef17730535682128557a1016872fd3e81c33"
+        }
+    },
+    "tales-from-a-dev/twig-tailwind-extra": {
+        "version": "0.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "0.2",
+            "ref": "7243ab070ed66198eb82c026684e9b9773e7b64a"
+        }
+    },
     "twig/extra-bundle": {
         "version": "v3.16.0"
+    },
+    "vich/uploader-bundle": {
+        "version": "2.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.13",
+            "ref": "1b3064c2f6b255c2bc2f56461aaeb76b11e07e36"
+        },
+        "files": [
+            "./config/packages/vich_uploader.yaml"
+        ]
     }
 }

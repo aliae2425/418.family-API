@@ -1,0 +1,15 @@
+{% extends 'admin/base.html.twig' %}
+
+
+{% block title %}{{category.name}}{% endblock %}
+
+{% block body %}
+
+{{category.id}}
+<img src="{{vich_uploader_asset(category, 'File')}}" alt="Hero Image" class="w-full rounded-xl">
+{{category.name}}
+{% for item in category.brands %}
+    {{item.name}}
+{% endfor %}
+
+{% endblock %}
