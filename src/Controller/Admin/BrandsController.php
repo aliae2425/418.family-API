@@ -20,10 +20,18 @@ class BrandsController extends AbstractController
 {
     //ok
     #[Route('/', name: 'home')]
-    public function index(BrandsRepository $brandsRepo, BrandCategoryRepository $brandCategoryRepo): Response
+    public function index(Request $request, BrandsRepository $brandsRepo, BrandCategoryRepository $brandCategoryRepo): Response
     {
+        $page = $request->query->getInt('page', 1);
+        $limit = 20;
+        $brand = $brandsRepo->indexPagniate($page, $limit);
+        $max = $brand->getTotalItemCount();
+        $paginate['start'] = ($page - 1) * $limit + 1;
+        $paginate['end'] = $paginate['start'] + $limit - 1;
+        $paginate['max'] = $max;
         return $this->render('admin/brands/index.html.twig', [
-            'brands' => $brandsRepo->findAll(),
+            'brands' => $brand,
+            'paginate' => $paginate,
             'categories' => $brandCategoryRepo->findAll()
             // 'brands' => $brandsRepo->index(),
             // 'categories' => $brandCategoryRepo->index()
