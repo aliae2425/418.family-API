@@ -38,14 +38,14 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                            <a class="text-sm leading-5 font-bold text-neutral-200" href="{{ path('admin.brand.categories.show', {"id" : category.id }) }}">{{category.name}}</a>
+                        </td>
+                        <td class="px-6 whitespace-no-wrap border-b border-gray-500">
                             <div class="flex items-center">
                                 <div>
-                                    <img src="{{vich_uploader_asset(category, 'File')}}" alt="Icon" class="w-full rounded-xl">
+                                    <img src="{{vich_uploader_asset(category, 'File')}}" alt="Icon" class="h-5 dark:invert rounded-xl">
                                 </div>
                             </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                            <a class="text-sm leading-5 text-neutral-200" href="{{ path('admin.brand.categories.show', {"id" : category.id }) }}">{{category.name}}</a>
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap border-b text-neutral-200 border-gray-500 text-sm leading-5">{{category.brands | length}}</td>
                         <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
@@ -122,7 +122,7 @@
         </table>
         <div class="sm:flex-1 sm:flex sm:items-center sm:justify-between mt-4 work-sans">
             <div>
-                <p class="text-sm leading-5 text-blue-700">
+                <p class="text-sm leading-5 text-neutral-500">
                     Showing
                     <span class="font-medium">{{paginate.start}}</span>
                     to
