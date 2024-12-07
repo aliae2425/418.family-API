@@ -111,8 +111,9 @@
                             <a href="{{ path('admin.brands.edit', {"id" : brand.id }) }}" class="px-5 py-2 border-blue-500 border text-neutral-100 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">Modifier</a>
                             {# <a href="{{ path('admin.brands.delete', {"id" : brand.id }) }}" class="px-5 py-2 border-red-500 border text-neutral-100 rounded transition duration-300 hover:bg-red-700 hover:text-white focus:outline-none">Supprimer</a> #}
                             <form class="px-5" action="{{ path('admin.brands.delete', {"id" : brand.id }) }}" method="post">
-                                   <input type="hidden" name="_method" value="DELETE">
-                                    <button type="submit" class="px-5 py-2 border-red-500 border text-neutral-100 rounded transition duration-300 hover:bg-red-700 hover:text-white focus:outline-none">Supprimer</button>
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ brand.id) }}">
+                                <button type="submit" class="px-5 py-2 border-red-500 border text-neutral-100 rounded transition duration-300 hover:bg-red-700 hover:text-white focus:outline-none">Supprimer</button>
                             </form>
                         </td>
                     </tr>

@@ -30,7 +30,7 @@ class Brands
     private ?string $thumbail = null;
 
     #[Vich\UploadableField(mapping : "brands", fileNameProperty : "thumbail")]
-    #[Assert\Image(mimeTypes: ['image/jpeg', 'image/png', 'image/jpg'])]
+    #[Assert\Image(mimeTypes: ['image/jpeg', 'image/png', 'image/jpg, image/webp'])]
     private ?File $File = null;
 
     /**
@@ -91,7 +91,7 @@ class Brands
         return $this->thumbail;
     }
 
-    public function setThumbail(string $thumbail): static
+    public function setThumbail(?string $thumbail): static
     {
         $this->thumbail = $thumbail;
 

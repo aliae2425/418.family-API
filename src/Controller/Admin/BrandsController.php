@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid;
 
 #[Route('/admin/brands', 'admin.brands.')]
 class BrandsController extends AbstractController
@@ -87,25 +88,14 @@ class BrandsController extends AbstractController
     }
 
     //ok
-    #[Route('/{id}/delete', name: 'delete', methods:['DELETE'], requirements:['id' => Requirement::DIGITS])]
+    #[Route('/{id}/delete', name: 'delete', requirements:['id' => Requirement::DIGITS])]
     public function delete(Request $request, Brands $brand, EntityManagerInterface $em): Response
     {
-        dd($request->request);  
-        try {
+        if($this->isCsrfTokenValid('delete'.$brand->getId(), $request->request->get('_token'))){
             $em->remove($brand);
             $em->flush();
             $this->addFlash('success', $brand->getName().' supprimé');
-        } catch (\Exception $e) {
-            $this->addFlash('danger', $e->getMessage());
         }
-        // if ($this->isCsrfTokenValid('delete'.$brand->getId(), $request->request->get('_token'))) {
-        //     $em->remove($brand);
-        //     $em->flush();
-        //     $this->addFlash('success', $brand->getName().' supprimé');
-        // }else{
-        //     $this->addFlash('danger', 'Erreur lors de la suppression');
-        // }
-
         return $this->redirectToRoute('admin.brands.home');
     }
 
