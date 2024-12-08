@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\FamilyCategory;
 use App\Factory\FormEventFactory;
+use App\Repository\FamilyCategoryRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -24,6 +26,12 @@ class FamilyCategoryType extends AbstractType
             ->add('name')
             ->add('parents', EntityType::class, [
                 'class' => FamilyCategory::class,
+                'required' => false,
+                // 'choice' => function(FamilyCategoryRepository $repo) : QueryBuilder {
+                //     return $repo->createQueryBuilder('f')
+                //         ->orderBy('f.name', 'ASC')
+                //         ->where('f.id != :id');
+                // },
                 'choice_label' => 'Name',
             ])
             ->add('submit', SubmitType::class, [

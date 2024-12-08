@@ -1,0 +1,22 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block body %}
+
+    parent : {{ category.parents.name | default('-') }}
+    <span>
+    {{ category.name }}
+    </span>
+
+    {% if category.child |length != 0 %}
+        {% for  item in category.child %}
+            <div class="flex items-center">
+                <div class="text-sm leading-5 text-gray-600">#{{item.id}}</div>
+             <div class="text-sm leading-5 text-gray-600">{{item.name}}</div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+{% endblock %}
