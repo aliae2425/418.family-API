@@ -38,9 +38,16 @@ class FamilyCategory
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    /**
+     * @var Collection<int, Family>
+     */
+    #[ORM\OneToMany(targetEntity: Family::class, mappedBy: 'familyCategory')]
+    private Collection $families;
+
     public function __construct()
     {
         $this->child = new ArrayCollection();
+        $this->families = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -134,6 +141,36 @@ class FamilyCategory
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Family>
+     */
+    public function getFamilies(): Collection
+    {
+        return $this->families;
+    }
+
+    public function addFamily(Family $family): static
+    {
+        if (!$this->families->contains($family)) {
+            $this->families->add($family);
+            $family->setFamilyCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFamily(Family $family): static
+    {
+        if ($this->families->removeElement($family)) {
+            // set the owning side to null (unless already changed)
+            if ($family->getFamilyCategory() === $this) {
+                $family->setFamilyCategory(null);
+            }
+        }
 
         return $this;
     }

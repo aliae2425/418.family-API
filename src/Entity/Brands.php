@@ -51,10 +51,17 @@ class Brands
     #[ORM\ManyToMany(targetEntity: BrandCategory::class, inversedBy: 'brands')]
     private Collection $categories;
 
+    /**
+     * @var Collection<int, Family>
+     */
+    #[ORM\OneToMany(targetEntity: Family::class, mappedBy: 'brand')]
+    private Collection $families;
+
     public function __construct()
     {
         $this->links = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->families = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -184,6 +191,36 @@ class Brands
     public function removeCategory(BrandCategory $category): static
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Family>
+     */
+    public function getFamilies(): Collection
+    {
+        return $this->families;
+    }
+
+    public function addFamily(Family $family): static
+    {
+        if (!$this->families->contains($family)) {
+            $this->families->add($family);
+            $family->setBrand($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFamily(Family $family): static
+    {
+        if ($this->families->removeElement($family)) {
+            // set the owning side to null (unless already changed)
+            if ($family->getBrand() === $this) {
+                $family->setBrand(null);
+            }
+        }
 
         return $this;
     }
