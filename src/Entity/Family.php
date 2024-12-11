@@ -37,12 +37,11 @@ class Family
     private ?string $revitFamily = null;
 
     #[Vich\UploadableField(mapping: 'family', fileNameProperty: 'revitFamily')]
-    #[Assert\File(mimeTypes: ['application/rfa'])]
     private ?File $revitFamilyFile = null;
 
     #[ORM\ManyToOne(inversedBy: 'families')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?familyCategory $familyCategory = null;
+    private ?FamilyCategory $familyCategory = null;
 
     #[ORM\ManyToOne(inversedBy: 'families')]
     private ?Brands $brand = null;
@@ -136,12 +135,12 @@ class Family
         return $this;
     }
 
-    public function getFile(): ?File
+    public function getThumbnailFile(): ?File
     {
         return $this->thumbnailFile;
     }
 
-    public function setFile(?File $File): static
+    public function setThumbnailFile(?File $File): static
     {
         $this->thumbnailFile = $File;
 

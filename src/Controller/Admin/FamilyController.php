@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Family;
 use App\Form\FamilyType;
+use App\Repository\FamilyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +15,11 @@ use Symfony\Component\Routing\Attribute\Route;
 class FamilyController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index(): Response
+    public function index(FamilyRepository $repo): Response
     {
+
         return $this->render('admin/family/index.html.twig', [
-            'controller_name' => 'FamilyController',
+            'famillies' => $repo->findAll(),
         ]);
     }
 
@@ -36,7 +38,7 @@ class FamilyController extends AbstractController
             return $this->redirectToRoute('admin.family.home');
         }
 
-        return $this->render('admin/family/add.html.twig', [
+        return $this->render('admin/family/familyForm.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -55,7 +57,7 @@ class FamilyController extends AbstractController
             $this->addFlash('danger', 'Erreur dans le formulaire');
         }
 
-        return $this->render('admin/family/edit.html.twig', [
+        return $this->render('admin/family/familyForm.html.twig', [
             'form' => $form->createView(),
         ]);
     }

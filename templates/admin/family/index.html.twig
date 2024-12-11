@@ -12,7 +12,7 @@
     <div class="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-4 overflow-hidden bg-neutral-800 shadow-lg px-12">
         <div class="flex justify-between">
             <h1 class="text-3xl text-neutral-100 font-bold">Liste des familles</h1>
-            <a href="{{path('admin.family.categories.add')}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Ajouter catégories</a>
+            <a href="{{path('admin.family.add')}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">nouvelle famille</a>
         </div>
     </div>
 
@@ -38,18 +38,15 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">{{family.category | default('-')}}</td>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                            <a class="text-sm leading-5 font-bold text-neutral-200" href="{{ path('admin.family.categories.show', {"id" : family.id }) }}">{{category.name}}</a>
-                        </td>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b text-neutral-200 border-gray-500 text-sm leading-5">{{category.child | length}}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">{{family.name}}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">{{family.updatedAt|date('H:i d/m/Y', 'Europe/Paris')}}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">{{family.familyCategory.name}}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">{{family.brand.name}}</td>
                         <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
-                            <a href="{{ path('admin.family.categories.edit', {"id" : category.id }) }}" 
+                            <a href="{{ path('admin.family.edit', {"id" : family.id }) }}" 
                                 class="px-5 py-2 border-blue-500 border text-neutral-100 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">Modifier</a>
-                            {% if category.child | length == 0 %}
-                                <a href="{{ path('admin.family.categories.delete', {"id" : category.id }) }}" 
+                            <a href="{{ path('admin.family.delete', {"id" : family.id }) }}" 
                                     class="px-5 py-2 border-red-500 border text-neutral-100 rounded transition duration-300 hover:bg-red-700 hover:text-white focus:outline-none">Supprimer</a>
-                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

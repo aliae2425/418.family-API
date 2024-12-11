@@ -8,6 +8,7 @@ use App\Entity\familyCategory;
 use App\Factory\FormEventFactory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -34,10 +35,17 @@ class FamilyType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('thumbnailFile', DropzoneType::class, [
+                'label' => 'Image',
                 'required' => false,
             ])
             ->add('revitFamilyFile', DropzoneType::class, [
                 'required' => true,
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Enregistrer',
+                'attr' => [
+                    'class' => 'btn btn-primary',
+                ],
             ])
             ->addEventListener(FormEvents::POST_SUBMIT, $this->formEventFactory->dateTimeUpdate())   
         ;
