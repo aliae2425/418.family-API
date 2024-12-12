@@ -33,7 +33,7 @@ class Family
     #[Assert\Image(mimeTypes: ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'])]
     private ?File $thumbnailFile = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, )]
     private ?string $revitFamily = null;
 
     #[Vich\UploadableField(mapping: 'family', fileNameProperty: 'revitFamily')]

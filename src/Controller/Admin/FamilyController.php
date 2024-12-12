@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Family;
+use App\Form\FamilyEditType;
+use App\Form\FamilyFileType;
 use App\Form\FamilyType;
 use App\Repository\FamilyRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Requirement\Requirement;
 
 #[Route('admin/family', name: 'admin.family.')]
 class FamilyController extends AbstractController
@@ -46,7 +49,7 @@ class FamilyController extends AbstractController
     #[Route('/{id}/edit', name: 'edit', methods:['GET','POST'], requirements:['id' => '\d+'])]
     public function editFamily(Request $request, Family $family, EntityManagerInterface $em): Response
     {
-        $form = $this->createForm(FamilyType::class, $family);
+        $form = $this->createForm(FamilyEditType::class, $family);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -55,6 +58,23 @@ class FamilyController extends AbstractController
             return $this->redirectToRoute('admin.family.home');
         }else if($form->isSubmitted() && !$form->isValid()){
             $this->addFlash('danger', 'Erreur dans le formulaire');
+        }
+
+        return $this->render('admin/family/familyForm.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/{id}/update', name: 'update', methods:['GET', 'POST'], requirements:['id' => Requirement::DIGITS])]
+    public function updateFamily(Family $family, Request $request, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(FamilyFileType::class, $family);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            $this->addFlash('success', $family->getName().' mis à jour');
+            return $this->redirectToRoute('admin.family.home');
         }
 
         return $this->render('admin/family/familyForm.html.twig', [
