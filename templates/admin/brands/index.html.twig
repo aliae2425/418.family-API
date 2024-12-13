@@ -23,7 +23,7 @@
                     <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-neutral-100 tracking-wider">ID</th>
                     <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-neutral-100 tracking-wider">Icon</th>
                     <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-neutral-100 tracking-wider">Nom</th>
-                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-neutral-100 tracking-wider">nombre de fabrican</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-neutral-100 tracking-wider">nombre de fabricants</th>
                     <th class="px-6 py-3 border-b-2 border-gray-300"></th>
                 </tr>
             </thead>
@@ -82,6 +82,7 @@
                     <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-neutral-100 tracking-wider">Date de création</th>
                     <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-neutral-100 tracking-wider">dernière mise à jour.</th>
                     <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-neutral-100 tracking-wider">nombre de lien</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-neutral-100 tracking-wider">nombre de familles</th>
                     <th class="px-6 py-3 border-b-2 border-gray-300"></th>
                 </tr>
             </thead>
@@ -103,10 +104,11 @@
                                 <span class="text-sm leading-5 text-neutral-200">{{cat.name}}</span>
                             {% endfor %}
                         </td>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b text-neutral-200 border-gray-500 text-sm leading-5">{{ brand.createAt|date('H:i d/m/Y', 'Europe/Paris') }}</td>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b text-neutral-200 border-gray-500 text-sm leading-5">{{ brand.updateAt|date('H:i d/m/Y', 'Europe/Paris') }}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b text-neutral-200 border-gray-500 text-sm leading-5">{{ brand.createdAt|date('H:i d/m/Y', 'Europe/Paris') }}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b text-neutral-200 border-gray-500 text-sm leading-5">{{ brand.updatedAt|date('H:i d/m/Y', 'Europe/Paris') }}</td>
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-neutral-200 text-sm leading-5 center">{{brand.links | length}}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-neutral-200 text-sm leading-5 center">{{brand.families | length}}</td>
                         <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5 flex">
                             <a href="{{ path('admin.brands.edit', {"id" : brand.id }) }}" class="px-5 py-2 border-blue-500 border text-neutral-100 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">Modifier</a>
                             {# <a href="{{ path('admin.brands.delete', {"id" : brand.id }) }}" class="px-5 py-2 border-red-500 border text-neutral-100 rounded transition duration-300 hover:bg-red-700 hover:text-white focus:outline-none">Supprimer</a> #}

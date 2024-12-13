@@ -34,7 +34,7 @@ class BrandCategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $category->setCreateAt(new \DateTimeImmutable());
+            $category->setCreatedAt(new \DateTimeImmutable());
             $em->persist($category);
             $em->flush();
             $this->addFlash('success', $category->getName().' ajouté');
