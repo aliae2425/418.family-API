@@ -26,7 +26,7 @@ class FormEventFactory
     {
         return function (PostSubmitEvent $event){
             $data = $event->getData();
-            $data->setUpdateAt(new \DateTimeImmutable());
+            $data->setUpdatedAt(new \DateTimeImmutable());
         };
     }
 
