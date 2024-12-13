@@ -25,3 +25,6 @@
 ###< symfony/asset-mapper ###
 
 /public/images/brands/
+/public/images/categories/
+/public/images/family/
+/public/data/
