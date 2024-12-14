@@ -75,7 +75,7 @@ class BrandsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $brand->setCreateAt(new \DateTimeImmutable());
+            $brand->setCreatedAt(new \DateTimeImmutable());
             $em->persist($brand);
             $em->flush();
             $this->addFlash('success', $brand->getName().' ajouté');

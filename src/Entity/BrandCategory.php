@@ -23,10 +23,10 @@ class BrandCategory
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $_createAt = null;
+    private ?\DateTimeImmutable $_createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $_updateAt = null;
+    private ?\DateTimeImmutable $_updatedAt = null;
 
     /**
      * @var Collection<int, Brands>
@@ -64,26 +64,26 @@ class BrandCategory
     }
 
 
-    public function getCreateAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->_createAt;
+        return $this->_createdAt;
     }
 
-    public function setCreateAt(\DateTimeImmutable $_createAt): static
+    public function setCreatedAt(\DateTimeImmutable $_createAt): static
     {
-        $this->_createAt = $_createAt;
+        $this->_createdAt = $_createAt;
 
         return $this;
     }
 
-    public function getUpdateAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->_updateAt;
+        return $this->_updatedAt;
     }
 
-    public function setUpdateAt(\DateTimeImmutable $_updateAt): static
+    public function setUpdatedAt(\DateTimeImmutable $_updateAt): static
     {
-        $this->_updateAt = $_updateAt;
+        $this->_updatedAt = $_updateAt;
 
         return $this;
     }

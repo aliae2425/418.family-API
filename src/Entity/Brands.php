@@ -40,10 +40,10 @@ class Brands
     private Collection $links;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $_createAt = null;
+    private ?\DateTimeImmutable $_createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $_updateAt = null;
+    private ?\DateTimeImmutable $_updatedAt = null;
 
     /**
      * @var Collection<int, BrandCategory>
@@ -51,10 +51,17 @@ class Brands
     #[ORM\ManyToMany(targetEntity: BrandCategory::class, inversedBy: 'brands')]
     private Collection $categories;
 
+    /**
+     * @var Collection<int, Family>
+     */
+    #[ORM\OneToMany(targetEntity: Family::class, mappedBy: 'brand')]
+    private Collection $families;
+
     public function __construct()
     {
         $this->links = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->families = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -140,26 +147,26 @@ class Brands
         return $this;
     }
 
-    public function getCreateAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->_createAt;
+        return $this->_createdAt;
     }
 
-    public function setCreateAt(\DateTimeImmutable $_createAt): static
+    public function setCreatedAt(\DateTimeImmutable $_createdAt): static
     {
-        $this->_createAt = $_createAt;
+        $this->_createdAt = $_createdAt;
 
         return $this;
     }
 
-    public function getUpdateAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->_updateAt;
+        return $this->_updatedAt;
     }
 
-    public function setUpdateAt(\DateTimeImmutable $_updateAt): static
+    public function setUpdatedAt(\DateTimeImmutable $_updatedAt): static
     {
-        $this->_updateAt = $_updateAt;
+        $this->_updatedAt = $_updatedAt;
 
         return $this;
     }
@@ -184,6 +191,36 @@ class Brands
     public function removeCategory(BrandCategory $category): static
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Family>
+     */
+    public function getFamilies(): Collection
+    {
+        return $this->families;
+    }
+
+    public function addFamily(Family $family): static
+    {
+        if (!$this->families->contains($family)) {
+            $this->families->add($family);
+            $family->setBrand($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFamily(Family $family): static
+    {
+        if ($this->families->removeElement($family)) {
+            // set the owning side to null (unless already changed)
+            if ($family->getBrand() === $this) {
+                $family->setBrand(null);
+            }
+        }
 
         return $this;
     }
