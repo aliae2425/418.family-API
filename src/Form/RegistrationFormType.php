@@ -34,8 +34,8 @@ class RegistrationFormType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'first_options'  => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Répéter le mot de passe'],
+                'first_options'  => ['label' => 'Mot de passe','toggle' => true,],
+                'second_options' => ['label' => 'Répéter le mot de passe','toggle' => true,],
                 'invalid_message' => 'Les champs de mot de passe doivent correspondre.',
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [

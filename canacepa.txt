@@ -7,5 +7,5 @@ installer packer:
 - composer install 
 
 lancer serveur mail : 
-- bin/mailpit
+- bin/mailpit // http://localhost:8025 pour voir les mails passer. 
 
