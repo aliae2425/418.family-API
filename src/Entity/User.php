@@ -47,6 +47,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $_createdAt = null;
+
+    #[ORM\Column]
+    private ?bool $status = true;
+
     public function __construct()
     {
         $this->busines = new ArrayCollection();
@@ -177,6 +183,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->_createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $_createdAt): static
+    {
+        $this->_createdAt = $_createdAt;
+
+        return $this;
+    }
+
+    public function isStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }
