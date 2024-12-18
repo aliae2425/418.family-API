@@ -1,0 +1,11 @@
+base de donnée : 
+- php bin/console doctrine:database:drop --force // uniquement si erreur pendant la migration.
+- php bin/console doctrine:database:create
+- php bin/console doctrine:migration:migrate
+
+installer packer:
+- composer install 
+
+lancer serveur mail : 
+- bin/mailpit // http://localhost:8025 pour voir les mails passer. 
+
