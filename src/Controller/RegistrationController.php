@@ -77,9 +77,15 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('user.register');
         }
 
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('public.home');
     }
+
+    #[Route('/register/plan', name: 'user.register.plan')]
+    public function registerPlan(): Response
+    {
+        return $this->render('registration/plan.html.twig');
+    }
+
 }

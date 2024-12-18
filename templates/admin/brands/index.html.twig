@@ -2,6 +2,15 @@
 
 {% block title %}marques{% endblock %}
 
+{% block Breadcrumb %} 
+    {{ parent() }}
+    <li class="flex items-center">
+        <a href="#" class="text-gray-600 hover:text-blue-500 transition-colors duration-300">Brands</a>
+        <span class="mx-2">/</span>
+    </li>
+{% endblock %}
+
+
 {% block body %}
 
     {# Js controller test  #}

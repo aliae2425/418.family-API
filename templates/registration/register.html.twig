@@ -11,7 +11,11 @@
 
     {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.username) }}
-    {{ form_end(registrationForm) }}
+    <div id="fullcontainter" data-controller="register">
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.username) }}
+
+        {{ form_end(registrationForm) }}
+    </div>
+
 {% endblock %}

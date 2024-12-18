@@ -53,6 +53,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $status = true;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $_lastActivity = null;
+
+    #[ORM\Column]
+    private ?int $planType = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $coins = null;
+
     public function __construct()
     {
         $this->busines = new ArrayCollection();
@@ -207,6 +216,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setStatus(bool $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getLastActivity(): ?\DateTimeImmutable
+    {
+        return $this->_lastActivity;
+    }
+
+    public function setLastActivity(?\DateTimeImmutable $_lastActivity): static
+    {
+        $this->_lastActivity = $_lastActivity;
+
+        return $this;
+    }
+
+    public function getPlanType(): ?int
+    {
+        return $this->planType;
+    }
+
+    public function setPlanType(int $planType): static
+    {
+        $this->planType = $planType;
+
+        return $this;
+    }
+
+    public function getCoins(): ?int
+    {
+        return $this->coins;
+    }
+
+    public function setCoins(?int $coins): static
+    {
+        $this->coins = $coins;
 
         return $this;
     }

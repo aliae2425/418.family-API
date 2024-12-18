@@ -11,7 +11,7 @@ import { Controller } from '@hotwired/stimulus';
  */
 export default class extends Controller {
     connect() {
-        console.log('Testing log');
-        this.element.textContent = 'hello from testing_controller.js';
+        console.log('Trash Test! Edit me in assets/controllers/trash_controller.js');
+        this.element.textContent = 'Trash Test! Edit me in assets/controllers/trash_controller.js';
     }
 }
