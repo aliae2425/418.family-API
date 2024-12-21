@@ -47,6 +47,7 @@
         "symfony/validator": "7.2.*",
         "symfony/web-link": "7.2.*",
         "symfony/yaml": "7.2.*",
+        "symfonycasts/reset-password-bundle": "^1.23",
         "symfonycasts/tailwind-bundle": "^0.6.1",
         "symfonycasts/verify-email-bundle": "^1.17",
         "tales-from-a-dev/flowbite-bundle": "^0.7.0",

@@ -20,9 +20,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
-    private ?string $username = null;
-
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
     /**
      * @var list<string> The user roles
      */
@@ -41,9 +40,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Business::class, mappedBy: 'owner', orphanRemoval: true)]
     private Collection $busines;
 
-    #[ORM\Column(length: 255)]
-    private ?string $email = null;
-
     #[ORM\Column]
     private bool $isVerified = false;
 
@@ -55,9 +51,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $_lastActivity = null;
-
-    #[ORM\Column]
-    private ?int $planType = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $coins = null;
@@ -72,18 +65,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): static
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
     /**
      * A visual identifier that represents this user.
      *
@@ -91,7 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->username;
+        return (string) $this->email;
     }
 
     /**
@@ -228,18 +209,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastActivity(?\DateTimeImmutable $_lastActivity): static
     {
         $this->_lastActivity = $_lastActivity;
-
-        return $this;
-    }
-
-    public function getPlanType(): ?int
-    {
-        return $this->planType;
-    }
-
-    public function setPlanType(int $planType): static
-    {
-        $this->planType = $planType;
 
         return $this;
     }
