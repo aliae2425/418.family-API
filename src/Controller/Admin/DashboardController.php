@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\BrandCategory;
 use App\Entity\Brands;
 use App\Entity\Family;
+use App\Entity\FamilyCategory;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -17,12 +18,12 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        return parent::index();
+        // return parent::index();
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
-        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        // return $this->redirect($adminUrlGenerator->setController(BrandsCrudController::class)->generateUrl());
+        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+        return $this->redirect($adminUrlGenerator->setController(BrandsCrudController::class)->generateUrl());
 
         // Option 2. You can make your dashboard redirect to different pages depending on the user
         //
@@ -45,8 +46,9 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Fourniseur', 'fas fa-list', Family::class);
-        yield MenuItem::linkToCrud('Fourniseur', 'fas fa-list', Brands::class);
-        yield MenuItem::linkToCrud('Fourniseur', 'fas fa-list', BrandCategory::class);
+        yield MenuItem::linkToCrud('Famille', 'fas fa-cube', Family::class);
+        yield MenuItem::linkToCrud('Arboresence', 'fas fa-list', FamilyCategory::class);
+        yield MenuItem::linkToCrud('Fourniseurs', 'fas fa-tags', Brands::class);
+        yield MenuItem::linkToCrud('Categories', 'fas fa-object-ungroup', BrandCategory::class);
     }
 }
