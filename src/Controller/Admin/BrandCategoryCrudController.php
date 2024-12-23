@@ -10,8 +10,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Faker\Core\File;
+use Symfony\UX\Dropzone\Form\DropzoneType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class BrandCategoryCrudController extends AbstractCrudController
 {
@@ -56,6 +60,12 @@ class BrandCategoryCrudController extends AbstractCrudController
             TextField::new("name",'title'),
             DateTimeField::new('_updatedAt', "last update")
                 ->hideOnForm(),
+            TextField::new('File')
+                ->setFormType(VichImageType::class)
+                ->onlyOnForms(),
+            ImageField::new('icon', 'Icon')
+                ->setBasePath('%app.path.brandsCategory%')
+                ->onlyOnIndex(),
         ];
     }
 

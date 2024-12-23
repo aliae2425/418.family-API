@@ -6,6 +6,7 @@ use App\Entity\BrandCategory;
 use App\Entity\Brands;
 use App\Entity\Family;
 use App\Entity\FamilyCategory;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -41,6 +42,12 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('418.Family Admin');
+    }
+
+    public function configureAssets(): Assets
+    {
+        return Assets::new()
+            ->addHtmlContentToHead('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@450" />');
     }
 
     public function configureMenuItems(): iterable
