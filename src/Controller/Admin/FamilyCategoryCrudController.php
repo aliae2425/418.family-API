@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\FamilyCategory;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -15,20 +16,41 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 class FamilyCategoryCrudController extends AbstractCrudController
 {
 
-    public function __construct(
-        private AsciiSlugger $slugger
-    ){}
-    
     public static function getEntityFqcn(): string
     {
         return FamilyCategory::class;
     }
 
+    public function createEntity(string $entityFqcn)
+    {
+        $familyCategory = new FamilyCategory();
+        $familyCategory->setCreatedAt(new \DateTimeImmutable());
+        $familyCategory->setUpdatedAt(new \DateTimeImmutable());
+        $familyCategory->setSlug("default-slug");
+        return $familyCategory;
+    }
+
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        $slugger = new AsciiSlugger();
+        $entityInstance->setSlug($slugger->slug($entityInstance->getName()));
+        $entityInstance->setUpdatedAt(new \DateTimeImmutable());
+        parent::updateEntity($entityManager, $entityInstance);
+    }
+
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        $slugger = new AsciiSlugger();
+        $entityInstance->setSlug(strtolower($slugger->slug($entityInstance->getName())));
+        $entityInstance->setUpdatedAt(new \DateTimeImmutable());
+        parent::persistEntity($entityManager, $entityInstance);
+    }
+
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Family Category')
-            ->setEntityLabelInPlural('Family Categories')
+            ->setEntityLabelInSingular('Section')
+            ->setEntityLabelInPlural('Arboresence')
             ->setSearchFields(['id', 'name', 'parents']);
     }
 

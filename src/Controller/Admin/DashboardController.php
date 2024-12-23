@@ -40,14 +40,16 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('418 Family API');
+            ->setTitle('418.Family Admin');
     }
 
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::section('Gestion des familles');
         yield MenuItem::linkToCrud('Famille', 'fas fa-cube', Family::class);
         yield MenuItem::linkToCrud('Arboresence', 'fas fa-list', FamilyCategory::class);
+        yield MenuItem::section('Gestion des fourniseurs');
         yield MenuItem::linkToCrud('Fourniseurs', 'fas fa-tags', Brands::class);
         yield MenuItem::linkToCrud('Categories', 'fas fa-object-ungroup', BrandCategory::class);
     }
