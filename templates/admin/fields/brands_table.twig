@@ -1,0 +1,19 @@
+{# filepath: templates/admin/field/brands_table.html.twig #}
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Slug</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for brand in field.value %}
+            <tr>
+                <td>{{ brand.id }}</td>
+                <td>{{ brand.name }}</td>
+                <td>{{ brand.slug }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -51,7 +51,7 @@ class FamilyCategoryCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('Section')
             ->setEntityLabelInPlural('Arboresence')
-            ->setSearchFields(['id', 'name', 'parents']);
+            ->setSearchFields(['id', 'name']);
     }
 
     public function configureFields(string $pageName): iterable
@@ -65,7 +65,12 @@ class FamilyCategoryCrudController extends AbstractCrudController
             AssociationField::new('parents', 'Parent Category')
                 ->setFormTypeOption("choice_label","name")
                 ->setFormTypeOption( "required",false)  
-                ->setTemplatePath('admin/fields/parents.html.twig')
+                ->formatValue(function ($value, $entity) {
+                    if (empty($entity->getParents())) {
+                        return "No Parent";
+                    }
+                    return  $entity->getParents()->getName();
+                })
                 ->setSortable(true),
         ];
     }
