@@ -1,0 +1,18 @@
+{# filepath: templates/admin/fields/familiesTable.html.twig #}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for family in field.value %}
+                <tr>
+                    <td>{{ family.id }}</td>
+                    <td>{{ family.name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
