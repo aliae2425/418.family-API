@@ -57,7 +57,7 @@ class BrandCategoryCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Categories de fabricants')
             ->setSearchFields(['id', 'name'])
             ->setPageTitle(Crud::PAGE_DETAIL, function (BrandCategory $category) {
-                return sprintf('Details de : %s', $category->getName());
+                return sprintf('Details de : %s <small>(#%d)</small>', $category->getName(), $category->getId());
             });;
     }
 
@@ -97,44 +97,19 @@ class BrandCategoryCrudController extends AbstractCrudController
             ];
         }
 
-        if($pageName === Crud::PAGE_DETAIL){} //todo 
+        if($pageName === Crud::PAGE_DETAIL){
+            $fields = [
+                IdField::new('id'),
+                TextField::new("name",'title'),
+                DateTimeField::new('_updatedAt', "last update"),
+                ImageField::new('icon', 'Icon') 
+                    ->setBasePath('/images/brands/categories'),
+                AssociationField::new('brands', "Marques")
+                    ->setTemplatePath('admin/fields/brandsTable.html.twig'),
+            ];
+        }
 
-        // $fields = [
-        //     IdField::new('id')
-        //         ->hideOnForm(),
-        //     TextField::new("name",'title')
-        //         ->hideOnIndex(),
-        //     UrlField::new('name', "nom de la marque")
-        //             ->formatValue(function ($value, $entity) use ($adminUrlGenerator) {
-        //             $url = $adminUrlGenerator
-        //                 ->setController(self::class)
-        //                 ->setAction(Action::DETAIL)
-        //                 ->setEntityId($entity->getId())
-        //                 ->generateUrl();
-        //             return sprintf('<a href="%s">%s</a>', $url, $value);
-        //         })
-        //         ->onlyOnIndex()
-        //         ->setSortable(true),
-        //     IntegerField::new('brandCount', 'nombre de marques')
-        //         ->hideOnForm()
-        //         ->setTextAlign("center")
-        //         ->setSortable(false),
-        //     DateTimeField::new('_updatedAt', "last update")
-        //         ->hideOnForm(),
-        //     TextField::new('File') 
-        //         ->setFormType(VichImageType::class)
-        //         ->onlyOnForms(),
-        //     ImageField::new('icon', 'Icon') 
-        //         ->setBasePath('/images/brands/categories')
-        //         ->hideOnForm(),
-        //     AssociationField::new('brands', "Marques")
-        //         ->formatValue(function ($value, $entity) {
-        //             return implode(', ', $entity->getBrands()->map(function($brand) {
-        //                 return $brand->getName();
-        //             })->toArray());
-        //         })
-        //         ->onlyOnDetail(),
-        // ];
+        
 
         
         return $fields;

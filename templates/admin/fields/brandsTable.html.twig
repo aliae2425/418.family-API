@@ -1,0 +1,36 @@
+{% if field.value | length != 0 %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>last update</th>
+            <th class="text-center">Nombre de familles</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in field.value %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>
+                    <a href="{{ ea_url()
+                            .setController('App\\Controller\\Admin\\BrandsCrudController')
+                            .setAction('detail')
+                            .setEntityId(item.id)
+                            .generateUrl() }}">
+                        {{ item.name }}
+                    </a>
+                </td>
+                <td>{{ item.updatedAt | date('YY/mm/dd HH:ii') }}</td>
+                <td class="text-center" >{{ item.familyCount }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+
+    <p>Aucune catégorie enfant</p>
+
+{% endif %}

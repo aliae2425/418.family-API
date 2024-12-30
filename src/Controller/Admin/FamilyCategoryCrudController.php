@@ -57,7 +57,8 @@ class FamilyCategoryCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Categories de Familles')
             ->setSearchFields(['id', 'name'])
             ->setPageTitle(Crud::PAGE_DETAIL, function (FamilyCategory $category) {
-                return sprintf('Details de la Categorie: %s', $category->getName());
+                return sprintf('Details de la Categorie: %s <small>(#%d)</small>',
+                     $category->getName(), $category->getId());
             });
     }
 
