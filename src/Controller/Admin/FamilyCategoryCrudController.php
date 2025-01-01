@@ -37,7 +37,7 @@ class FamilyCategoryCrudController extends AbstractCrudController
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         $slugger = new AsciiSlugger();
-        $entityInstance->setSlug($slugger->slug($entityInstance->getName()));
+        $entityInstance->setSlug(strtolower($slugger->slug($entityInstance->getName())));
         $entityInstance->setUpdatedAt(new \DateTimeImmutable());
         parent::updateEntity($entityManager, $entityInstance);
     }
