@@ -6,6 +6,9 @@ use App\Repository\FamilyCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Expr\Cast\Array_;
+use TailwindMerge\Support\Arr;
+
 // use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: FamilyCategoryRepository::class)]
@@ -173,5 +176,20 @@ class FamilyCategory
         }
 
         return $this;
+    }
+
+    public function getFamilyCount(): int
+    {
+        return $this->families->count();
+    }
+
+    public function getChildCount(): int
+    {
+        return $this->child->count();
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

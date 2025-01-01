@@ -1,0 +1,89 @@
+[
+    {   "name" : "Annotations",
+        "children" : [
+            {"name" : "Autre"},
+            {"name" : "Canalisation"},
+            {"name" : "Coupe et Détail"},
+            {"name" : "CVC",
+                "children" : [
+                    {"name" : "Gaine"}
+                ]
+            },
+            {"name" : "Electrique",
+                "children" : [
+                    {"name" : "Chemin de câbles"},
+                    {"name" : "Coches"},
+                    {"name" : "Conduit"}
+                ]
+            },
+            {"name" : "Equipement mécanique - Spécialisé"},
+            {"name" : "Flèches du Nord"},
+            {"name" : "Libellé"},
+            {"name" : "Ligne de quadrillage"},
+            {"name" : "Mobilier"},
+            {"name" : "Niveaux"},
+            {"name" : "Pièce - Surface - Plafond"},
+            {"name" : "Plomberie - Electricité"},
+            {"name" : "Portes et fenêtres"},
+            {"name" : "Protection incendie"},
+            {"name" : "Site"},
+            {"name" : "Structure"},
+            {"name" : "Vues"}
+        ]
+    },
+    {   "name": "Appareils sanitaires",
+        "children": [
+            {"name": "2D"},
+            {"name": "Autre"},
+            {"name": "Bacs à Douches"},
+            {"name": "Baignoires"},
+            {"name": "Eviers - Lavabos"},
+            {"name": "Gouttières"},
+            {"name": "Robinetterie et accessoires"},
+            {"name": "WC - Bidets - Urinoirs"}
+        ]
+    },
+    { "name": "Cartouches"  },
+    {   "name": "Conditions d'appui" },
+    {   "name": "Eléments de détail",
+        "children": [
+            {
+                "name": "Architecture",
+                "children": [
+                    {"name": "Bois"},
+                    {"name": "Poutrelles et entrevous"},
+                    {"name": "Répétition de détails"},
+                    {"name": "Toit"}
+                ]
+            },
+            {"name": "Environnement"},
+            {
+                "name": "Note d'identification",
+                "children": [
+                    {"name": "01 - VRD Assainissement"},
+                    {"name": "05 - Eléments porteurs horizontaux"},
+                    {"name": "06 - Charpente"},
+                    {
+                        "name": "08 - Eléments verticaux non porteurs",
+                        "children": [
+                            {"name": "Mur-rideau métal"}
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Structure",
+        "children": [
+            {"name": "Acier",
+                "children": [
+                    {"name": "Symboles"}
+                ]
+            },
+            {"name": "Bois"},
+            {"name": "Béton"},
+            {"name": "Liaisons"}
+        ]
+    }
+]
