@@ -94,6 +94,7 @@ class BrandsCrudController extends AbstractCrudController
                 IntegerField::new('familiesCount', "nombre de Familles")
                     ->setTextAlign("center"),
                 AssociationField::new('links', "Liens")
+                    ->setSortable(false)
                     ->setTemplatePath('admin/fields/linksTable.html.twig'),
                     
             ];
@@ -132,12 +133,13 @@ class BrandsCrudController extends AbstractCrudController
                     }),
                 DateField::new('_createdAt', "Crée le"),
                 DateField::new('_updatedAt', "Modifié le"),
-                IntegerField::new('familiesCount', "nombre de Familles"),
-                AssociationField::new('links', "Liens")
-                    ->setTemplatePath('admin/fields/linksTable.html.twig'),
                 ImageField::new('thumbail', "Logo de la marque")
                     ->setBasePath('/images/brands')
                     ->setRequired(false),
+                AssociationField::new('links', "Liens")
+                    ->setTemplatePath('admin/fields/linksTable.html.twig'),
+                AssociationField::new('families', 'Familles Associées')
+                    ->setTemplatePath('admin/fields/familiesTable.html.twig')
             ];
         }
 

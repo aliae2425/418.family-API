@@ -5,13 +5,24 @@
             <tr>
                 <th>ID</th>
                 <th>Nom</th>
+                <th>Date de modification</th>
+
             </tr>
         </thead>
         <tbody>
-            {% for family in field.value %}
+            {% for item in field.value %}
                 <tr>
-                    <td>{{ family.id }}</td>
-                    <td>{{ family.name }}</td>
+                    <td>{{ item.id }}</td>
+                    <td>
+                        <a href="{{ ea_url()
+                            .setController('App\\Controller\\Admin\\FamilyCategoryCrudController')
+                            .setAction('detail')
+                            .setEntityId(item.id)
+                            .generateUrl() }}">
+                        {{ item.name }}
+                        </a>
+                    </td>
+                    <td>{{ item.updatedAt | date('d/m/Y H:i') }}</td>
                 </tr>
             {% endfor %}
         </tbody>
