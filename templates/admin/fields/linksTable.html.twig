@@ -1,0 +1,27 @@
+{% for item in field.value %}
+
+    <a href="{{ item.url }}" target="_blank" class="py-3">
+        {% if item.type == 'site' %}
+                <i class="fa fa-globe"></i>
+        {% elseif item.type == 'facebook' %}
+                <i class="fa-brands fa-facebook"></i>
+        {% elseif item.type == 'twitter' %}
+                <i class="fa-brands fa-twitter"></i>
+        {% elseif item.type == 'instagram' %}
+                <i class="fa-brands fa-instagram"></i>
+        {% elseif item.type == 'youtube' %}
+                <i class="fa-brands fa-youtube"></i>
+        {% elseif item.type == 'linkedin' %}
+                <i class="fa-brands fa-linkedin"></i>
+        {% elseif item.type == 'pinterest' %}
+                <i class="fa-brands fa-pinterest"></i>
+        {% elseif item.type == "catalog" %}
+                <i class="fa fa-file"></i>
+        {% elseif item.type == "other" %}
+                <i class="fa fa-link"></i>
+        {% endif %}
+                
+
+    </a>
+    
+{% endfor %}
