@@ -6,6 +6,7 @@ use App\Entity\BrandCategory;
 use App\Entity\Brands;
 use App\Entity\Family;
 use App\Entity\FamilyCategory;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -53,6 +54,8 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::section('Gestion des utilisateurs');
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
         yield MenuItem::section('Gestion des familles');
         yield MenuItem::linkToCrud('Famille', 'fas fa-cube', Family::class);
         yield MenuItem::linkToCrud('Arboresence', 'fas fa-list', FamilyCategory::class);
