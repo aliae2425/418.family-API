@@ -224,4 +224,31 @@ class Brands
 
         return $this;
     }
+
+    public function getLinksCount(): int
+    {
+        return $this->links->count();
+    }
+
+    public function getFamiliesCount(): int
+    {
+        return $this->families->count();
+    }
+
+    public function getFamilyCount(): int
+    {
+        return $this->families->count();
+    }
+
+    public function getCategoriesCount(): int
+    {
+        return $this->categories->count();
+    }
+
+    public function __tostring(): string
+    {
+        return $this->name;
+    }
+    
+
 }

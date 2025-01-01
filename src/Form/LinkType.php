@@ -19,7 +19,14 @@ class LinkType extends AbstractType
             ->add('type', ChoiceType::class, [
                 'choices' => [
                     'Site web' => 'site',
-                    'Réseaux sociaux' => 'social',
+                    'Facebook' => 'facebook',
+                    'Instagram' => 'instagram',
+                    'Twitter' => 'twitter',
+                    'LinkedIn' => 'linkedin',
+                    'Pinterest' => 'pinterest',
+                    'YouTube' => 'youtube',
+                    'TikTok' => 'tiktok',
+                    'Catalogue' => 'catalog',
                     'Autre' => 'other',
                 ],
             ])
