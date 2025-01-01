@@ -11,10 +11,10 @@ vich_uploader:
            upload_destination: '%kernel.project_dir%/public/images/brands/categories'
            namer: Vich\UploaderBundle\Naming\HashNamer
        familyThumbnail:
-           uri_prefix: /images/family
+           uri_prefix: /images/families
            upload_destination: '%kernel.project_dir%/public/images/family'
            namer: Vich\UploaderBundle\Naming\HashNamer
        family:
-            uri_prefix: /data/familly
+            uri_prefix: /Data/families
             upload_destination: '%kernel.project_dir%/public/data/familly'
             namer: Vich\UploaderBundle\Naming\HashNamer

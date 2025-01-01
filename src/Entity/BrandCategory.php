@@ -138,4 +138,9 @@ class BrandCategory
 
         return $this;
     }
+
+    public function getBrandCount(): int
+    {
+        return $this->brands->count();
+    }
 }
