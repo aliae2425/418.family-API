@@ -21,10 +21,6 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('planType', HiddenType::class, [
-                'attr' => ['id' => "planType", 'value' => 1],
-            ])
-            ->add('username')
             ->add('email', null, [
                 'help' => 'We will send you a confirmation email, so use a real address.',
                 'constraints' => [

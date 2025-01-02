@@ -7,6 +7,7 @@ use App\Entity\Brands;
 use App\Entity\Family;
 use App\Entity\FamilyCategory;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -17,6 +18,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class DashboardController extends AbstractDashboardController
 {
+
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    ){}
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
@@ -24,8 +30,8 @@ class DashboardController extends AbstractDashboardController
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
-        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        return $this->redirect($adminUrlGenerator->setController(BrandsCrudController::class)->generateUrl());
+        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+        // return $this->redirect($adminUrlGenerator->setController(BrandsCrudController::class)->generateUrl());
 
         // Option 2. You can make your dashboard redirect to different pages depending on the user
         //
@@ -36,8 +42,16 @@ class DashboardController extends AbstractDashboardController
         // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         //
-        // return $this->render('some/path/my-dashboard.html.twig');
+        return $this->render('admin/dashboard/container.html.twig', [
+            'user_count' => $this->UserCount(),
+        ]);
     }
+
+    public function UserCount(): int
+    {
+        return $this->entityManager->getRepository(User::class)->count([]);
+    }
+
 
     public function configureDashboard(): Dashboard
     {
