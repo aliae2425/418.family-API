@@ -4,8 +4,70 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f267587a4f910014b50995782e8bb880",
+    "content-hash": "98f4ef9d4b16055fa979dc0b4ff916b4",
     "packages": [
+        {
+            "name": "beberlei/doctrineextensions",
+            "version": "v1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beberlei/DoctrineExtensions.git",
+                "reference": "281f1650641c2f438b0a54d8eaa7ba50ac7e3eb6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beberlei/DoctrineExtensions/zipball/281f1650641c2f438b0a54d8eaa7ba50ac7e3eb6",
+                "reference": "281f1650641c2f438b0a54d8eaa7ba50ac7e3eb6",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": "^2.19 || ^3.0",
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "doctrine/annotations": "^1.14 || ^2",
+                "doctrine/coding-standard": "^9.0.2 || ^12.0",
+                "nesbot/carbon": "^2.72 || ^3",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^8.5 || ^9.6",
+                "squizlabs/php_codesniffer": "^3.8",
+                "symfony/cache": "^5.4 || ^6.4 || ^7.0",
+                "symfony/yaml": "^5.4 || ^6.4 || ^7.0",
+                "vimeo/psalm": "^3.18 || ^5.22",
+                "zf1/zend-date": "^1.12",
+                "zf1/zend-registry": "^1.12"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DoctrineExtensions\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Steve Lacey",
+                    "email": "steve@steve.ly"
+                }
+            ],
+            "description": "A set of extensions to Doctrine 2 that add support for additional query functions available in MySQL, Oracle, PostgreSQL and SQLite.",
+            "keywords": [
+                "database",
+                "doctrine",
+                "orm"
+            ],
+            "support": {
+                "source": "https://github.com/beberlei/DoctrineExtensions/tree/v1.5.0"
+            },
+            "time": "2024-03-03T17:55:15+00:00"
+        },
         {
             "name": "composer/semver",
             "version": "3.4.3",
@@ -7864,6 +7926,86 @@
             ],
             "support": {
                 "source": "https://github.com/symfony/ux-autocomplete/tree/v2.22.1"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-12-05T14:25:02+00:00"
+        },
+        {
+            "name": "symfony/ux-chartjs",
+            "version": "v2.22.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/ux-chartjs.git",
+                "reference": "6e7de01ea469840da2b7458b660b52e846e279e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/ux-chartjs/zipball/6e7de01ea469840da2b7458b660b52e846e279e1",
+                "reference": "6e7de01ea469840da2b7458b660b52e846e279e1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "symfony/config": "^5.4|^6.0|^7.0",
+                "symfony/dependency-injection": "^5.4|^6.0|^7.0",
+                "symfony/http-kernel": "^5.4|^6.0|^7.0",
+                "symfony/stimulus-bundle": "^2.9.1"
+            },
+            "conflict": {
+                "symfony/flex": "<1.13"
+            },
+            "require-dev": {
+                "symfony/framework-bundle": "^5.4|^6.0|^7.0",
+                "symfony/phpunit-bridge": "^5.4|^6.0|^7.0",
+                "symfony/twig-bundle": "^5.4|^6.0|^7.0",
+                "symfony/var-dumper": "^5.4|^6.0|^7.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/ux",
+                    "name": "symfony/ux"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\UX\\Chartjs\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Titouan Galopin",
+                    "email": "galopintitouan@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Chart.js integration for Symfony",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "symfony-ux"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/ux-chartjs/tree/v2.22.1"
             },
             "funding": [
                 {

@@ -12,14 +12,16 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 class DashboardController extends AbstractDashboardController
 {
 
     public function __construct(
+        private ChartBuilderInterface $chartBuilder,
         private EntityManagerInterface $entityManager
     ){}
 
@@ -42,11 +44,54 @@ class DashboardController extends AbstractDashboardController
         // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         //
+
+        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
+
+        $chart->setData([
+            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            'datasets' => [
+                [
+                    'label' => 'My First dataset',
+                    'backgroundColor' => 'rgb(255, 99, 132)',
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => [0, 10, 5, 2, 20, 30, 45],
+                ],
+            ],
+        ]);
+
+        $chart->setOptions([
+            'scales' => [
+                'y' => [
+                    'suggestedMin' => 0,
+                    'suggestedMax' => 100,
+                ],
+            ],
+        ]);
+
         return $this->render('admin/dashboard/container.html.twig', [
-            'user_count' => $this->UserCount(),
+            'user_chart' => $chart,
         ]);
     }
 
+    private function userChart()    
+    {
+        $data = $this->entityManager->getRepository(User::class)->UserRegistrationByMonth();
+        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
+        
+        $chart->setData([
+            'labels' => array_keys($data),
+            'datasets' => [
+                [
+                    'label' => "Utilisateurs",
+                    'backgroundColor' => 'rgb(0, 0, 0)',
+                    'borderColor' => 'rgb(255, 255, 255)',
+                    'data' => array_values($data),
+                ],
+            ],
+        ]);
+
+        return $chart;
+    }
     public function UserCount(): int
     {
         return $this->entityManager->getRepository(User::class)->count([]);

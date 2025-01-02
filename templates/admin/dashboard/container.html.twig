@@ -10,7 +10,9 @@
                         <h3 class="card-title">Nombre d'utilisateurs inscrits</h3>
                     </div>
                     <div class="card-body">
-                        <p>{{ user_count }}</p>
+                        <div style="width: 500px;">
+                            {{ render_chart(user_chart) }}
+                        </div>
                     </div>
                 </div>
             </div>
