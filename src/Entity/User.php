@@ -55,9 +55,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?int $coins = null;
 
+    /**
+     * @var Collection<int, Adress>
+     */
+    #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: 'user')]
+    private Collection $adresses;
+
     public function __construct()
     {
         $this->busines = new ArrayCollection();
+        $this->adresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -221,6 +228,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCoins(?int $coins): static
     {
         $this->coins = $coins;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Adress>
+     */
+    public function getAdresses(): Collection
+    {
+        return $this->adresses;
+    }
+
+    public function addAdress(Adress $adress): static
+    {
+        if (!$this->adresses->contains($adress)) {
+            $this->adresses->add($adress);
+            $adress->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdress(Adress $adress): static
+    {
+        if ($this->adresses->removeElement($adress)) {
+            // set the owning side to null (unless already changed)
+            if ($adress->getUser() === $this) {
+                $adress->setUser(null);
+            }
+        }
 
         return $this;
     }
