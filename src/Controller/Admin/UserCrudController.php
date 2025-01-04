@@ -3,12 +3,15 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Form\AdressType;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -82,11 +85,41 @@ class UserCrudController extends AbstractCrudController
                     ->setSortable(true),
                 DateField::new('lastActivity', "derniere activité")
                     ->setSortable(true),
+                IntegerField::new('familyCount', 'Nombre de famille')
+                    ->setTextAlign('center')
+                    ->setSortable(false),
                 IntegerField::new('coins')
                     ->setSortable(true),
                 BooleanField::new('isVerified'),
             ];
         }
+
+        if($pageName === Crud::PAGE_NEW || $pageName === Crud::PAGE_EDIT){
+            $fields = [
+                TextField::new('email'),
+                IntegerField::new('coins'),
+                CollectionField::new('adresses')
+                    ->setEntryType(AdressType::class)
+                    ->allowAdd(true)
+                    ->allowDelete(true)
+                    ->setFormTypeOptions([
+                        'by_reference' => false,
+                    ]),
+            ];
+        }
+
+        if($pageName === Crud::PAGE_DETAIL){
+            $fields = [
+                IdField::new('id', 'ID'),
+                TextField::new('email'),
+                DateField::new('createdAt', "date de creation"),
+                DateField::new('lastActivity', "derniere activité"),
+                IntegerField::new('familyCount', 'Nombre de famille'),
+                IntegerField::new('coins'),
+                AssociationField::new('adresses', "Adresses"),
+            ];
+        }
+
         
         return $fields;
     }

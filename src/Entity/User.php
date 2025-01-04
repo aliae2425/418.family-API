@@ -61,10 +61,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: 'user')]
     private Collection $adresses;
 
+    /**
+     * @var Collection<int, Cart>
+     */
+    #[ORM\OneToMany(targetEntity: Cart::class, mappedBy: 'user')]
+    private Collection $carts;
+
+    #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
+    private ?FamilyCollection $familyCollection = null;
+
     public function __construct()
     {
         $this->busines = new ArrayCollection();
         $this->adresses = new ArrayCollection();
+        $this->carts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -260,5 +270,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Cart>
+     */
+    public function getCarts(): Collection
+    {
+        return $this->carts;
+    }
+
+    public function addCart(Cart $cart): static
+    {
+        if (!$this->carts->contains($cart)) {
+            $this->carts->add($cart);
+            $cart->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCart(Cart $cart): static
+    {
+        if ($this->carts->removeElement($cart)) {
+            // set the owning side to null (unless already changed)
+            if ($cart->getUser() === $this) {
+                $cart->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getFamilyCollection(): ?FamilyCollection
+    {
+        return $this->familyCollection;
+    }
+
+    public function setFamilyCollection(?FamilyCollection $familyCollection): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($familyCollection === null && $this->familyCollection !== null) {
+            $this->familyCollection->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($familyCollection !== null && $familyCollection->getUser() !== $this) {
+            $familyCollection->setUser($this);
+        }
+
+        $this->familyCollection = $familyCollection;
+
+        return $this;
+    }
+
+    public function getFamilyCount(): int
+    {
+        if ($this->familyCollection == null) {
+            return 0;
+        }
+        return $this->familyCollection->getFamilyCount();
     }
 }

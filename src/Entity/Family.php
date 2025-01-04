@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FamilyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -45,6 +47,17 @@ class Family
 
     #[ORM\ManyToOne(inversedBy: 'families')]
     private ?Brands $brand = null;
+
+    /**
+     * @var Collection<int, Cart>
+     */
+    #[ORM\ManyToMany(targetEntity: Cart::class, mappedBy: 'famillies')]
+    private Collection $carts;
+
+    public function __construct()
+    {
+        $this->carts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -155,6 +168,33 @@ class Family
     public function setRevitFamilyFile(?File $revitFamilyFile): static
     {
         $this->revitFamilyFile = $revitFamilyFile;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cart>
+     */
+    public function getCarts(): Collection
+    {
+        return $this->carts;
+    }
+
+    public function addCart(Cart $cart): static
+    {
+        if (!$this->carts->contains($cart)) {
+            $this->carts->add($cart);
+            $cart->addFamilly($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCart(Cart $cart): static
+    {
+        if ($this->carts->removeElement($cart)) {
+            $cart->removeFamilly($this);
+        }
 
         return $this;
     }
