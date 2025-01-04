@@ -66,8 +66,10 @@ class Cart
 
     public function setValue(int $value): static
     {
-        $this->value = $value;
-
+        $value = 0;
+        foreach($this->famillies as $familly) {
+            $value += $familly->getPrice();
+        }
         return $this;
     }
 

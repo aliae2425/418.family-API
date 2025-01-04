@@ -85,12 +85,15 @@ class UserCrudController extends AbstractCrudController
                     ->setSortable(true),
                 DateField::new('lastActivity', "derniere activité")
                     ->setSortable(true),
+                IntegerField::new('adressCount', "Nombre d'adresses")
+                    ->setTextAlign('center')
+                    ->setSortable(false),
                 IntegerField::new('familyCount', 'Nombre de famille')
                     ->setTextAlign('center')
                     ->setSortable(false),
                 IntegerField::new('coins')
                     ->setSortable(true),
-                BooleanField::new('isVerified'),
+                // BooleanField::new('isVerified'),
             ];
         }
 
@@ -116,7 +119,8 @@ class UserCrudController extends AbstractCrudController
                 DateField::new('lastActivity', "derniere activité"),
                 IntegerField::new('familyCount', 'Nombre de famille'),
                 IntegerField::new('coins'),
-                AssociationField::new('adresses', "Adresses"),
+                AssociationField::new('adresses', "Adresses")
+                    ->setTemplatePath('admin/fields/adressesCard.html.twig'),
             ];
         }
 

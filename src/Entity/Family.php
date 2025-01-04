@@ -54,6 +54,9 @@ class Family
     #[ORM\ManyToMany(targetEntity: Cart::class, mappedBy: 'famillies')]
     private Collection $carts;
 
+    #[ORM\Column( nullable: true)]
+    private ?int $price = null;
+
     public function __construct()
     {
         $this->carts = new ArrayCollection();
@@ -195,6 +198,18 @@ class Family
         if ($this->carts->removeElement($cart)) {
             $cart->removeFamilly($this);
         }
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): static
+    {
+        $this->price = $price;
 
         return $this;
     }

@@ -58,7 +58,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Adress>
      */
-    #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private Collection $adresses;
 
     /**
@@ -330,5 +330,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             return 0;
         }
         return $this->familyCollection->getFamilyCount();
+    }
+
+    public function getAdressCount(): int
+    {
+        return $this->adresses->count();
     }
 }

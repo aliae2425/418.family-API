@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\BrandCategory;
 use App\Entity\Brands;
+use App\Entity\Cart;
 use App\Entity\Family;
 use App\Entity\FamilyCategory;
 use App\Entity\User;
@@ -73,25 +74,6 @@ class DashboardController extends AbstractDashboardController
         ]);
     }
 
-    private function userChart()    
-    {
-        $data = $this->entityManager->getRepository(User::class)->UserRegistrationByMonth();
-        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
-        
-        $chart->setData([
-            'labels' => array_keys($data),
-            'datasets' => [
-                [
-                    'label' => "Utilisateurs",
-                    'backgroundColor' => 'rgb(0, 0, 0)',
-                    'borderColor' => 'rgb(255, 255, 255)',
-                    'data' => array_values($data),
-                ],
-            ],
-        ]);
-
-        return $chart;
-    }
     public function UserCount(): int
     {
         return $this->entityManager->getRepository(User::class)->count([]);
@@ -115,6 +97,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::section('Gestion des utilisateurs');
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
+        yield MenuItem::linkToCrud('Historique panier', 'fas fa-shopping-cart', Cart::class);
         yield MenuItem::section('Gestion des familles');
         yield MenuItem::linkToCrud('Famille', 'fas fa-cube', Family::class);
         yield MenuItem::linkToCrud('Arboresence', 'fas fa-list', FamilyCategory::class);

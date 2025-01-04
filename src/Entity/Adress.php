@@ -37,7 +37,7 @@ class Adress
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "le pays est obligatoire")]
-    private ?string $contry = null;
+    private ?string $country = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $_createdAt = null;
@@ -48,6 +48,10 @@ class Adress
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function __construct(){
+        $this->_createdAt = new \DateTimeImmutable();
     }
 
     public function getUser(): ?User
@@ -98,14 +102,14 @@ class Adress
         return $this;
     }
 
-    public function getContry(): ?string
+    public function getCountry(): ?string
     {
-        return $this->contry;
+        return $this->country;
     }
 
-    public function setContry(string $contry): static
+    public function setCountry(string $contry): static
     {
-        $this->contry = $contry;
+        $this->country = $contry;
 
         return $this;
     }
@@ -117,7 +121,7 @@ class Adress
 
     public function setCreatedAt(\DateTimeImmutable $_createdAt): static
     {
-        $this->_createdAt = $_createdAt;
+        $this->_createdAt = new \DateTimeImmutable();
 
         return $this;
     }
@@ -129,7 +133,7 @@ class Adress
 
     public function setUpdatedAt(\DateTimeImmutable $_updatedAt): static
     {
-        $this->_updatedAt = $_updatedAt;
+        $this->_updatedAt = new \DateTimeImmutable();
 
         return $this;
     }

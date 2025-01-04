@@ -1,0 +1,25 @@
+
+{% block content %}
+
+    <div class="content">
+        <div class="row">
+            {% for adresse in field.value %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ adresse.street }}</h5>
+                            <p class="card-text">
+                                {{ adresse.city }}, {{ adresse.postalCode }}<br>
+                                {{ adresse.country }}
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted">Créée le {{ adresse.createdAt|date('d/m/Y H:i') }}</small><br>
+                                <small class="text-muted">Dernière mise à jour le {{ adresse.updatedAt|date('d/m/Y H:i') }}</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
