@@ -57,6 +57,9 @@ class Family
     #[ORM\Column( nullable: true)]
     private ?int $price = null;
 
+    #[ORM\OneToOne(mappedBy: 'family', cascade: ['persist', 'remove'])]
+    private ?FamilyCollection $familyCollection = null;
+
     public function __construct()
     {
         $this->carts = new ArrayCollection();
@@ -210,6 +213,28 @@ class Family
     public function setPrice(int $price): static
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getFamilyCollection(): ?FamilyCollection
+    {
+        return $this->familyCollection;
+    }
+
+    public function setFamilyCollection(?FamilyCollection $familyCollection): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($familyCollection === null && $this->familyCollection !== null) {
+            $this->familyCollection->setFamily(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($familyCollection !== null && $familyCollection->getFamily() !== $this) {
+            $familyCollection->setFamily($this);
+        }
+
+        $this->familyCollection = $familyCollection;
 
         return $this;
     }

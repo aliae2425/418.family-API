@@ -15,34 +15,35 @@ class FamilyCollection
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'familyCollection', cascade: ['persist', 'remove'])]
-    private ?User $User = null;
-
-    /**
-     * @var Collection<int, Family>
-     */
-    #[ORM\ManyToMany(targetEntity: Family::class)]
-    private Collection $families;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $_createdAt = null;
 
+    #[ORM\OneToOne(inversedBy: 'familyCollection', cascade: ['persist', 'remove'])]
+    private ?User $User = null;
+
+    #[ORM\OneToOne(inversedBy: 'familyCollection', cascade: ['persist', 'remove'])]
+    private ?Family $family = null;
+
     public function __construct()
     {
-        $this->families = new ArrayCollection();
-    }
-
-    public function getFamilyCount(): int
-    {
-        if ($this->families == null) {
-            return 0;
-        }
-        return $this->families->count();
+        $this->_createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->_createdAt;
+    }
+
+    public function setCreatedAt(): static
+    {
+        $this->_createdAt = new \DateTimeImmutable();
+
+        return $this;
     }
 
     public function getUser(): ?User
@@ -57,39 +58,16 @@ class FamilyCollection
         return $this;
     }
 
-    /**
-     * @return Collection<int, Family>
-     */
-    public function getFamilies(): Collection
+    public function getFamily(): ?Family
     {
-        return $this->families;
+        return $this->family;
     }
 
-    public function addFamily(Family $family): static
+    public function setFamily(?Family $Family): static
     {
-        if (!$this->families->contains($family)) {
-            $this->families->add($family);
-        }
+        $this->family = $Family;
 
         return $this;
     }
-
-    public function removeFamily(Family $family): static
-    {
-        $this->families->removeElement($family);
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->_createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $_createdAt): static
-    {
-        $this->_createdAt = $_createdAt;
-
-        return $this;
-    }
+    
 }
