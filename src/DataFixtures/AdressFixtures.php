@@ -22,7 +22,7 @@ class AdressFixtures extends Fixture implements FixtureGroupInterface
             $adress->setStreet($faker->streetAddress());
             $adress->setCity($faker->city());
             $adress->setPostalCode($faker->postcode());
-            $adress->setCountry($faker->country());
+            $adress->setCountry($faker->randomElement(["France","Germany","Italy","Spain","United Kingdom","United States"]));
             $adress->setCreatedAt( DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-2 years', 'now')));
             $adress->setUpdatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-2 years', 'now')));
 

@@ -15,7 +15,7 @@ class Adress
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'adresses')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
 
     #[ORM\Column(length: 255)]
@@ -136,5 +136,10 @@ class Adress
         $this->_updatedAt = new \DateTimeImmutable();
 
         return $this;
+    }
+
+    public function __tostring(): string
+    {
+        return strval($this->id);
     }
 }
