@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
@@ -75,6 +76,8 @@ class FamilyCrudController extends AbstractCrudController
                     ->setSortable(true),
                 DateTimeField::new('createdAt', 'Créé le'),
                 DateTimeField::new('updatedAt', 'Mis à jour'),
+                IntegerField::new('price', 'Prix')
+                    ->setSortable(true),
                 TextField::new('revitFamily'),
             ];
         }

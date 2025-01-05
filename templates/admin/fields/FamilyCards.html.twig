@@ -1,0 +1,18 @@
+            {% for family in field.value %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="{{family.thumbnail}}" class="card-img-top" alt="{{ family.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ family.name }}</h5>
+                            <p class="card-text">
+                                Catégorie : {{ family.familyCategory.name }}<br>
+                                Marque : {{ family.brand.name }}
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted">Créée le {{ family.createdAt|date('d/m/Y') }}</small><br>
+                                <small class="text-muted">Dernière mise à jour le {{ family.updatedAt|date('d/m/Y') }}</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}

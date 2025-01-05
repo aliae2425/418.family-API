@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+.adminBody {
 	background-attachment: fixed;
 	background-color: #262626;
 	background-image: radial-gradient(#525252 1px, transparent 0);

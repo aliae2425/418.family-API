@@ -26,8 +26,9 @@ class FamilyFixture extends Fixture implements FixtureGroupInterface
             $family->setCreatedAt(new DateTimeImmutable());
             $family->setUpdatedAt(new DateTimeImmutable());
             $family->setRevitFamily('418_TeaPot.rfa');
-
+            $family->setThumbnail("https://placehold.co/400");
             $family->setFamilyCategory($faker->randomElement($categories));
+            $family->setPrice($faker->randomElement([0,10,20]));
             $family->setBrand($faker->randomElement($brands));
 
             $manager->persist($family);

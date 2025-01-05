@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FamilyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -45,6 +47,23 @@ class Family
 
     #[ORM\ManyToOne(inversedBy: 'families')]
     private ?Brands $brand = null;
+
+    /**
+     * @var Collection<int, Cart>
+     */
+    #[ORM\ManyToMany(targetEntity: Cart::class, mappedBy: 'famillies')]
+    private Collection $carts;
+
+    #[ORM\Column( nullable: true)]
+    private ?int $price = null;
+
+    #[ORM\OneToOne(mappedBy: 'family', cascade: ['persist', 'remove'])]
+    private ?FamilyCollection $familyCollection = null;
+
+    public function __construct()
+    {
+        $this->carts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -155,6 +174,67 @@ class Family
     public function setRevitFamilyFile(?File $revitFamilyFile): static
     {
         $this->revitFamilyFile = $revitFamilyFile;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cart>
+     */
+    public function getCarts(): Collection
+    {
+        return $this->carts;
+    }
+
+    public function addCart(Cart $cart): static
+    {
+        if (!$this->carts->contains($cart)) {
+            $this->carts->add($cart);
+            $cart->addFamilly($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCart(Cart $cart): static
+    {
+        if ($this->carts->removeElement($cart)) {
+            $cart->removeFamilly($this);
+        }
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): static
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getFamilyCollection(): ?FamilyCollection
+    {
+        return $this->familyCollection;
+    }
+
+    public function setFamilyCollection(?FamilyCollection $familyCollection): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($familyCollection === null && $this->familyCollection !== null) {
+            $this->familyCollection->setFamily(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($familyCollection !== null && $familyCollection->getFamily() !== $this) {
+            $familyCollection->setFamily($this);
+        }
+
+        $this->familyCollection = $familyCollection;
 
         return $this;
     }
