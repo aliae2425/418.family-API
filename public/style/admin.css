@@ -1,4 +1,4 @@
-body {
+/* body {
     background-attachment: fixed;
 	background-color: #262626;
 	background-image: radial-gradient(#525252 1px, transparent 0);
@@ -6,3 +6,8 @@ body {
 	color: #f3f4f6;
 	line-height: 1.4;
 } 
+
+.sidebar {
+	background-color: #525252;
+	backdrop-filter: blur(10px);
+} */
