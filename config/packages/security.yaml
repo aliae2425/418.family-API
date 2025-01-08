@@ -19,11 +19,13 @@ security:
             form_login:
                 login_path: app_login
                 check_path: app_login
+                # csrf_token_id: authenticate
+                # csrf_parameter: _csrf_token
                 # enable_csrf: true
             logout:
                 path: app_logout
                 # where to redirect after logout
-                target: public.home
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -34,7 +36,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

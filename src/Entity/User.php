@@ -324,14 +324,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getFamilyCount(): int
-    {
-        if ($this->familyCollection == null) {
-            return 0;
-        }
-        return $this->familyCollection->getFamilyCount();
-    }
-
     public function getAdressCount(): int
     {
         return $this->adresses->count();

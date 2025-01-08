@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -63,7 +64,7 @@ class UserCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('Utilisateur')
             ->setEntityLabelInPlural('Utilisateurs')
-            ->setSearchFields(['id', 'email', 'lastActivity' , 'coins']);
+            ->setSearchFields(['id', 'email', '_lastActivity' , 'coins']);
     }
 
 
@@ -101,7 +102,7 @@ class UserCrudController extends AbstractCrudController
             ];
         }
 
-        if($pageName === Crud::PAGE_NEW || $pageName === Crud::PAGE_EDIT){
+        if( $pageName === Crud::PAGE_EDIT){
             $fields = [
                 TextField::new('email'),
                 IntegerField::new('coins'),
@@ -112,6 +113,12 @@ class UserCrudController extends AbstractCrudController
                     ->setFormTypeOptions([
                         'by_reference' => false,
                     ]),
+                ChoiceField::new('roles')
+                    ->setChoices([
+                        'Utilisateur' => 'ROLE_USER',
+                        'Administrateur' => 'ROLE_ADMIN',
+                    ])
+                    ->allowMultipleChoices(),
             ];
         }
 
