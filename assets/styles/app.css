@@ -13,6 +13,10 @@ body {
     background-size: 55px 55px;
 }
 
+.logo{
+    height: 100%;
+}
+
 .form_container {
   width: fit-content;
   height: fit-content;
