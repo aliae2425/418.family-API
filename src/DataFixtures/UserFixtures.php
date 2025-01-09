@@ -30,6 +30,8 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
                     $faker->password()
                     )
                 );
+            $user->setFirstName($faker->firstName());
+            $user->setLastName($faker->lastName());
             $user->setRoles(['ROLE_USER']);
             $user->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-2 years', 'now')));
             $user->setLastActivity(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-100 days', 'now')));

@@ -1,20 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
 
-    <h1>Register</h1>
 
-    {{ form_errors(registrationForm) }}
+<div class="flex h-screen">
+    <div class="m-auto">
 
-    <div id="fullcontainter">
-        {{ form_start(registrationForm) }}
+        {# /* From Uiverse.io by Yaya12085 */  #}
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
+
+        {{ form_errors(registrationForm) }}
+
+        {{ form_start(registrationForm, { 'attr' : { 'class': 'form' } }) }}
+            <p class="title">Inscription</p>
+
+            <p class="message">Inscrivez-vous maintenant et obtenez un accès complet à notre application. </p>
+            <div class="flex">
+                <label>
+                    {{ form_widget(registrationForm.lastName) }}
+                    <span>{{ form_label(registrationForm.lastName) }}</span>
+                </label>
+
+                <label>
+                    {{ form_widget(registrationForm.firstName) }}
+                    <span>{{ form_label(registrationForm.firstName) }}</span>
+                </label>
+            </div>
+
+            <label>
+                {{ form_widget(registrationForm.email) }}
+                <span>{{ form_label(registrationForm.email) }}</span>
+            </label>
+
+            <label>
+                {{ form_widget(registrationForm.plainPassword.first) }}
+                <span>{{ form_label(registrationForm.plainPassword.first) }}</span>
+            </label>
+
+            <label>
+                {{ form_widget(registrationForm.plainPassword.second) }}
+                <span>{{ form_label(registrationForm.plainPassword.second) }}</span>
+            </label>
+
+            {{ form_widget(registrationForm.agreeTerms) }}
+
+            {{ form_widget(registrationForm.submit) }}
+
+            <p class="signin">Vous avez déjà un compte ? <a href="{{path('app_login')}}">Se connecter</a> </p>
 
         {{ form_end(registrationForm) }}
+
+
     </div>
+</div>
 
 {% endblock %}

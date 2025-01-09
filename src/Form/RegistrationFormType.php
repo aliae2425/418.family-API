@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
@@ -21,40 +22,54 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', null, [
-                'help' => 'We will send you a confirmation email, so use a real address.',
+            ->add('firstName', TextType::class, [
+                'label' => 'Prénom',
+                'attr' => [ 'class'=>'input']
+                ])
+            ->add('lastName', TextType::class, [
+                'label' => 'Nom de famille',
+                'attr' => [ 'class'=>'input']
+                ])
+            ->add('email', TextType::class, [
+                'help' => 'Nous vous enverrons un email de confirmation, utilisez une adresse réelle.',
                 'constraints' => [
                     new Email([
                         'message' => 'Please enter a valid email address.',
                     ]),
                 ],
+                'attr' => [ 'class'=>'input']
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
                 'mapped' => false,
-                'first_options'  => ['label' => 'Mot de passe','toggle' => true,],
-                'second_options' => ['label' => 'Répéter le mot de passe','toggle' => true,],
+                'first_options'  => [
+                    'label' => 'Mot de passe',
+                    // 'toggle' => true,
+                    'attr' => [ 'class'=>'input']    
+                ],
+                'second_options' => [
+                    'label' => 'Confirmez le mot de passe',
+                    // 'toggle' => true,
+                    'attr' => [ 'class'=>'input'],
+                ],
                 'invalid_message' => 'Les champs de mot de passe doivent correspondre.',
-                'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Veuillez saisir un mot de passe',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
+                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
                         'max' => 4096,
                     ]),
                 ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'label' => 'Accepter nos conditions',
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez accepter nos conditions.',
                     ]),
                 ],
             ])
@@ -62,6 +77,7 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Créer un compte',
             ])
         ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
