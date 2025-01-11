@@ -1,20 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}Mon pannier{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    {{cart.value}}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Famille</th>
+                <th>Prix</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for famille in cart.famillies %}
+                <tr>
+                    <td>{{ famille.name }}</td>
+                    <td>{{ famille.price }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>E:/07_Git/418.family-API/src/Controller/CartController.php</code></li>
-        <li>Your template at <code>E:/07_Git/418.family-API/templates/cart/index.html.twig</code></li>
-    </ul>
-</div>
+    <a href="{{ path('user_cart_checkout') }}">Valider mon panier</a>
+
 {% endblock %}
