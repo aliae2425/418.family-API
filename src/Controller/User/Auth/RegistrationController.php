@@ -48,7 +48,7 @@ class RegistrationController extends AbstractController
                     ->from(new Address('welcome@418.family', '418 bot'))
                     ->to((string) $user->getEmail())
                     ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('User/Auth/registration/confirmation_email.html.twig')
             );
 
             // do anything else you need here, like send an email
@@ -56,7 +56,7 @@ class RegistrationController extends AbstractController
             return $security->login($user, 'form_login', 'main');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('User/Auth/registration/register.html.twig', [
             'registrationForm' => $form,
         ]);
     }
@@ -85,7 +85,7 @@ class RegistrationController extends AbstractController
     #[Route('/register/plan', name: 'user.register.plan')]
     public function registerPlan(): Response
     {
-        return $this->render('registration/plan.html.twig');
+        return $this->render('User/Auth/registration/plan.html.twig');
     }
 
 }
