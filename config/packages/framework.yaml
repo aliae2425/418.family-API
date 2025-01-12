@@ -7,7 +7,7 @@ framework:
     # csrf_protection:
     #     stateless_token_ids: ['authenticate']
 
-    csrf_protection: false
+    csrf_protection: true
     #esi: true
     #fragments: true
 
