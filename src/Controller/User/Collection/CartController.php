@@ -43,17 +43,22 @@ class CartController extends AbstractController
             $cart = new Cart();
             $cart->setUser($user);
         }
+        
         $cart->addFamilly($family);
         $cart->setValue($cart->getValue() + $family->getPrice());
+        $user->setCurrentCartCount($user->getCurrentCartCount() + 1);
+        $em->persist($user);
         $em->persist($cart);
         $em->flush();   
+
+
 
         $referer = $request->headers->get('referer');
         return $this->redirect($referer);
     }
 
     #[Route('/cart/remove/{id}', name: 'user_cart_remove', requirements: ['id' => '\d+'])]
-    public function removeItem(Family $family, CartRepository $repo)
+    public function removeItem(Family $family, CartRepository $repo, EntityManagerInterface $em)
     {
         $user = $this->getUser();
         if ($user === null) {
@@ -64,8 +69,12 @@ class CartController extends AbstractController
         if ($cart === null) {
             $this->addFlash('danger', "Vous n'avez pas de panier");
         }
+        $user->setCurrentCartCount($user->getCurrentCartCount() - 1);
         $cart->removeFamilly($family);
         $cart->setValue($cart->getValue() - $family->getPrice());
+        $em->persist($user);
+        $em->persist($cart);
+        $em->flush();
 
     }
 
@@ -91,6 +100,8 @@ class CartController extends AbstractController
 
         $cart->setValidationAt(new \DateTimeImmutable());
         $cart->setValidate(true);
+        $user->setCurrentCartCount(0);
+        $em->persist($user);
         $em->persist($cart);
         $em->flush();
         $this->addFlash('success', 'Votre panier a bien été validé');

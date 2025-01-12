@@ -23,7 +23,7 @@ class RegistrationController extends AbstractController
         private EmailVerifier $emailVerifier
     ){}
 
-    #[Route('/register', name: 'user.register')]
+    #[Route('/register', name: 'user_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
     {
         $user = new User();

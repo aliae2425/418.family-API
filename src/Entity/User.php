@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this username')]
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cette adresse email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -20,8 +20,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+// section identification 
+    #[ORM\Column(length: 255)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $lastName = null;
+
     #[ORM\Column(length: 255)]
     private ?string $email = null;
+
     /**
      * @var list<string> The user roles
      */
@@ -34,26 +42,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    /**
-     * @var Collection<int, Business>
-     */
-    #[ORM\OneToMany(targetEntity: Business::class, mappedBy: 'owner', orphanRemoval: true)]
-    private Collection $busines;
-
     #[ORM\Column]
     private bool $isVerified = false;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $_createdAt = null;
 
-    #[ORM\Column]
-    private ?bool $status = true;
-
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $_lastActivity = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $coins = null;
+    #[ORM\Column]
+    private ?bool $status = true;
 
     /**
      * @var Collection<int, Adress>
@@ -61,26 +60,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private Collection $adresses;
 
+// section user data
+    #[ORM\Column(nullable: true)]
+    private ?int $coins = null;
+
     /**
      * @var Collection<int, Cart>
      */
     #[ORM\OneToMany(targetEntity: Cart::class, mappedBy: 'user')]
     private Collection $carts;
 
-    #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
-    private ?FamilyCollection $familyCollection = null;
+    /**
+     * @var Collection<int, Family>
+     */
+    #[ORM\ManyToMany(targetEntity: Family::class)]
+    private Collection $familiesCollection;
 
-    #[ORM\Column(length: 255)]
-    private ?string $firstName = null;
+    /**
+     * @var Collection<int, Family>
+     */
+    #[ORM\OneToMany(targetEntity: Family::class, mappedBy: '_createdBy')]
+    private Collection $createdFamilies;
 
-    #[ORM\Column(length: 255)]
-    private ?string $lastName = null;
+// section entreprise
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Business $relatedBusiness = null;
+
+    #[ORM\OneToOne(mappedBy: 'owner', cascade: ['persist', 'remove'])]
+    private ?Business $ownedBusiness = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $currentCartCount = null;
+
 
     public function __construct()
     {
-        $this->busines = new ArrayCollection();
+        $this->_createdAt = new \DateTimeImmutable();
         $this->adresses = new ArrayCollection();
+        
         $this->carts = new ArrayCollection();
+        $this->familiesCollection = new ArrayCollection();
+        $this->createdFamilies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,36 +165,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    /**
-     * @return Collection<int, Business>
-     */
-    public function getBusines(): Collection
-    {
-        return $this->busines;
-    }
-
-    public function addBusine(Business $busine): static
-    {
-        if (!$this->busines->contains($busine)) {
-            $this->busines->add($busine);
-            $busine->setOwner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBusine(Business $busine): static
-    {
-        if ($this->busines->removeElement($busine)) {
-            // set the owning side to null (unless already changed)
-            if ($busine->getOwner() === $this) {
-                $busine->setOwner(null);
-            }
-        }
-
-        return $this;
     }
 
     public function getEmail(): ?string
@@ -308,27 +299,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getFamilyCollection(): ?FamilyCollection
-    {
-        return $this->familyCollection;
-    }
-
-    public function setFamilyCollection(?FamilyCollection $familyCollection): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($familyCollection === null && $this->familyCollection !== null) {
-            $this->familyCollection->setUser(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($familyCollection !== null && $familyCollection->getUser() !== $this) {
-            $familyCollection->setUser($this);
-        }
-
-        $this->familyCollection = $familyCollection;
-
-        return $this;
-    }
 
     public function getAdressCount(): int
     {
@@ -355,6 +325,101 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): static
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Family>
+     */
+    public function getFamilliesCollection(): Collection
+    {
+        return $this->familiesCollection;
+    }
+
+    public function addFamilliesCollection(Family $familly): static
+    {
+        if (!$this->familiesCollection->contains($familly)) {
+            $this->familiesCollection->add($familly);
+        }
+
+        return $this;
+    }
+
+    public function removeFamilliesCollection(Family $familly): static
+    {
+        $this->familiesCollection->removeElement($familly);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Family>
+     */
+    public function getCreatedFamillies(): Collection
+    {
+        return $this->createdFamilies;
+    }
+
+    public function addCreatedFamillies(Family $family): static
+    {
+        if (!$this->createdFamilies->contains($family)) {
+            $this->createdFamilies->add($family);
+            $family->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedFamillies(Family $family): static
+    {
+        if ($this->createdFamilies->removeElement($family)) {
+            // set the owning side to null (unless already changed)
+            if ($family->getCreatedBy() === $this) {
+                $family->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getBusiness(): ?Business
+    {
+        return $this->relatedBusiness;
+    }
+
+    public function setBusiness(?Business $business): static
+    {
+        $this->relatedBusiness = $business;
+
+        return $this;
+    }
+
+    public function getOwnedBusiness(): ?Business
+    {
+        return $this->ownedBusiness;
+    }
+
+    public function setOwnedBusiness(Business $ownedBusiness): static
+    {
+        // set the owning side of the relation if necessary
+        if ($ownedBusiness->getOwner() !== $this) {
+            $ownedBusiness->setOwner($this);
+        }
+
+        $this->ownedBusiness = $ownedBusiness;
+
+        return $this;
+    }
+
+    public function getCurrentCartCount(): ?int
+    {
+        return $this->currentCartCount;
+    }
+
+    public function setCurrentCartCount(?int $currentCartCount): static
+    {
+        $this->currentCartCount = $currentCartCount;
 
         return $this;
     }

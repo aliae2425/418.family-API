@@ -60,6 +60,9 @@ class Family
     #[ORM\OneToOne(mappedBy: 'family', cascade: ['persist', 'remove'])]
     private ?FamilyCollection $familyCollection = null;
 
+    #[ORM\ManyToOne(inversedBy: 'families')]
+    private ?User $_createdBy = null;
+
     public function __construct()
     {
         $this->carts = new ArrayCollection();
@@ -235,6 +238,18 @@ class Family
         }
 
         $this->familyCollection = $familyCollection;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->_createdBy;
+    }
+
+    public function setCreatedBy(?User $_createdBy): static
+    {
+        $this->_createdBy = $_createdBy;
 
         return $this;
     }
