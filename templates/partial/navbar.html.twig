@@ -1,26 +1,57 @@
 <nav class="bg-gray-800 p-4">
-    <div class="container mx-auto flex justify-between items-center">
+    <div class="container mx-auto flex justify-center items-center space-x-8">
         <div class="text-white text-lg font-semibold">
             <a href="/">418 Family browser</a>
         </div>
         <ul class="flex space-x-4">
             <li><a href="/" class="text-gray-300 hover:text-white">Home</a></li>
             <li><a href="{{ path('public_asset_index') }}" class="text-gray-300 hover:text-white">Familles</a></li>
-            <li>
-                <a href="{{ path('user_cart_index') }}" class="text-gray-300 hover:text-white">
-                    Panier
-                    <span class="bg-red-500 text-white rounded-full px-2 py-1 text-xs ml-2">{{ app.user.cartItemCount |default('')}}</span>
-                </a>
-            </li>
         </ul>
-        <div class="text-gray-300">
+        <div class="flex items-center space-x-4">
+            <div>
+                <a href="{{ path('user_cart_index') }}" class="text-gray-300 hover:text-white">
+                    <svg class="w-6 h-6 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    {% if app.user.currentCartCount > 0 %}
+                        <span class="bg-red-500 text-white rounded-full px-2 py-1 text-xs ml-2">{{ app.user.currentCartCount |default('')}}</span>
+                    {% endif %}
+                </a>
+            </div>
             {% if app.user %}
-                <span class="text-white">Bonjour, {{ app.user.firstName }}</span>
-                <a href="{{ path('app_logout') }}" class="ml-4 text-gray-300 hover:text-white">Logout</a>
-            {% else %}
-                <a href="{{ path('app_login') }}" class="text-gray-300 hover:text-white">Login</a>
-                <a href="{{ path('user_register') }}" class="ml-4 text-gray-300 hover:text-white">Register</a>
-            {% endif %}
+            <div>
+                <span class="text-gray-300 hover:text-white">
+                    {{ app.user.coins }}
+                    <svg class="w-6 h-6 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </span>
+            </div>
+            <div class="relative text-gray-300">
+                    <span class="text-white">Bonjour, {{ app.user.firstName }} </span>
+                    <div class="relative inline-block text-left">
+                        <button id="user-menu-button" class="ml-4 text-gray-300 hover:text-white focus:outline-none">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Paramètres</a>
+                            <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="text-gray-300 hover:text-white">Login</a>
+                    <a href="{{ path('user_register') }}" class="ml-4 text-gray-300 hover:text-white">Register</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </nav>
+
+<script>
+    document.getElementById('user-menu-button').addEventListener('click', function() {
+        var menu = document.getElementById('user-menu');
+        menu.classList.toggle('hidden');
+    });
+</script>

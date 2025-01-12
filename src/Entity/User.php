@@ -93,6 +93,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?int $currentCartCount = null;
 
+    public function __toString(): string
+    {
+        return $this->email;
+    }
 
     public function __construct()
     {
@@ -227,6 +231,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function updateActivity(): static
+    {
+        $this->_lastActivity = new \DateTimeImmutable();
+
+        return $this;
+    }
+
     public function getCoins(): ?int
     {
         return $this->coins;
@@ -235,6 +246,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCoins(?int $coins): static
     {
         $this->coins = $coins;
+
+        return $this;
+    }
+
+    public function addCoins(int $coins): static
+    {
+        $this->coins += $coins;
+
+        return $this;
+    }
+
+    public function removeCoins(int $coins): static
+    {
+        $this->coins -= $coins;
 
         return $this;
     }
@@ -381,6 +406,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getTotalFamilyCount(): int
+    {
+        return $this->familiesCollection->count() +  $this->createdFamilies->count();
+    }
+
+    public function getFamilyCount(): int
+    {
+        return $this->familiesCollection->count();
+    }
+
+    public function getCreatedFamilyCount(): int
+    {
+        return $this->createdFamilies->count();
     }
 
     public function getBusiness(): ?Business
