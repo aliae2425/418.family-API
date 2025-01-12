@@ -98,6 +98,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
+    public function getFullName(): string
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
     public function __construct()
     {
         $this->_createdAt = new \DateTimeImmutable();
