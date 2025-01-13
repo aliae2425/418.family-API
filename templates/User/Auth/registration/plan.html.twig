@@ -20,7 +20,7 @@
                 <td class="py-2 px-4 border-b">0€</td>
                 <td class="py-2 px-4 border-b">Accès limité aux fonctionnalités de base.</td>
                 <td class="py-2 px-4 border-b">
-                    <a href="#" class="text-blue-500 hover:text-blue-700">Choisir</a>
+                    <a href="{{ path('user_plan_confirm', {'choice': 'free'}) }}" class="text-blue-500 hover:text-blue-700">Choisir</a>
                 </td>
             </tr>
             <tr>
@@ -28,15 +28,15 @@
                 <td class="py-2 px-4 border-b">10€/mois</td>
                 <td class="py-2 px-4 border-b">Accès à toutes les fonctionnalités standard.</td>
                 <td class="py-2 px-4 border-b">
-                    <a href="#" class="text-blue-500 hover:text-blue-700">Choisir</a>
+                    <a href="{{ path('user_plan_confirm', {'choice': 'premium'}) }}" class="text-blue-500 hover:text-blue-700">Choisir</a>
                 </td>
             </tr>
             <tr>
-                <td class="py-2 px-4 border-b">Plan Premium</td>
+                <td class="py-2 px-4 border-b">Plan business</td>
                 <td class="py-2 px-4 border-b">20€/mois</td>
                 <td class="py-2 px-4 border-b">Accès à toutes les fonctionnalités premium avec support prioritaire.</td>
                 <td class="py-2 px-4 border-b">
-                    <a href="#" class="text-blue-500 hover:text-blue-700">Choisir</a>
+                    <a href="{{ path('user_plan_confirm', {'choice': 'business'}) }}" class="text-blue-500 hover:text-blue-700">Choisir</a>
                 </td>
             </tr>
         </tbody>

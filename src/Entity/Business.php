@@ -32,9 +32,13 @@ class Business
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
 
+    #[ORM\Column]
+    private ?bool $activeStatus = null;
+
     public function __construct()
     {
         $this->_createdAt = new \DateTimeImmutable();
+        $this->_updatedAt = new \DateTimeImmutable();  
         $this->users = new ArrayCollection();
     }
 
@@ -64,6 +68,13 @@ class Business
     public function setUpdatedAt(\DateTimeImmutable $_updatedAt): static
     {
         $this->_updatedAt = $_updatedAt;
+
+        return $this;
+    }
+
+    public function Update(): static
+    {
+        $this->_updatedAt = new \DateTimeImmutable();
 
         return $this;
     }
@@ -106,6 +117,18 @@ class Business
     public function setOwner(User $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function isActiveStatus(): ?bool
+    {
+        return $this->activeStatus;
+    }
+
+    public function setActiveStatus(bool $activeStatus): static
+    {
+        $this->activeStatus = $activeStatus;
 
         return $this;
     }
