@@ -428,12 +428,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->createdFamilies->count();
     }
 
-    public function getBusiness(): ?Business
+    public function getRelatedBusiness(): ?Business
     {
         return $this->relatedBusiness;
     }
 
-    public function setBusiness(?Business $business): static
+    public function setRelatedBusiness(?Business $business): static
     {
         $this->relatedBusiness = $business;
 

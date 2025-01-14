@@ -4,9 +4,9 @@
 
 {% block body %}
 <div class="container mx-auto p-4">
-    {% if app.user and app.user.OwnedBusiness %}
-        <h1 class="text-2xl font-bold mb-4">Gestion de vos utilisateurs</h1>
-        <table class="min-w-full bg-white">
+    {% if business %}
+        <h1 class="text-2xl font-bold mb-4">Gestion des utilisateurs</h1>
+        <table class="min-w-full bg-white mb-4">
             <thead>
                 <tr>
                     <th class="py-2 px-4 border-b">Nom</th>
@@ -16,23 +16,40 @@
                 </tr>
             </thead>
             <tbody>
-                {% for user in users %}
+                {# {% for user in users %}
                     <tr>
-                        <td class="py-2 px-4 border-b">xxx</td>
-                        <td class="py-2 px-4 border-b"></td>
-                        <td class="py-2 px-4 border-b"></td>
+                        <td class="py-2 px-4 border-b">{{ user.fullName }}</td>
+                        <td class="py-2 px-4 border-b">{{ user.email }}</td>
+                        <td class="py-2 px-4 border-b">{{ user.roles|join(', ') }}</td>
                         <td class="py-2 px-4 border-b">
-                            <a href="#" class="text-blue-500 hover:text-blue-700">Modifier</a>
-                            <a href="#" class="text-red-500 hover:text-red-700 ml-4">Supprimer</a>
+                            <a href="{{ path('user_edit', {'id': user.id}) }}" class="text-blue-500 hover:text-blue-700">Modifier</a>
+                            <a href="{{ path('user_delete', {'id': user.id}) }}" class="text-red-500 hover:text-red-700 ml-4">Supprimer</a>
                         </td>
                     </tr>
                 {% else %}
                     <tr>
                         <td class="py-2 px-4 border-b text-center" colspan="4">Aucun utilisateur trouvé.</td>
                     </tr>
-                {% endfor %}
+                {% endfor %} #}
             </tbody>
         </table>
+
+        <h2 class="text-xl font-bold mb-4">Ajouter un utilisateur</h2>
+        {{ form_start(form) }}
+        <div class="mb-4">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-input mt-1 block w-full'}}) }}
+            {{ form_errors(form.email) }}
+        </div>
+        <div class="mb-4">
+            {{ form_label(form.roles) }}
+            {{ form_widget(form.roles, {'attr': {'class': 'form-checkbox mt-1 block'}}) }}
+            {{ form_errors(form.roles) }}
+        </div>
+        <div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ajouter</button>
+        </div>
+        {{ form_end(form) }}
     {% else %}
         <p class="text-red-500">Vous n'avez pas de business associé.</p>
         <a href="{{ path('user_plan') }}" class="text-blue-500 hover:text-blue-700">Créer un business</a>
