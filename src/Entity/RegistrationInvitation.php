@@ -28,6 +28,20 @@ class RegistrationInvitation
     #[ORM\Column(length: 255)]
     private ?string $Role = null;
 
+    #[ORM\ManyToOne(inversedBy: 'registrationInvitations')]
+    private ?Business $business = null;
+
+
+    public function __construct(string $email, string $Role, Business $business)
+    {
+        $this->email = $email;
+        $this->Role = $Role;
+        $this->business = $business;
+        $this->token = bin2hex(random_bytes(32));
+        $this->createdAt = new \DateTimeImmutable();
+        $this->expireAt = $this->createdAt->modify('+2 days');
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +103,18 @@ class RegistrationInvitation
     public function setRole(string $Role): static
     {
         $this->Role = $Role;
+
+        return $this;
+    }
+
+    public function getBusiness(): ?Business
+    {
+        return $this->business;
+    }
+
+    public function setBusiness(?Business $business): static
+    {
+        $this->business = $business;
 
         return $this;
     }

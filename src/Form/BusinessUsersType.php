@@ -24,7 +24,6 @@ class BusinessUsersType extends AbstractType
                     'Gestionnaire de contenu' => 'BUSINESS_EDITOR',
                     'Administrateur' => 'BUSINESS_ADMIN',
                 ],
-                'expanded' => true,
             ]);
     }
 

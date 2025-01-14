@@ -35,11 +35,18 @@ class Business
     #[ORM\Column]
     private ?bool $activeStatus = null;
 
+    /**
+     * @var Collection<int, RegistrationInvitation>
+     */
+    #[ORM\OneToMany(targetEntity: RegistrationInvitation::class, mappedBy: 'business')]
+    private Collection $registrationInvitations;
+
     public function __construct()
     {
         $this->_createdAt = new \DateTimeImmutable();
         $this->_updatedAt = new \DateTimeImmutable();  
         $this->users = new ArrayCollection();
+        $this->registrationInvitations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,6 +136,36 @@ class Business
     public function setActiveStatus(bool $activeStatus): static
     {
         $this->activeStatus = $activeStatus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RegistrationInvitation>
+     */
+    public function getRegistrationInvitations(): Collection
+    {
+        return $this->registrationInvitations;
+    }
+
+    public function addRegistrationInvitation(RegistrationInvitation $registrationInvitation): static
+    {
+        if (!$this->registrationInvitations->contains($registrationInvitation)) {
+            $this->registrationInvitations->add($registrationInvitation);
+            $registrationInvitation->setBusiness($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRegistrationInvitation(RegistrationInvitation $registrationInvitation): static
+    {
+        if ($this->registrationInvitations->removeElement($registrationInvitation)) {
+            // set the owning side to null (unless already changed)
+            if ($registrationInvitation->getBusiness() === $this) {
+                $registrationInvitation->setBusiness(null);
+            }
+        }
 
         return $this;
     }
