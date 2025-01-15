@@ -31,12 +31,16 @@ class RegistrationInvitation
     #[ORM\ManyToOne(inversedBy: 'registrationInvitations')]
     private ?Business $business = null;
 
+    #[ORM\Column]
+    private ?bool $State = false;
+
 
     public function __construct(string $email, string $Role, Business $business)
     {
         $this->email = $email;
         $this->Role = $Role;
         $this->business = $business;
+        $this->State = false;
         $this->token = bin2hex(random_bytes(32));
         $this->createdAt = new \DateTimeImmutable();
         $this->expireAt = $this->createdAt->modify('+2 days');
@@ -118,4 +122,24 @@ class RegistrationInvitation
 
         return $this;
     }
+
+    public function isState(): ?bool
+    {
+        return $this->State;
+    }
+
+    public function setState(bool $State): static
+    {
+        $this->State = $State;
+
+        return $this;
+    }
+
+    public function close(): static
+    {
+        $this->State = true;
+
+        return $this;
+    }
+
 }

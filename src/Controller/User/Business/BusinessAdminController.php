@@ -3,8 +3,9 @@
 namespace App\Controller\User\Business;
 
 use App\Entity\RegistrationInvitation;
+use App\Entity\User;
 use App\Form\BusinessUsersType;
-use App\Form\RegistrationFormType;
+use App\Form\InvitationFormType;
 use App\Repository\BusinessRepository;
 use App\Repository\RegistrationInvitationRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,24 +14,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class BusinessAdminController extends AbstractController
 {
-    #[Route('/business/admin', name: 'User_business_admin')]
+    #[IsGranted('ROLE_USER')]   
+    #[Route('/business/admin', name: 'User_business_admin' )]
     public function index(BusinessRepository $repo, Request $request, EntityManagerInterface $em, MailerInterface $mailer): Response
     {
         $user = $this->getUser();
-        $business = $repo->findOneBy(['owner' => $user]);
-        $users = $business->getUsers();
+        if (!$user) {
+            $this->addFlash('danger', 'Vous devez être connecté pour accéder à cette page.');
+            return $this->redirectToRoute('app_login');
+        }
 
+        $business = $repo->findOneBy(['owner' => $user]);
         $form = $this->createForm(BusinessUsersType::class);
         $form->handleRequest($request);
 
-        dump($form->isSubmitted(), $form->getData());
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $invitation = new RegistrationInvitation($data['email'], $data['roles'], $business);
@@ -38,7 +42,6 @@ class BusinessAdminController extends AbstractController
             $em->persist($invitation);
             $em->flush();
 
-            // Envoi de l'email
             $url = $this->generateUrl('registration_confirm', ['token' => $invitation->getToken()], UrlGeneratorInterface::ABSOLUTE_URL);
             $email = (new TemplatedEmail())
                 ->from('truc@example.com')
@@ -57,13 +60,18 @@ class BusinessAdminController extends AbstractController
 
         return $this->render('User/Business/admin.html.twig', [
             'business' => $business,
-            'users' => $users,
             'form' => $form->createView(),
         ]);
     }
 
     #[Route('/register/invitation/{token}', name: 'registration_confirm')]
-    public function confirmInvitation($token, Request $request, EntityManagerInterface $em, RegistrationInvitationRepository $repo): Response
+    public function confirmInvitation(
+                        string $token,
+                        Request $request,
+                        UserPasswordHasherInterface $userPasswordHasher,
+                        EntityManagerInterface $em,
+                        RegistrationInvitationRepository $repo
+                ): Response
     {
         $invitation = $repo->findOneBy(['token' => $token]);
 
@@ -72,25 +80,33 @@ class BusinessAdminController extends AbstractController
         }
 
         dump($invitation);
-        $form = $this->createForm(RegistrationFormType::class);
-        $form->get('email')->setData($invitation->getEmail());
+        $user = new User();
+        $form = $this->createForm(InvitationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
+            /** @var string $plainPassword */
+            $plainPassword = $form->get('plainPassword')->getData();
+
+            // encode the plain password
+            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));           
             $user->setRoles([$invitation->getRole()]);
-            $user->setBusiness($invitation->getBusiness());
+            $user->setRelatedBusiness($invitation->getBusiness());
             $user->setEmail($invitation->getEmail());
+            $user->setVerified(true);
 
             $em->persist($user);
-            $em->remove($invitation);
+
+            $invitation->close();
+            $em->persist($invitation);
+
             $em->flush();
 
             $this->addFlash('success', 'Votre compte a été créé avec succès.');
             return $this->redirectToRoute('public.home');
         }
 
-        return $this->render('User/Auth/registration/register.html.twig', [
+        return $this->render('User/Auth/registration/registerInvitation.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }

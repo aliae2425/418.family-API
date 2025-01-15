@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\BrandCategory;
 use App\Entity\Brands;
+use App\Entity\Business;
 use App\Entity\Cart;
 use App\Entity\Family;
 use App\Entity\FamilyCategory;
@@ -56,6 +57,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Gestion des utilisateurs');
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('Historique panier', 'fas fa-shopping-cart', Cart::class);
+        yield MenuItem::linkToCrud('Entreprises', 'fas fa-building', Business::class);
         yield MenuItem::section('Gestion des familles');
         yield MenuItem::linkToCrud('Famille', 'fas fa-cube', Family::class);
         yield MenuItem::linkToCrud('Arboresence', 'fas fa-list', FamilyCategory::class);

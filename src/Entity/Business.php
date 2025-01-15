@@ -25,7 +25,7 @@ class Business
     /**
      * @var Collection<int, User>
      */
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'business')]
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'relatedBusiness')]
     private Collection $users;
 
     #[ORM\OneToOne(inversedBy: 'ownedBusiness', cascade: ['persist', 'remove'])]
@@ -98,7 +98,7 @@ class Business
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
-            $user->setBusiness($this);
+            $user->setRelatedBusiness($this);
         }
 
         return $this;
@@ -108,12 +108,17 @@ class Business
     {
         if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($user->getBusiness() === $this) {
-                $user->setBusiness(null);
+            if ($user->getRelatedBusiness() === $this) {
+                $user->setRelatedBusiness(null);
             }
         }
 
         return $this;
+    }
+
+    public function getUsersCount(): int
+    {
+        return $this->users->count();
     }
 
     public function getOwner(): ?User
@@ -168,5 +173,10 @@ class Business
         }
 
         return $this;
+    }
+
+    public function getPendingInvitations(): int
+    {
+        return $this->registrationInvitations->count();
     }
 }
