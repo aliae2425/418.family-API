@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class UserController extends AbstractController
 {
-    #[Route('/user', name: 'user_profile')]
+    #[Route('/profile', name: 'user_profile')]
     public function index(): Response
     {
         if ($this->getUser() === null) {

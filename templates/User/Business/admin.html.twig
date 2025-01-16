@@ -9,28 +9,26 @@
         <table class="min-w-full bg-white mb-4">
             <thead>
                 <tr>
-                    <th class="py-2 px-4 border-b">Nom</th>
                     <th class="py-2 px-4 border-b">Email</th>
                     <th class="py-2 px-4 border-b">Rôle</th>
                     <th class="py-2 px-4 border-b">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {# {% for user in users %}
+                {% for user in business.users %}
                     <tr>
-                        <td class="py-2 px-4 border-b">{{ user.fullName }}</td>
                         <td class="py-2 px-4 border-b">{{ user.email }}</td>
                         <td class="py-2 px-4 border-b">{{ user.roles|join(', ') }}</td>
                         <td class="py-2 px-4 border-b">
-                            <a href="{{ path('user_edit', {'id': user.id}) }}" class="text-blue-500 hover:text-blue-700">Modifier</a>
-                            <a href="{{ path('user_delete', {'id': user.id}) }}" class="text-red-500 hover:text-red-700 ml-4">Supprimer</a>
+                            <a href="#" class="text-blue-500 hover:text-blue-700">Modifier</a>
+                            <a href="#" class="text-red-500 hover:text-red-700 ml-4">Supprimer</a>
                         </td>
                     </tr>
                 {% else %}
                     <tr>
                         <td class="py-2 px-4 border-b text-center" colspan="4">Aucun utilisateur trouvé.</td>
                     </tr>
-                {% endfor %} #}
+                {% endfor %}
             </tbody>
         </table>
 

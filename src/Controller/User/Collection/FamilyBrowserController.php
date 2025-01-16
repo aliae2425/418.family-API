@@ -8,10 +8,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class FamilyBrowserController extends AbstractController
 {
-    #[Route('/family/browser', name: 'app_family_browser')]
+    #[Route('/profile/browser', name: 'app_family_browser')]
     public function index(): Response
     {
-        return $this->render('family_browser/index.html.twig', [
+        return $this->render('User/Collection/family_browser/index.html.twig', [
             'controller_name' => 'FamilyBrowserController',
         ]);
     }
