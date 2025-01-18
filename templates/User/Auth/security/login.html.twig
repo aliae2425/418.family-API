@@ -14,16 +14,16 @@
         <div class="title_container">
             <p class="title">Connectez-vous à votre compte</p>
             <span class="subtitle">
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
-
                 {% if app.user %}
                     <div class="mb-3">
                         Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
                     </div>
                 {% else %}
-                    Commencez avec notre application, créez simplement un compte et profitez de l'expérience.
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% else %}
+                        Commencez avec notre application, créez simplement un compte et profitez de l'expérience.
+                    {% endif %}
                 {% endif %}
             </span>
         </div>
@@ -50,34 +50,30 @@
                 id="password" autocomplete="current-password" 
                 type="password" class="input_field" >
         </div>
-
-            {# <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"> #}
+        <span><a href="{{path('app_forgot_password_request')}}">mots de passe oublier ? </a></span>
 
             <input type="hidden" name="_csrf_token" 
                 value="{{ csrf_token('authenticate') }}"
             >
-
-                {# Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                See https://symfony.com/doc/current/security/remember_me.html #}
 
             <div class="checkbox mb-3">
                 <input type="checkbox" name="_remember_me" id="_remember_me">
                 <label for="_remember_me">Remember me</label>
             </div>
 
-        <button title="Sign In" type="submit" class="sign-in_btn">
-            <span>Connexion</span>
-        </button>
+            <button title="Sign In" type="submit" class="sign-in_btn">
+                <span>Connexion</span>
+            </button>
 
-        <div class="separator">
-            <hr class="line">
-            <span>ou</span>
-            <hr class="line">
-        </div>
-        <a title="Register" href="{{ path('user_register') }}" class="sign-in_ggl">
-            <span>s'inscrire</span>
-        </a>
-        <p class="note">Conditions générales d'utilisation</p>
+            <div class="separator">
+                <hr class="line">
+                <span>ou</span>
+                <hr class="line">
+            </div>
+            <a title="Register" href="{{ path('user_register') }}" class="sign-in_ggl">
+                <span>s'inscrire</span>
+            </a>
+            <p class="note">Conditions générales d'utilisation</p>
         </form>
 
     </div> 

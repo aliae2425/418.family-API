@@ -29,6 +29,10 @@ body{
         height: 100%;
     }
 
+    .alert{
+      color : red;
+    }
+
     .form_container {
     width: fit-content;
     height: fit-content;
