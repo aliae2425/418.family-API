@@ -19,12 +19,13 @@ security:
             form_login:
                 login_path: app_login
                 check_path: app_login
-                enable_csrf: true
+                enable_csrf: false
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
             logout:
                 path: app_logout
+                target: app_login
                 # where to redirect after logout
                 # target: app_any_route
 

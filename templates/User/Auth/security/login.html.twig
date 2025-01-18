@@ -52,9 +52,10 @@
         </div>
         <span><a href="{{path('app_forgot_password_request')}}">mots de passe oublier ? </a></span>
 
+            {# {{ dump( csrf_token('authenticate') ) }}
             <input type="hidden" name="_csrf_token" 
                 value="{{ csrf_token('authenticate') }}"
-            >
+            > #}
 
             <div class="checkbox mb-3">
                 <input type="checkbox" name="_remember_me" id="_remember_me">
