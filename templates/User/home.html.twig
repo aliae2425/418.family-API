@@ -1,23 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'User/UserBase.html.twig' %}
 
-{% block title %}Profil : {{ user.fullName }} {% endblock %}
+{% block content %}
 
-{% block body %}
-<div class="flex">
-    <!-- Sidebar -->
-    <div class="w-1/4 p-4">
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-xl font-bold mb-4">Menu</h2>
-            <ul>
-                <li class="mb-2"><a href="#" class="hover:text-gray-400">Dashboard</a></li>
-                <li class="mb-2"><a href="{{ path('User_business_admin')}}" class="hover:text-gray-400">Utilisateurs</a></li>
-                <li class="mb-2"><a href="#" class="hover:text-gray-400">Détails</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="w-3/4 p-4">
+<!-- Main Content -->
         <div class="grid grid-cols-3 md:grid-cols-3 gap-4">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-xl font-bold mb-4">Informations Personnelles</h2>
@@ -40,6 +25,4 @@
                 <p>Coins: {{ user.coins ?? 0 }}</p>
             </div>
         </div>
-    </div>
-</div>
 {% endblock %}

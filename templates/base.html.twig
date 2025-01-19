@@ -11,7 +11,7 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body>
+    <body class="body_barground dark:body_barground_dark">
         {{ include("partial/navbar.html.twig") }}
         {% block body %}{% endblock %}
     </body>

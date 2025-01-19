@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil : {{ user.fullName }} {% endblock %}
+
+{% block body %}
+<div class="flex">
+    <!-- Sidebar -->
+    <div class="w-1/4 p-4">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-bold mb-4">Menu</h2>
+            <ul>
+                <li class="mb-2"><a href="#" class="hover:text-gray-400">Dashboard</a></li>
+                <li class="mb-2"><a href="{{ path('User_business_admin')}}" class="hover:text-gray-400">Utilisateurs</a></li>
+                <li class="mb-2"><a href="#" class="hover:text-gray-400">Détails</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="w-3/4 p-4">
+    {% block content %}
+    
+    {% endblock %}
+    </div>
+</div>
+{% endblock %}
