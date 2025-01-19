@@ -111,4 +111,10 @@ class BusinessAdminController extends AbstractController
         ]);
     }
 
+    #[Route('/Profile/Business/Settings', name: 'User_business_settings')]
+    public function BusinessSettings(): Response
+    {
+        return $this->render('User/Business/settings.html.twig');
+    }
+
 }
