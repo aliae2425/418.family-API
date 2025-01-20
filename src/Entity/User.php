@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cette adresse email')]
@@ -60,21 +61,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Adress::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private Collection $adresses;
 
-// section user data
-    #[ORM\Column(nullable: true)]
-    private ?int $coins = null;
-
     /**
      * @var Collection<int, Cart>
      */
     #[ORM\OneToMany(targetEntity: Cart::class, mappedBy: 'user')]
     private Collection $carts;
-
-    /**
-     * @var Collection<int, Family>
-     */
-    #[ORM\ManyToMany(targetEntity: Family::class)]
-    private Collection $familiesCollection;
 
     /**
      * @var Collection<int, Family>
@@ -93,6 +84,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?int $currentCartCount = null;
 
+    #[ORM\ManyToOne(inversedBy: 'user')]
+    private ?UserCollection $userCollection = null;
+
     public function __toString(): string
     {
         return $this->email;
@@ -109,7 +103,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->adresses = new ArrayCollection();
         
         $this->carts = new ArrayCollection();
-        $this->familiesCollection = new ArrayCollection();
         $this->createdFamilies = new ArrayCollection();
     }
 
@@ -243,32 +236,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCoins(): ?int
-    {
-        return $this->coins;
-    }
-
-    public function setCoins(?int $coins): static
-    {
-        $this->coins = $coins;
-
-        return $this;
-    }
-
-    public function addCoins(int $coins): static
-    {
-        $this->coins += $coins;
-
-        return $this;
-    }
-
-    public function removeCoins(int $coins): static
-    {
-        $this->coins -= $coins;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Adress>
      */
@@ -362,30 +329,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Family>
      */
-    public function getFamilliesCollection(): Collection
-    {
-        return $this->familiesCollection;
-    }
-
-    public function addFamilliesCollection(Family $familly): static
-    {
-        if (!$this->familiesCollection->contains($familly)) {
-            $this->familiesCollection->add($familly);
-        }
-
-        return $this;
-    }
-
-    public function removeFamilliesCollection(Family $familly): static
-    {
-        $this->familiesCollection->removeElement($familly);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Family>
-     */
     public function getCreatedFamillies(): Collection
     {
         return $this->createdFamilies;
@@ -411,16 +354,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
-    }
-
-    public function getTotalFamilyCount(): int
-    {
-        return $this->familiesCollection->count() +  $this->createdFamilies->count();
-    }
-
-    public function getFamilyCount(): int
-    {
-        return $this->familiesCollection->count();
     }
 
     public function getCreatedFamilyCount(): int
@@ -465,6 +398,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCurrentCartCount(?int $currentCartCount): static
     {
         $this->currentCartCount = $currentCartCount;
+
+        return $this;
+    }
+
+    public function getUserCollection(): ?UserCollection
+    {
+        return $this->userCollection;
+    }
+
+    public function setUserCollection(?UserCollection $userCollection): static
+    {
+        $this->userCollection = $userCollection;
 
         return $this;
     }

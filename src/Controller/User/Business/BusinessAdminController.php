@@ -37,7 +37,7 @@ class BusinessAdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $invitation = new RegistrationInvitation($data['email'], $data['roles'], $business);
+            $invitation = new RegistrationInvitation($data['email'], $data['roles'], $business, $user->getUserCollection());
             
             $em->persist($invitation);
             $em->flush();
@@ -88,6 +88,9 @@ class BusinessAdminController extends AbstractController
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
 
+            $collection  = $invitation->getCollection();
+            $collection->addUser($user);
+
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));           
             $user->setRoles([$invitation->getRole()]);
@@ -95,6 +98,7 @@ class BusinessAdminController extends AbstractController
             $user->setEmail($invitation->getEmail());
             $user->setVerified(true);
 
+            $em->persist($collection);
             $em->persist($user);
 
             $invitation->close();

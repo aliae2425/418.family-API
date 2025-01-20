@@ -34,8 +34,15 @@ class RegistrationInvitation
     #[ORM\Column]
     private ?bool $State = false;
 
+        #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?UserCollection $collection = null;
 
-    public function __construct(string $email, string $Role, Business $business)
+    public function getCollection(): ?UserCollection
+    {
+        return $this->collection;
+    }
+
+    public function __construct(string $email, string $Role, Business $business, UserCollection $collection)
     {
         $this->email = $email;
         $this->Role = $Role;
@@ -44,6 +51,7 @@ class RegistrationInvitation
         $this->token = bin2hex(random_bytes(32));
         $this->createdAt = new \DateTimeImmutable();
         $this->expireAt = $this->createdAt->modify('+2 days');
+        $this->collection = $collection;
     }
 
     public function getId(): ?int
