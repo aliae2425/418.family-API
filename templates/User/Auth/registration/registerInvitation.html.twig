@@ -4,51 +4,53 @@
 
 {% block body %}
 
+<div class="flex h-screen items-center justify-center">
+    <div class="bg-white dark:bg-gray-800 p-20 rounded-lg">
 
-<div class="flex h-screen">
-    <div class="m-auto">
-
-        {# /* From Uiverse.io by Yaya12085 */  #}
         {% for flash_error in app.flashes('verify_email_error') %}
             <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
         {% endfor %}
 
         {{ form_errors(registrationForm) }}
 
-        {{ form_start(registrationForm, { 'attr' : { 'class': 'form' } }) }}
-            <p class="title">Inscription</p>
+        {{ form_s   tart(registrationForm, { 'attr' : { 'class': 'space-y-6' } }) }}
+            <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">Inscription</p>
 
-            <p class="message">Inscrivez-vous maintenant et obtenez un accès complet à notre application. </p>
-            <div class="flex">
-                <label>
-                    {{ form_widget(registrationForm.lastName) }}
-                    <span>{{ form_label(registrationForm.lastName) }}</span>
+            <p class="text-gray-600 dark:text-gray-400">Inscrivez-vous maintenant et obtenez un accès complet à notre application.</p>
+            <div class="flex space-x-4">
+                <label class="block w-full">
+                    {{ form_widget(registrationForm.lastName, { 'attr': { 'class': 'input' } }) }}
+                    <span class="text-gray-700 dark:text-gray-300">{{ form_label(registrationForm.lastName) }}</span>
                 </label>
 
-                <label>
-                    {{ form_widget(registrationForm.firstName) }}
-                    <span>{{ form_label(registrationForm.firstName) }}</span>
+                <label class="block w-full">
+                    {{ form_widget(registrationForm.firstName, { 'attr': { 'class': 'input' } }) }}
+                    <span class="text-gray-700 dark:text-gray-300">{{ form_label(registrationForm.firstName) }}</span>
                 </label>
             </div>
 
-            <label>
-                {{ form_widget(registrationForm.plainPassword.first) }}
-                <span>{{ form_label(registrationForm.plainPassword.first) }}</span>
+            <label class="block">
+                {{ form_widget(registrationForm.plainPassword.first, { 'attr': { 'class': 'input' } }) }}
+                <span class="text-gray-700 dark:text-gray-300">{{ form_label(registrationForm.plainPassword.first) }}</span>
             </label>
 
-            <label>
-                {{ form_widget(registrationForm.plainPassword.second) }}
-                <span>{{ form_label(registrationForm.plainPassword.second) }}</span>
+            <label class="block">
+                {{ form_widget(registrationForm.plainPassword.second, { 'attr': { 'class': 'input' } }) }}
+                <span class="text-gray-700 dark:text-gray-300">{{ form_label(registrationForm.plainPassword.second) }}</span>
             </label>
 
-            {{ form_widget(registrationForm.agreeTerms) }}
+            <div class="flex items-center">
+                {{ form_widget(registrationForm.agreeTerms, { 'attr': { 'class': 'mr-2' } }) }}
+                <span class="text-gray-700 dark:text-gray-300">{{ form_label(registrationForm.agreeTerms) }}</span>
+            </div>
 
-            {{ form_widget(registrationForm.submit) }}
+            <div>
+                {{ form_widget(registrationForm.submit, { 'attr': { 'class': 'btn' } }) }}
+            </div>
 
-            <p class="signin">Vous avez déjà un compte ? <a href="{{path('app_login')}}">Se connecter</a> </p>
+            <p class="text-gray-600 dark:text-gray-400">Vous avez déjà un compte ? <a href="{{path('app_login')}}" class="text-blue-500 dark:text-blue-400">Se connecter</a></p>
 
         {{ form_end(registrationForm) }}
-
 
     </div>
 </div>

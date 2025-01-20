@@ -1,85 +1,50 @@
-<nav class="bg-gray-800 p-4">
+<nav class="bg-slate-400 text-slate-900 dark:bg-gray-800 dark:text-gray-100 py-4">
     <div class="container mx-auto flex justify-center items-center space-x-8">
         <div class="text-white text-lg font-semibold">
-            <a href="/">418 Family browser</a>
+            <a href="{{ path('public.home') }}">Logo</a>
         </div>
         <ul class="flex space-x-4">
-            <li><a href="/" class="text-gray-300 hover:text-white">Home</a></li>
-            <li><a href="{{ path('public_asset_index') }}" class="text-gray-300 hover:text-white">Familles</a></li>
+            <li><a href="{{ path('public.home') }}" class="text-gray-700 dark:text-gray-300 hover:text-white">Home</a></li>
+            <li><a href="{{ path('public_asset_index') }}" class="text-gray-700 dark:text-gray-300 hover:text-white">Familles</a></li>
         </ul>
         <div class="flex items-center space-x-4">
-            <div>
-                <a href="{{ path('user_cart_index') }}" class="text-gray-300 hover:text-white">
-                    <svg class="w-6 h-6 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                    </svg>
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        {% if app.user.currentCartCount > 0 %}
-                            <span class="bg-red-500 text-white rounded-full px-2 py-1 text-xs ml-2">{{ app.user.currentCartCount |default('')}}</span>
-                        {% endif %}
-                    {% endif %}
-                </a>
-            </div>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <div>
-                <span class="text-gray-300 hover:text-white">
-                    {{ app.user.coins }}
-                    <svg class="w-6 h-6 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                </span>
-            </div>
-            <div class="relative text-gray-300">
-                    <span class="text-white">Bonjour, {{ app.user.firstName }} </span>
+                <div>
+                    <a href="{{ path('user_cart_index') }}" class="text-gray-300 hover:text-white">
+                        <svg class="w-6 h-6 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        {% if app.user.currentCartCount > 0 %}
+                            <span class="bg-red-500 text-white rounded-full px-2 py-1 text-xs ml-2">{{ app.user.currentCartCount |default('') }}</span>
+                        {% endif %}
+                    </a>
+                </div>
+                <div>
+                    <span class="text-gray-300 hover:text-white">
+                        {{ app.user.coins }}
+                        <svg class="w-6 h-6 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </span>
+                </div>
+                <div class="relative text-gray-300">
+                    <span class="text-white">Bonjour, {{ app.user.firstName }}</span>
                     <div class="relative inline-block text-left">
                         <button id="user-menu-button" class="ml-4 text-gray-300 hover:text-white focus:outline-none">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
-                        <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
-                            <a href="{{path('user_profile')}}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-                                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                </svg>
-                                Profile
-                            </a>
-                            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-                                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                                </svg>
-                                Collection
-                            </a>
-                        {% if app.user.ownedBusiness %}
-                            <div class="border-t border-gray-200 my-1"></div>
-                            <a href="{{path('User_business_settings')}}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-                                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                                Parametre
-                            </a>
-                            <a href="{{path('User_business_admin')}}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-                                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-                                </svg>
-                                Ajouter utilisateur
-                            </a>
-                        {% endif %}
-                            <div class="border-t border-gray-200 my-1"></div>
-                            <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-                                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                                </svg>
-                                Logout
-                            </a>
+                        <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-lg py-1 z-20">
+                            <a href="{{ path('user_profile') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-700">Profil</a>
+                            <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-700">Logout</a>
                         </div>
                     </div>
-                {% else %}
-                    <a href="{{ path('app_login') }}" class="text-gray-300 hover:text-white">Login</a>
-                    <a href="{{ path('user_register') }}" class="ml-4 text-gray-300 hover:text-white">Register</a>
-                {% endif %}
-            </div>
+                </div>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="hover:text-white">Login</a>
+                <a href="{{ path('user_register') }}" class="ml-4 hover:text-white">Register</a>
+            {% endif %}
         </div>
     </div>
 </nav>

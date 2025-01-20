@@ -111,6 +111,11 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+        if ($user->getCoins() < $family->getPrice()) {
+            $this->addFlash('danger', 'Vous n\'avez pas assez de pièces pour acheter cet article');
+            return $this->redirectToRoute('public_asset_index');
+        }
+
         $cart = new Cart();
         $cart->setUser($user);
         $cart->addFamilly($family);
