@@ -1,11 +1,11 @@
-<nav class="bg-slate-400 text-slate-900 dark:bg-gray-800 dark:text-gray-100 py-4">
+<nav class="bg-gray-400 text-slate-900 dark:bg-gray-800 dark:text-gray-100 py-4">
     <div class="container mx-auto flex justify-center items-center space-x-8">
         <div class="text-white text-lg font-semibold">
             <a href="{{ path('public.home') }}">Logo</a>
         </div>
         <ul class="flex space-x-4">
-            <li><a href="{{ path('public.home') }}" class="text-gray-700 dark:text-gray-300 hover:text-white">Home</a></li>
-            <li><a href="{{ path('public_asset_index') }}" class="text-gray-700 dark:text-gray-300 hover:text-white">Familles</a></li>
+            <li><a href="{{ path('public.home') }}" class="text-gray-300 hover:text-white">Home</a></li>
+            <li><a href="{{ path('public_asset_index') }}" class="text-gray-300 hover:text-white">Familles</a></li>
         </ul>
         <div class="flex items-center space-x-4">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -21,7 +21,7 @@
                 </div>
                 <div>
                     <span class="text-gray-300 hover:text-white">
-                        {{ app.user.coins }}
+                        {{ app.user.userCollection.Coins }}
                         <svg class="w-6 h-6 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
@@ -36,14 +36,14 @@
                             </svg>
                         </button>
                         <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-lg py-1 z-20">
-                            <a href="{{ path('user_profile') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-700">Profil</a>
-                            <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-700">Logout</a>
+                            <a href="{{ path('user_profile') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">Profil</a>
+                            <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">Logout</a>
                         </div>
                     </div>
                 </div>
             {% else %}
-                <a href="{{ path('app_login') }}" class="hover:text-white">Login</a>
-                <a href="{{ path('user_register') }}" class="ml-4 hover:text-white">Register</a>
+                <a href="{{ path('app_login') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</a>
+                <a href="{{ path('user_register') }}" class="ml-4 text-white font-bold py-2 px-4 rounded">Register</a>
             {% endif %}
         </div>
     </div>

@@ -7,11 +7,12 @@ use App\Entity\UserCollection;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserFixtures extends Fixture implements FixtureGroupInterface
+class UserFixtures extends Fixture implements FixtureGroupInterface, OrderedFixtureInterface
 {
 
     public function __construct(
@@ -52,6 +53,11 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
     public static function getGroups(): array
     {
         return ['user'];
+    }
+
+    public function getOrder(): int
+    {
+        return 5;
     }
 
 }

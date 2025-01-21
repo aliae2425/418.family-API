@@ -413,4 +413,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getCoins():int
+    {
+       return $this->userCollection->getCoins();
+    }
+
+    public function addCoins(int $coins):static
+    {
+        $this->userCollection->setCoins($this->userCollection->getCoins() +  $coins);
+
+        return $this;
+    }
+
+    public function removeCoins(int $coins):static
+    {
+        $this->userCollection->setCoins($this->userCollection->getCoins() -  $coins);
+
+        return $this;
+    }
+
+    public function addFamilliesCollection(Family $family):static
+    {
+        $this->userCollection->addFamilly($family);
+
+        return $this;
+    }
+
+    public function getFamilyCount():int
+    {
+        return $this->userCollection->getFamillies()->count();
+    }
 }

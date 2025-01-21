@@ -6,9 +6,10 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Filesystem\Filesystem;
 use App\Entity\BrandCategory;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-class BrandCategoryFixtures extends Fixture
+class BrandCategoryFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -29,5 +30,10 @@ class BrandCategoryFixtures extends Fixture
             $brandCategory->setUpdatedAt(new \DateTimeImmutable());
             $manager->persist($brandCategory);
         }
+    }
+
+    public function getOrder(): int
+    {
+        return 1;
     }
 }
