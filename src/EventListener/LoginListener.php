@@ -24,8 +24,12 @@ final class LoginListener
     public function onSecurityAuthenticationSuccess(AuthenticationSuccessEvent $event): void
     {
         $user = $this->security->getUser();
-        $user->setLastActivity(new \DateTimeImmutable());
-        $this->em->persist($user);
-        $this->em->flush();
+        if($user === null) {
+            return;
+        }else{
+            $user->setLastActivity(new \DateTimeImmutable());
+            $this->em->persist($user);
+            $this->em->flush();
+        }
     }
 }

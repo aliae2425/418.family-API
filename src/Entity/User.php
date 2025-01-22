@@ -75,17 +75,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 // section entreprise
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    private ?Business $relatedBusiness = null;
-
-    #[ORM\OneToOne(mappedBy: 'owner', cascade: ['persist', 'remove'])]
-    private ?Business $ownedBusiness = null;
-
     #[ORM\Column(nullable: true)]
     private ?int $currentCartCount = null;
 
     #[ORM\ManyToOne(inversedBy: 'user')]
     private ?UserCollection $userCollection = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Plan = null;
 
     public function __toString(): string
     {
@@ -101,9 +98,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->_createdAt = new \DateTimeImmutable();
         $this->adresses = new ArrayCollection();
-        
         $this->carts = new ArrayCollection();
         $this->createdFamilies = new ArrayCollection();
+
+        
     }
 
     public function getId(): ?int
@@ -361,35 +359,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->createdFamilies->count();
     }
 
-    public function getRelatedBusiness(): ?Business
-    {
-        return $this->relatedBusiness;
-    }
-
-    public function setRelatedBusiness(?Business $business): static
-    {
-        $this->relatedBusiness = $business;
-
-        return $this;
-    }
-
-    public function getOwnedBusiness(): ?Business
-    {
-        return $this->ownedBusiness;
-    }
-
-    public function setOwnedBusiness(Business $ownedBusiness): static
-    {
-        // set the owning side of the relation if necessary
-        if ($ownedBusiness->getOwner() !== $this) {
-            $ownedBusiness->setOwner($this);
-        }
-
-        $this->ownedBusiness = $ownedBusiness;
-
-        return $this;
-    }
-
     public function getCurrentCartCount(): ?int
     {
         return $this->currentCartCount;
@@ -443,5 +412,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getFamilyCount():int
     {
         return $this->userCollection->getFamillies()->count();
+    }
+
+    public function getPlan(): ?string
+    {
+        return $this->Plan;
+    }
+
+    public function setPlan(?string $Plan): static
+    {
+        $this->Plan = $Plan;
+
+        return $this;
     }
 }

@@ -30,6 +30,10 @@ class UserCollection
     #[ORM\ManyToMany(targetEntity: family::class, inversedBy: 'userCollections')]
     private Collection $famillies;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $owner = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -103,6 +107,18 @@ class UserCollection
     public function removeFamilly(family $familly): static
     {
         $this->famillies->removeElement($familly);
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(User $owner): static
+    {
+        $this->owner = $owner;
 
         return $this;
     }

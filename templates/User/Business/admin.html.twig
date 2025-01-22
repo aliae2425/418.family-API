@@ -4,9 +4,9 @@
 
 {% block content %}
 <div class="container mx-auto p-4">
-    {% if business %}
-        <h1 class="text-2xl font-bold mb-4">Gestion des utilisateurs</h1>
-        {{ form_start(form, {'attr': {'class': 'flex items-center space-x-4'}}) }}
+    <h1 class="text-2xl font-bold mb-4">Mon équipe</h1>
+    {% if app.user.plan == "business" %}
+        {{ form_start(form, {'attr': {'class': 'flex items-center space-x-4 mb-4'}}) }}
             <div class="flex items-center space-x-4">
                 <div class="mb-4">
                     {{ form_label(form.email) }}
@@ -19,39 +19,48 @@
                     {{ form_errors(form.roles) }}
                 </div>
                 <div>
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ajouter</button>
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ajouter un membre</button>
                 </div>
             </div>
         {{ form_end(form) }}
-        <table class="min-w-full bg-white mb-4">
-            <thead>
-                <tr>
-                    <th class="py-2 px-4 border-b">Email</th>
-                    <th class="py-2 px-4 border-b">Rôle</th>
-                    <th class="py-2 px-4 border-b">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in business.users %}
-                    <tr>
-                        <td class="py-2 px-4 border-b">{{ user.email }}</td>
-                        <td class="py-2 px-4 border-b">{{ user.roles|join(', ') }}</td>
-                        <td class="py-2 px-4 border-b">
-                            {# <a href="{{ path('user_edit', {'id': user.id}) }}" class="text-blue-500 hover:text-blue-700">Modifier</a>
-                            <a href="{{ path('user_delete', {'id': user.id}) }}" class="text-red-500 hover:text-red-700 ml-4">Supprimer</a> #}
-                            <a href="#" class="text-blue-500 hover:text-blue-700">Modifier</a>
-                            <a href="#" class="text-red-500 hover:text-red-700 ml-4">Supprimer</a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td class="py-2 px-4 border-b text-center" colspan="3">Aucun utilisateur trouvé.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     {% else %}
-        <p class="text-red-500">Vous n'avez pas de business associé.</p>
+        <div class="mb-4">
+            <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded cursor-not-allowed" disabled>Ajouter un membre</button>
+            <p class="text-red-500 mt-2">Votre plan actuel ne permet pas d'ajouter des membres. <a href="#" class="text-blue-500 hover:underline">Retourner au dashboard</a></p>
+        </div>
     {% endif %}
+    <table class="min-w-full bg-white dark:bg-gray-800 mb-4">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-left">Email</th>
+                <th class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-left">Rôle</th>
+                <th class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-left">État</th>
+                <th class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-left">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">{{ user.email }}</td>
+                    <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">{{ user.roles|join(', ') }}</td>
+                    <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">{{ user.status ? 'Actif' : 'Inactif' }}</td>
+                    {% if user.id == app.user.id %}
+                        <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">-</td>
+                    {% else %}
+                        <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">
+                            {# <a href="{{ path('user_edit', {'id': user.id}) }}" class="text-blue-500 hover:underline">Modifier</a>
+                            <a href="{{ path('user_delete', {'id': user.id}) }}" class="text-red-500 hover:underline ml-2">Supprimer</a> #}
+                            <a href="#" class="text-blue-500 hover:underline">Modifier</a>
+                            <a href="#" class="text-red-500 hover:underline ml-2">Supprimer</a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% else %}
+                <tr>
+                    <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-center" colspan="4">Aucun membre trouvé.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

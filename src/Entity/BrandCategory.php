@@ -41,6 +41,9 @@ class BrandCategory
     #[Assert\Image(mimeTypes: ['image/svg+xml'])]
     private ?File $File = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->brands = new ArrayCollection();
@@ -142,5 +145,17 @@ class BrandCategory
     public function getBrandCount(): int
     {
         return $this->brands->count();
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }

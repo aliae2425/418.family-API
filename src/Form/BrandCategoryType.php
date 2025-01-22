@@ -29,6 +29,7 @@ class BrandCategoryType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class)
+            ->addEventListener(FormEvents::PRE_SUBMIT, $this->formEventFactory->autoSlug("name"))
             ->addEventListener(FormEvents::POST_SUBMIT, $this->formEventFactory->dateTimeUpdate())
         ;
     }

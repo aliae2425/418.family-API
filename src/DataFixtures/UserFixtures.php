@@ -27,6 +27,7 @@ class UserFixtures extends Fixture implements FixtureGroupInterface, OrderedFixt
             $user = new User();
             $collection = new UserCollection();
             $collection->addUser($user);
+            $collection->setOwner($user);
             $collection->setCoins($faker->numberBetween(0, 1000));
             $user->setEmail($faker->email());
             $user->setPassword(

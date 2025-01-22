@@ -26,6 +26,7 @@ class BrandCategoryFixtures extends Fixture implements OrderedFixtureInterface
         foreach ($categories as $category) {
             $brandCategory = new BrandCategory();
             $brandCategory->setName($category['name']);
+            $brandCategory->setSlug(strtolower((new AsciiSlugger())->slug($category['name'])));
             $brandCategory->setCreatedAt(new \DateTimeImmutable());
             $brandCategory->setUpdatedAt(new \DateTimeImmutable());
             $manager->persist($brandCategory);

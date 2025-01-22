@@ -19,24 +19,11 @@ class PlanController extends AbstractController
     #[Route('/plan/{choice}', name: 'user_plan_confirm', requirements: ['choice' => 'free|premium|business'])]
     public function confirm($choice, EntityManagerInterface $em): Response
     {
-        switch ($choice) {
-            case 'free':
-                $this->addFlash('success', 'welcome to the free plan');
-                break;
-            case 'premium':
-                $this->addFlash('success', 'welcome to the free plan');
-                //todo: add user logic to upgrade to premium plan
-                break;
-            case 'business':
-                $user = $this->getUser();
-                $business = new Business();
-                $business->setOwner($user);
-                $business->setActiveStatus(true);
-                $em->persist($business);
-                $this->addFlash('success', 'votre entreprise a été créée avec succès, vous pouvez maintenant ajouter des utilisateurs');
-                break;
-        }
+        $user = $this->getUser();
+        $user->setPlan($choice);
+        $em->persist($user);
         $em->flush();
+        $this->addFlash('success', 'Votre plan a été mis à jour avec succès');
         return $this->redirectToRoute('user_profile');
     }
 }
