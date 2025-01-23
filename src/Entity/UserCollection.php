@@ -21,13 +21,13 @@ class UserCollection
     /**
      * @var Collection<int, user>
      */
-    #[ORM\OneToMany(targetEntity: user::class, mappedBy: 'userCollection')]
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'userCollection')]
     private Collection $user;
 
     /**
-     * @var Collection<int, family>
+     * @var Collection<int, Family>
      */
-    #[ORM\ManyToMany(targetEntity: family::class, inversedBy: 'userCollections')]
+    #[ORM\ManyToMany(targetEntity: Family::class, inversedBy: 'userCollections')]
     private Collection $famillies;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -58,14 +58,14 @@ class UserCollection
     }
 
     /**
-     * @return Collection<int, user>
+     * @return Collection<int, User>
      */
     public function getUser(): Collection
     {
         return $this->user;
     }
 
-    public function addUser(user $user): static
+    public function addUser(User $user): static
     {
         if (!$this->user->contains($user)) {
             $this->user->add($user);
@@ -75,7 +75,7 @@ class UserCollection
         return $this;
     }
 
-    public function removeUser(user $user): static
+    public function removeUser(User $user): static
     {
         if ($this->user->removeElement($user)) {
             // set the owning side to null (unless already changed)
@@ -88,14 +88,14 @@ class UserCollection
     }
 
     /**
-     * @return Collection<int, family>
+     * @return Collection<int, Family>
      */
     public function getFamillies(): Collection
     {
         return $this->famillies;
     }
 
-    public function addFamilly(family $familly): static
+    public function addFamilly(Family $familly): static
     {
         if (!$this->famillies->contains($familly)) {
             $this->famillies->add($familly);
@@ -104,7 +104,7 @@ class UserCollection
         return $this;
     }
 
-    public function removeFamilly(family $familly): static
+    public function removeFamilly(Family $familly): static
     {
         $this->famillies->removeElement($familly);
 

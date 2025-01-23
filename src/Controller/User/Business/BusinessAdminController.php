@@ -6,7 +6,6 @@ use App\Entity\RegistrationInvitation;
 use App\Entity\User;
 use App\Form\BusinessUsersType;
 use App\Form\InvitationFormType;
-use App\Repository\BusinessRepository;
 use App\Repository\RegistrationInvitationRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -72,16 +71,15 @@ class BusinessAdminController extends AbstractController
                         Request $request,
                         UserPasswordHasherInterface $userPasswordHasher,
                         EntityManagerInterface $em,
-                        RegistrationInvitationRepository $repo
+                        RegistrationInvitationRepository $invitRepo
                 ): Response
     {
-        $invitation = $repo->findOneBy(['token' => $token]);
+        $invitation = $invitRepo->findOneBy(['token' => $token]);
 
         if (!$invitation) {
             throw $this->createNotFoundException('Invitation introuvable');
         }
 
-        dump($invitation);
         $user = new User();
         $form = $this->createForm(InvitationFormType::class, $user);
         $form->handleRequest($request);
@@ -115,6 +113,7 @@ class BusinessAdminController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+
 
     #[Route('/Profile/Business/Settings', name: 'User_business_settings')]
     public function BusinessSettings(): Response

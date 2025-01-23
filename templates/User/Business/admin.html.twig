@@ -26,7 +26,7 @@
     {% else %}
         <div class="mb-4">
             <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded cursor-not-allowed" disabled>Ajouter un membre</button>
-            <p class="text-red-500 mt-2">Votre plan actuel ne permet pas d'ajouter des membres. <a href="#" class="text-blue-500 hover:underline">Retourner au dashboard</a></p>
+            <p class="text-red-500 mt-2">Votre plan actuel ne permet pas d'ajouter des membres. <a href="{{path('user_plan')}}" class="text-blue-500 hover:underline">Retourner au dashboard</a></p>
         </div>
     {% endif %}
     <table class="min-w-full bg-white dark:bg-gray-800 mb-4">
