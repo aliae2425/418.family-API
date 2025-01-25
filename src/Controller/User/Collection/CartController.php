@@ -77,7 +77,7 @@ class CartController extends AbstractController
         $em->flush();
 
         $referer = $request->headers->get('referer');
-        $this->addFlash('success', 'L\'article a bien été ajouté à votre panier');
+        $this->addFlash('success', 'L\'article a bien été supprimé de votre panier');
         return $this->redirect($referer);
     }
 

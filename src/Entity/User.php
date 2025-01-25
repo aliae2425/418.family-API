@@ -425,4 +425,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getCurrentCart(): ?Cart
+    {
+        return $this->carts->last();
+    }
+
+    public function isOwner() :bool
+    {
+        if ($this->userCollection->getOwner() === $this) {
+            return true;
+        }
+
+        return false;
+    }
 }

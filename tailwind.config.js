@@ -16,7 +16,11 @@ module.exports = {
 
       xl: { max: "1279px" },
     },
-    extend: {},
+    extend: {
+      colors: {
+          'blue-print': '#2c5899',
+      }
+    },
   },
   plugins: [],
 }

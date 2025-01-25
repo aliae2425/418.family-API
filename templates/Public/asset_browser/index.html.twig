@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Les familles!{% endblock %}
+{% block PageTitle %} Nos Familles {% endblock %}
+{% block PageArbo %} {{ parent() }} / Familles {% endblock %}
 
 {% block body %}
 <div class="container mx-auto p-4">
@@ -26,6 +28,12 @@
                     <a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-400">
                         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
                             <path d="M765-144 526-383q-30 22-65.79 34.5-35.79 12.5-76.18 12.5Q284-336 214-406t-70-170q0-100 70-170t170-70q100 0 170 70t70 170.03q0 40.39-12.5 76.18Q599-464 577-434l239 239-51 51ZM384-408q70 0 119-49t49-119q0-70-49-119t-119-49q-70 0-119 49t-49 119q0 70 49 119t119 49Z"/>
+                        </svg>
+                    </a>
+                    <a href="{{ path('user_cart_add', {'id': item.id}) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Ajouter au panier
+                        <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
                         </svg>
                     </a>
                 </div>

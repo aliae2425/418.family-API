@@ -1,21 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
+            <link href="{{ asset('build/app.css') }}" rel="stylesheet">
         {% endblock %}
-
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
-    </head>
-    <body class="bg-slate-400 text-slate-900 dark:bg-gray-800 dark:text-gray-100">
-        {{ include("partial/navbar.html.twig") }}
-        <div class="container p-4">
-            {{ include("partial/flash.html.twig") }}
-            {% block body %}{% endblock %}
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body class="bg-white dark:bg-slate-700 dark:text-white">
+    <div class="flex justify-end  p-5">
+
+        <div class="w-4/5">
+            <div class="text-left p-4">
+                <div class="text-4xl font-bold">{% block PageTitle %} Drawing Title {% endblock %} </div>
+                <div class="text-2xl font-bold text-gray-500"> {% block PageArbo %} <i class="fas fa-home"></i> {% endblock %} </div>
+            </div>
+            <div class="mt-8">
+                {{ include('partial/flash.html.twig') }}
+                {% block body %}{% endblock %}
+            </div>
         </div>
-    </body>
+
+        <div class="w-1/5 px-5">
+        </div>
+
+        <div class="w-1/5 h-screen px-5 fixed right-0 top-5">
+           {{ include('partial/sidebar.html.twig') }}
+        </div>
+
+
+    </div>
+</body>
 </html>
+
+
