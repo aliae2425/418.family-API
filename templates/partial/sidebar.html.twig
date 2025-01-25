@@ -1,57 +1,48 @@
-<nav class="bg-gray-400 text-slate-900 dark:bg-gray-800 dark:text-gray-100 py-4">
-    <div class="container mx-auto flex justify-between items-center">
-        <div class="text-white text-lg font-semibold">
-            <a href="{{ path('public.home') }}">Logo</a>
-        </div>
-        <ul class="flex space-x-4">
-            <li><a href="{{ path('public.home') }}" class="text-gray-300 hover:text-white">Home</a></li>
-            <li><a href="{{ path('public_asset_index') }}" class="text-gray-300 hover:text-white">Familles</a></li>
-        </ul>
-        <div class="flex items-center space-x-4">
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <div>
-                    <a href="{{ path('user_cart_index') }}" class="text-gray-300 hover:text-white">
-                        <svg class="w-6 h-6 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
-                        {% if app.user.currentCartCount > 0 %}
-                            <span class="bg-red-500 text-white rounded-full px-2 py-1 text-xs ml-2">{{ app.user.currentCartCount |default('') }}</span>
-                        {% endif %}
-                    </a>
-                </div>
-                <div>
-                    <span class="text-gray-300 hover:text-white">
-                        {{ app.user.userCollection.Coins }}
-                        <svg class="w-6 h-6 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </span>
-                </div>
-                <div class="relative text-gray-300">
-                    <span class="text-white">Bonjour, {{ app.user.firstName }}</span>
-                    <div class="relative inline-block text-left">
-                        <button id="user-menu-button" class="ml-4 text-gray-300 hover:text-white focus:outline-none">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-lg py-1 z-20">
-                            <a href="{{ path('user_profile') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">Profil</a>
-                            <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">Logout</a>
-                        </div>
-                    </div>
-                </div>
-            {% else %}
-                <a href="{{ path('app_login') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</a>
-                <a href="{{ path('user_register') }}" class="ml-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Register</a>
-            {% endif %}
-        </div>
+<div class="h-screen bg-gray-800 text-white flex flex-col">
+    <div class="p-4">
+        <h1 class="text-2xl font-bold">Titre Bloc Archi</h1>
     </div>
-</nav>
-
-<script>
-    document.getElementById('user-menu-button').addEventListener('click', function() {
-        var menu = document.getElementById('user-menu');
-        menu.classList.toggle('hidden');
-    });
-</script>
+    <nav class="flex-1 px-2 space-y-2">
+        <a href="{{ path('public.home') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+            <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6m-6 0H7m6 0v6m0 0H7m6 0h6"></path>
+            </svg>
+            Home
+        </a>
+        <a href="{{ path('public_asset_index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+            <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"></path>
+            </svg>
+            Familles
+        </a>
+        <a href="{{ path('user_profile') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+            <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1112 21a9 9 0 01-6.879-3.196zM12 12a3 3 0 100-6 3 3 0 000 6z"></path>
+            </svg>
+            Profil
+        </a>
+        <a href="{{ path('user_cart_index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+            <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            Panier
+        </a>
+    </nav>
+    <div class="p-4">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a href="{{ path('app_logout') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10V5m0 10v1m0-10V5"></path>
+                </svg>
+                Logout
+            </a>
+        {% else %}
+            <a href="{{ path('app_login') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+                Login
+            </a>
+        {% endif %}
+    </div>
+</div>
