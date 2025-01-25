@@ -1,18 +1,49 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
 {% block content %}
-    <div class="content">
-        <h1>Tableau de bord</h1>
+    <div class="content p-4">
         <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Nombre d'utilisateurs inscrits</h3>
-                    </div>
-                    <div class="card-body">
-                        <div style="width: 500px;">
-                            {{ render_chart(user_chart) }}
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body d-flex align-items-center">
+                        <div>
+                            <i class="fas fa-users fa-3x me-3"></i>
+                            <p class="card-text">Utilisateurs</p>
                         </div>
+                        <h2 class="card-title mx-3">{{ user_count }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body d-flex align-items-center">
+                        <div>
+                            <i class="fas fa-shopping-cart fa-3x me-3"></i>
+                            <p class="card-text">Paniers</p>
+                        </div>
+                        <h2 class="card-title mx-3">{{ cart_count }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body d-flex align-items-center">
+                        <div>
+                            <i class="fas fa-cube fa-3x me-3"></i>
+                            <p class="card-text">Familles</p>
+                        </div>
+                        <h2 class="card-title mx-3">{{ family_count }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body d-flex align-items-center">
+                        <div>
+                            <i class="fas fa-tags fa-3x me-3"></i>
+                            <p class="card-text">Fournisseurs</p>
+                        </div>
+                        <h2 class="card-title mx-3">{{ brand_count }}</h2>
                     </div>
                 </div>
             </div>

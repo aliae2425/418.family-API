@@ -3,10 +3,11 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-class BrandFixtures extends Fixture
+class BrandFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -33,4 +34,10 @@ class BrandFixtures extends Fixture
 
         $manager->flush();
     }
+
+    public function getOrder(): int
+    {
+        return 2;
+    }
+
 }

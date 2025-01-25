@@ -4,11 +4,12 @@ namespace App\DataFixtures;
 
 use App\Entity\FamilyCategory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-class FamilyCategoryFixtures extends Fixture
+class FamilyCategoryFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -37,5 +38,10 @@ class FamilyCategoryFixtures extends Fixture
                 $this->createFamilyCategory($category['children'], $familyCategory, $manager);
             }
         }
+    }
+
+    public function getOrder(): int
+    {
+        return 3;
     }
 }

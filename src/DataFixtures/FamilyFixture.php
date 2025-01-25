@@ -11,8 +11,9 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\File\File;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-class FamilyFixture extends Fixture implements FixtureGroupInterface
+class FamilyFixture extends Fixture implements FixtureGroupInterface, OrderedFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -42,5 +43,10 @@ class FamilyFixture extends Fixture implements FixtureGroupInterface
         return ['family'];
     }
     
+    public function getOrder(): int
+    {
+        return 4;
+    }
+
 }
 

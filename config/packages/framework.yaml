@@ -1,14 +1,9 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
     secret: '%env(APP_SECRET)%'
-
-    # Note that the session will be started ONLY if you read or write from it.
     session: true
-    # csrf_protection:
-    #     stateless_token_ids: ['authenticate']
-
     csrf_protection: false
-    #esi: true
+    # esi: true
     #fragments: true
 
 when@test:

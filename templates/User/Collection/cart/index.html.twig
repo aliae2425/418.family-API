@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block body %}
+    <h1 class="text-2xl font-bold mb-4">Mon panier</h1>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white dark:bg-gray-800">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-left">Famille</th>
+                    <th class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-left">Prix</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if cart %}
+                    {% for famille in cart.famillies %}
+                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">{{ famille.name }}</td>
+                            <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">{{ famille.price }} €</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-center" colspan="2">Aucune famille dans le panier.</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-center" colspan="2">Aucune famille dans le panier.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ path('user_cart_checkout') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Valider mon panier</a>
+    </div>
+</div>
+{% endblock %}

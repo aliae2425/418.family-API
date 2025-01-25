@@ -24,8 +24,7 @@ class Cart
     #[ORM\Column]
     private ?\DateTimeImmutable $_createdAt = null;
 
-    #[ORM\Column]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $_validationAt = null;
 
     /**
@@ -39,6 +38,7 @@ class Cart
 
     public function __construct()
     {
+        $this->_createdAt = new \DateTimeImmutable();
         $this->famillies = new ArrayCollection();
     }
 
@@ -54,7 +54,7 @@ class Cart
 
     public function setCreatedAt(\DateTimeImmutable $_createdAt): static
     {
-        $this->_createdAt = $_createdAt;
+        $this->_createdAt = new \DateTimeImmutable();
 
         return $this;
     }
@@ -64,12 +64,19 @@ class Cart
         return $this->value;
     }
 
-    public function setValue(int $value): static
+    public function caculValue(): static
     {
         $value = 0;
         foreach($this->famillies as $familly) {
             $value += $familly->getPrice();
         }
+        return $this;
+    }
+
+    public function setValue(int $value): static
+    {
+        $this->value = $value;
+
         return $this;
     }
 
@@ -92,7 +99,7 @@ class Cart
 
     public function setValidationAt(\DateTimeImmutable $_validationAt): static
     {
-        $this->_validationAt = $_validationAt;
+        $this->_validationAt = new \DateTimeImmutable();
 
         return $this;
     }
@@ -119,6 +126,18 @@ class Cart
         $this->famillies->removeElement($familly);
 
         return $this;
+    }
+
+    public function clearFamillies(): static
+    {
+        $this->famillies->clear();
+
+        return $this;
+    }
+
+    public function getFamillyCount(): int
+    {
+        return $this->famillies->count();
     }
 
     public function isValidate(): ?bool

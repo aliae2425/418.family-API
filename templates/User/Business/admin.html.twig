@@ -1,0 +1,66 @@
+{% extends 'User/UserBase.html.twig' %}
+
+{% block title %}Gestion de vos utilisateurs!{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Mon équipe</h1>
+    {% if app.user.plan == "business" %}
+        {{ form_start(form, {'attr': {'class': 'flex items-center space-x-4 mb-4'}}) }}
+            <div class="flex items-center space-x-4">
+                <div class="mb-4">
+                    {{ form_label(form.email) }}
+                    {{ form_widget(form.email, {'attr': {'class': 'form-input mt-1 block w-full'}}) }}
+                    {{ form_errors(form.email) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_label(form.roles) }}
+                    {{ form_widget(form.roles, {'attr': {'class': 'form-checkbox mt-1 block'}}) }}
+                    {{ form_errors(form.roles) }}
+                </div>
+                <div>
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ajouter un membre</button>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    {% else %}
+        <div class="mb-4">
+            <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded cursor-not-allowed" disabled>Ajouter un membre</button>
+            <p class="text-red-500 mt-2">Votre plan actuel ne permet pas d'ajouter des membres. <a href="{{path('user_plan')}}" class="text-blue-500 hover:underline">Retourner au dashboard</a></p>
+        </div>
+    {% endif %}
+    <table class="min-w-full bg-white dark:bg-gray-800 mb-4">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-left">Email</th>
+                <th class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-left">Rôle</th>
+                <th class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-left">État</th>
+                <th class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-left">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">{{ user.email }}</td>
+                    <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">{{ user.roles|join(', ') }}</td>
+                    <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">{{ user.status ? 'Actif' : 'Inactif' }}</td>
+                    {% if user.id == app.user.id %}
+                        <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">-</td>
+                    {% else %}
+                        <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">
+                            {# <a href="{{ path('user_edit', {'id': user.id}) }}" class="text-blue-500 hover:underline">Modifier</a>
+                            <a href="{{ path('user_delete', {'id': user.id}) }}" class="text-red-500 hover:underline ml-2">Supprimer</a> #}
+                            <a href="#" class="text-blue-500 hover:underline">Modifier</a>
+                            <a href="#" class="text-red-500 hover:underline ml-2">Supprimer</a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% else %}
+                <tr>
+                    <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-center" colspan="4">Aucun membre trouvé.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -10,9 +10,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this username')]
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cette adresse email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -20,8 +21,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+// section identification 
+    #[ORM\Column(length: 255)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $lastName = null;
+
     #[ORM\Column(length: 255)]
     private ?string $email = null;
+
     /**
      * @var list<string> The user roles
      */
@@ -34,26 +43,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    /**
-     * @var Collection<int, Business>
-     */
-    #[ORM\OneToMany(targetEntity: Business::class, mappedBy: 'owner', orphanRemoval: true)]
-    private Collection $busines;
-
     #[ORM\Column]
     private bool $isVerified = false;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $_createdAt = null;
 
-    #[ORM\Column]
-    private ?bool $status = true;
-
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $_lastActivity = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $coins = null;
+    #[ORM\Column]
+    private ?bool $status = true;
 
     /**
      * @var Collection<int, Adress>
@@ -67,14 +67,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Cart::class, mappedBy: 'user')]
     private Collection $carts;
 
-    #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
-    private ?FamilyCollection $familyCollection = null;
+    /**
+     * @var Collection<int, Family>
+     */
+    #[ORM\OneToMany(targetEntity: Family::class, mappedBy: '_createdBy')]
+    private Collection $createdFamilies;
+
+// section entreprise
+
+    #[ORM\Column(nullable: true)]
+    private ?int $currentCartCount = null;
+
+    #[ORM\ManyToOne(inversedBy: 'user')]
+    private ?UserCollection $userCollection = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Plan = null;
+
+    public function __toString(): string
+    {
+        return $this->email;
+    }
+
+    public function getFullName(): string
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
 
     public function __construct()
     {
-        $this->busines = new ArrayCollection();
+        $this->_createdAt = new \DateTimeImmutable();
         $this->adresses = new ArrayCollection();
         $this->carts = new ArrayCollection();
+        $this->createdFamilies = new ArrayCollection();
+
+        
     }
 
     public function getId(): ?int
@@ -140,36 +167,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection<int, Business>
-     */
-    public function getBusines(): Collection
-    {
-        return $this->busines;
-    }
-
-    public function addBusine(Business $busine): static
-    {
-        if (!$this->busines->contains($busine)) {
-            $this->busines->add($busine);
-            $busine->setOwner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBusine(Business $busine): static
-    {
-        if ($this->busines->removeElement($busine)) {
-            // set the owning side to null (unless already changed)
-            if ($busine->getOwner() === $this) {
-                $busine->setOwner(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getEmail(): ?string
     {
         return $this->email;
@@ -230,14 +227,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCoins(): ?int
+    public function updateActivity(): static
     {
-        return $this->coins;
-    }
-
-    public function setCoins(?int $coins): static
-    {
-        $this->coins = $coins;
+        $this->_lastActivity = new \DateTimeImmutable();
 
         return $this;
     }
@@ -302,38 +294,135 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getFamilyCollection(): ?FamilyCollection
-    {
-        return $this->familyCollection;
-    }
-
-    public function setFamilyCollection(?FamilyCollection $familyCollection): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($familyCollection === null && $this->familyCollection !== null) {
-            $this->familyCollection->setUser(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($familyCollection !== null && $familyCollection->getUser() !== $this) {
-            $familyCollection->setUser($this);
-        }
-
-        $this->familyCollection = $familyCollection;
-
-        return $this;
-    }
-
-    public function getFamilyCount(): int
-    {
-        if ($this->familyCollection == null) {
-            return 0;
-        }
-        return $this->familyCollection->getFamilyCount();
-    }
 
     public function getAdressCount(): int
     {
         return $this->adresses->count();
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): static
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): static
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Family>
+     */
+    public function getCreatedFamillies(): Collection
+    {
+        return $this->createdFamilies;
+    }
+
+    public function addCreatedFamillies(Family $family): static
+    {
+        if (!$this->createdFamilies->contains($family)) {
+            $this->createdFamilies->add($family);
+            $family->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedFamillies(Family $family): static
+    {
+        if ($this->createdFamilies->removeElement($family)) {
+            // set the owning side to null (unless already changed)
+            if ($family->getCreatedBy() === $this) {
+                $family->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedFamilyCount(): int
+    {
+        return $this->createdFamilies->count();
+    }
+
+    public function getCurrentCartCount(): ?int
+    {
+        return $this->currentCartCount;
+    }
+
+    public function setCurrentCartCount(?int $currentCartCount): static
+    {
+        $this->currentCartCount = $currentCartCount;
+
+        return $this;
+    }
+
+    public function getUserCollection(): ?UserCollection
+    {
+        return $this->userCollection;
+    }
+
+    public function setUserCollection(?UserCollection $userCollection): static
+    {
+        $this->userCollection = $userCollection;
+
+        return $this;
+    }
+
+    public function getCoins():int
+    {
+       return $this->userCollection->getCoins();
+    }
+
+    public function addCoins(int $coins):static
+    {
+        $this->userCollection->setCoins($this->userCollection->getCoins() +  $coins);
+
+        return $this;
+    }
+
+    public function removeCoins(int $coins):static
+    {
+        $this->userCollection->setCoins($this->userCollection->getCoins() -  $coins);
+
+        return $this;
+    }
+
+    public function addFamilliesCollection(Family $family):static
+    {
+        $this->userCollection->addFamilly($family);
+
+        return $this;
+    }
+
+    public function getFamilyCount():int
+    {
+        return $this->userCollection->getFamillies()->count();
+    }
+
+    public function getPlan(): ?string
+    {
+        return $this->Plan;
+    }
+
+    public function setPlan(?string $Plan): static
+    {
+        $this->Plan = $Plan;
+
+        return $this;
     }
 }

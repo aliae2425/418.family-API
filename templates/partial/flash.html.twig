@@ -1,0 +1,38 @@
+<div class="p-5">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flex justify-center items-center m-1 font-medium py-1 px-2 rounded-md border {{ label == 'success' ? 'bg-green-100 text-green-700 border-green-300' : '' }} {{ label == 'error' ? 'bg-red-100 text-red-700 border-red-300' : '' }} {{ label == 'warning' ? 'bg-yellow-100 text-yellow-700 border-yellow-300' : '' }} {{ label == 'info' ? 'bg-blue-100 text-blue-700 border-blue-300' : '' }}">
+                <div class="flex items-center">
+                    {% if label == 'success' %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    {% elseif label == 'error' %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    {% elseif label == 'warning' %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m0-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                        </svg>
+                    {% elseif label == 'info' %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m0-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                        </svg>
+                    {% endif %}
+                </div>
+                <div class="text-xl font-normal max-w-full flex-initial">
+                    {{ message }}
+                </div>
+                <div class="flex flex-auto flex-row-reverse">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2 cursor-pointer hover:text-red-400 rounded-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
