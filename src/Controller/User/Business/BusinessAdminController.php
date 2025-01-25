@@ -6,8 +6,8 @@ use App\Entity\RegistrationInvitation;
 use App\Entity\User;
 use App\Form\BusinessUsersType;
 use App\Form\InvitationFormType;
-use App\Repository\BusinessRepository;
 use App\Repository\RegistrationInvitationRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,21 +23,22 @@ class BusinessAdminController extends AbstractController
 {
     #[IsGranted('ROLE_USER')]   
     #[Route('/business/admin', name: 'User_business_admin' )]
-    public function index(BusinessRepository $repo, Request $request, EntityManagerInterface $em, MailerInterface $mailer): Response
+    public function index(UserRepository $userRepo, Request $request, EntityManagerInterface $em, MailerInterface $mailer): Response
     {
         $user = $this->getUser();
         if (!$user) {
             $this->addFlash('danger', 'Vous devez être connecté pour accéder à cette page.');
             return $this->redirectToRoute('app_login');
+        }else{
+            $user = $userRepo->find($user->getId());
         }
 
-        $business = $repo->findOneBy(['owner' => $user]);
         $form = $this->createForm(BusinessUsersType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $invitation = new RegistrationInvitation($data['email'], $data['roles'], $business);
+            $invitation = new RegistrationInvitation($data['email'], $data['roles'],  $user->getUserCollection());
             
             $em->persist($invitation);
             $em->flush();
@@ -59,7 +60,7 @@ class BusinessAdminController extends AbstractController
         }
 
         return $this->render('User/Business/admin.html.twig', [
-            'business' => $business,
+            "users" => $user->getUserCollection()->getUser(),
             'form' => $form->createView(),
         ]);
     }
@@ -70,16 +71,15 @@ class BusinessAdminController extends AbstractController
                         Request $request,
                         UserPasswordHasherInterface $userPasswordHasher,
                         EntityManagerInterface $em,
-                        RegistrationInvitationRepository $repo
+                        RegistrationInvitationRepository $invitRepo
                 ): Response
     {
-        $invitation = $repo->findOneBy(['token' => $token]);
+        $invitation = $invitRepo->findOneBy(['token' => $token]);
 
         if (!$invitation) {
             throw $this->createNotFoundException('Invitation introuvable');
         }
 
-        dump($invitation);
         $user = new User();
         $form = $this->createForm(InvitationFormType::class, $user);
         $form->handleRequest($request);
@@ -88,13 +88,16 @@ class BusinessAdminController extends AbstractController
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
 
+            $collection  = $invitation->getCollection();
+            $collection->addUser($user);
+
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));           
             $user->setRoles([$invitation->getRole()]);
-            $user->setRelatedBusiness($invitation->getBusiness());
             $user->setEmail($invitation->getEmail());
             $user->setVerified(true);
 
+            $em->persist($collection);
             $em->persist($user);
 
             $invitation->close();
@@ -110,6 +113,7 @@ class BusinessAdminController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+
 
     #[Route('/Profile/Business/Settings', name: 'User_business_settings')]
     public function BusinessSettings(): Response

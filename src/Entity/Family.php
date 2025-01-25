@@ -57,15 +57,19 @@ class Family
     #[ORM\Column( nullable: true)]
     private ?int $price = null;
 
-    #[ORM\OneToOne(mappedBy: 'family', cascade: ['persist', 'remove'])]
-    private ?FamilyCollection $familyCollection = null;
-
     #[ORM\ManyToOne(inversedBy: 'families')]
     private ?User $_createdBy = null;
+
+    /**
+     * @var Collection<int, UserCollection>
+     */
+    #[ORM\ManyToMany(targetEntity: UserCollection::class, mappedBy: 'famillies')]
+    private Collection $userCollections;
 
     public function __construct()
     {
         $this->carts = new ArrayCollection();
+        $this->userCollections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -220,28 +224,6 @@ class Family
         return $this;
     }
 
-    public function getFamilyCollection(): ?FamilyCollection
-    {
-        return $this->familyCollection;
-    }
-
-    public function setFamilyCollection(?FamilyCollection $familyCollection): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($familyCollection === null && $this->familyCollection !== null) {
-            $this->familyCollection->setFamily(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($familyCollection !== null && $familyCollection->getFamily() !== $this) {
-            $familyCollection->setFamily($this);
-        }
-
-        $this->familyCollection = $familyCollection;
-
-        return $this;
-    }
-
     public function getCreatedBy(): ?User
     {
         return $this->_createdBy;
@@ -250,6 +232,33 @@ class Family
     public function setCreatedBy(?User $_createdBy): static
     {
         $this->_createdBy = $_createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserCollection>
+     */
+    public function getUserCollections(): Collection
+    {
+        return $this->userCollections;
+    }
+
+    public function addUserCollection(UserCollection $userCollection): static
+    {
+        if (!$this->userCollections->contains($userCollection)) {
+            $this->userCollections->add($userCollection);
+            $userCollection->addFamilly($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserCollection(UserCollection $userCollection): static
+    {
+        if ($this->userCollections->removeElement($userCollection)) {
+            $userCollection->removeFamilly($this);
+        }
 
         return $this;
     }

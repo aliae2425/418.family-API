@@ -28,22 +28,26 @@ class RegistrationInvitation
     #[ORM\Column(length: 255)]
     private ?string $Role = null;
 
-    #[ORM\ManyToOne(inversedBy: 'registrationInvitations')]
-    private ?Business $business = null;
-
     #[ORM\Column]
     private ?bool $State = false;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?UserCollection $collection = null;
 
-    public function __construct(string $email, string $Role, Business $business)
+    public function getCollection(): ?UserCollection
+    {
+        return $this->collection;
+    }
+
+    public function __construct(string $email, string $Role, UserCollection $collection)
     {
         $this->email = $email;
         $this->Role = $Role;
-        $this->business = $business;
         $this->State = false;
         $this->token = bin2hex(random_bytes(32));
         $this->createdAt = new \DateTimeImmutable();
         $this->expireAt = $this->createdAt->modify('+2 days');
+        $this->collection = $collection;
     }
 
     public function getId(): ?int
@@ -107,18 +111,6 @@ class RegistrationInvitation
     public function setRole(string $Role): static
     {
         $this->Role = $Role;
-
-        return $this;
-    }
-
-    public function getBusiness(): ?Business
-    {
-        return $this->business;
-    }
-
-    public function setBusiness(?Business $business): static
-    {
-        $this->business = $business;
 
         return $this;
     }

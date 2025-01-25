@@ -16,6 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use App\Entity\UserCollection;
 
 class RegistrationController extends AbstractController
 {
@@ -37,8 +38,15 @@ class RegistrationController extends AbstractController
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
             $user->setRoles(['ROLE_USER']);
+            $user->setPlan('free');
+
+            $collection = new UserCollection();
+            $collection->addUser($user);
+            $collection->setOwner($user);
+            $collection->setCoins(0);
 
             $entityManager->persist($user);
+            $entityManager->persist($collection);
             $entityManager->flush();
 
             // generate a signed url and email it to the user
