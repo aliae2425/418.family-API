@@ -29,7 +29,7 @@ class FamilyFixture extends Fixture implements FixtureGroupInterface, OrderedFix
             $family->setRevitFamily('418_TeaPot.rfa');
             $family->setThumbnail("https://placehold.co/400");
             $family->setFamilyCategory($faker->randomElement($categories));
-            $family->setPrice($faker->randomElement([0,10,20]));
+            $family->setPrice($faker->randomElement([0,10]));
             $family->setBrand($faker->randomElement($brands));
 
             $manager->persist($family);
