@@ -93,7 +93,7 @@ class BusinessAdminController extends AbstractController
 
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));           
-            $user->setRoles([$invitation->getRole()]);
+            $user->setRoles($this->rolesGenerator($invitation->getRole()));
             $user->setEmail($invitation->getEmail());
             $user->setVerified(true);
 
@@ -114,6 +114,25 @@ class BusinessAdminController extends AbstractController
         ]);
     }
 
+    private function rolesGenerator(string $role): array
+    {
+        $roles = [];
+        switch ($role) {
+            case 'user':
+                $roles = ['ROLE_USER'];
+                break;
+            case 'content_manager':
+                $roles = ['ROLE_USER', 'ROLE_CONTENT_MANAGER'];
+                break;
+            case 'admin':
+                $roles = ['ROLE_USER', 'ROLE_CONTENT_MANAGER', 'ROLE_BUSINESS_ADMIN'];
+                break;
+            default:
+                $roles = ['ROLE_USER'];
+                break;
+        }
+        return $roles;
+    }
 
     #[Route('/Profile/Business/Settings', name: 'User_business_settings')]
     public function BusinessSettings(): Response

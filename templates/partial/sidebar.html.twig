@@ -24,10 +24,7 @@
     {% endblock %}
 </div> #}
 
-{{ dump(app.user.roles) }}
-{{ dump( is_granted('CONTENT_MANAGER', object = null, field = null))}}
-
-{% if is_granted('CONTENT_MANAGER') or app.user == null %}
+{% if is_granted('ROLE_CONTENT_MANAGER') or app.user == null %}
     {{ include("partial/cart.html.twig") }}
 {% endif %}
 

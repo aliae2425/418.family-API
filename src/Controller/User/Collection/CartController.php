@@ -82,7 +82,7 @@ class CartController extends AbstractController
     }
 
     #[Route('/cart/clear', name: 'user_cart_clear')]
-    public function clearCart(CartRepository $repo, EntityManagerInterface $em)
+    public function clearCart(Request $request, CartRepository $repo, EntityManagerInterface $em)
     {
         $user = $this->getUser();
         if ($user === null) {
@@ -100,7 +100,9 @@ class CartController extends AbstractController
         $em->persist($cart);
         $em->flush();
         $this->addFlash('success', 'Votre panier a bien été vidé');
-        return $this->redirectToRoute('user_cart_index');
+        
+        $referer = $request->headers->get('referer');
+        return $this->redirect($referer);
     }
 
     #[Route('/cart/quick-add/{id}', name: 'user_cart_quickAdd', requirements: ['id' => '\d+'])]
@@ -137,7 +139,7 @@ class CartController extends AbstractController
     }
 
     #[Route('/cart/validate', name: 'user_cart_checkout')]
-    public function validateCart(CartRepository $repo, EntityManagerInterface $em)
+    public function validateCart(Request $request, CartRepository $repo, EntityManagerInterface $em)
     {
         $user = $this->getUser();
         if ($user === null) {
@@ -149,21 +151,32 @@ class CartController extends AbstractController
             $this->addFlash('danger', "Vous n'avez pas de panier");
         }
 
-        foreach($cart->getFamillies() as $family) {
-            $user->addFamilliesCollection($family);
+        if ($user->getCoins() < $cart->getValue()) {
+            $this->addFlash('danger', 'Vous n\'avez pas assez de pièces pour valider votre panier');
+        }else if ($cart->getFamillies()->isEmpty()) {
+            $this->addFlash('danger', 'Votre panier est vide');
+        }else {
+            foreach($cart->getFamillies() as $family) {
+                $user->addFamilliesCollection($family);
+            }
+
+            $cart->setValidationAt(new \DateTimeImmutable());
+            $cart->setValidate(true);
+
+            $user->removeCoins($cart->getValue());
+            $user->updateActivity();
+            $user->setCurrentCartCount(0);
+
+            $em->persist($user);
+            $em->persist($cart);
+            $newCart = new Cart();
+            $newCart->setUser($user);
+            $em->persist($newCart);
+            $em->flush();
+            $this->addFlash('success', 'Votre panier a bien été validé');
         }
-
-        $cart->setValidationAt(new \DateTimeImmutable());
-        $cart->setValidate(true);
-
-        $user->removeCoins($cart->getValue());
-        $user->updateActivity();
-        $user->setCurrentCartCount(0);
-
-        $em->persist($user);
-        $em->persist($cart);
-        $em->flush();
-        $this->addFlash('success', 'Votre panier a bien été validé');
-        return $this->redirectToRoute('public_asset_index');
+        $referer = $request->headers->get('referer');
+        $this->addFlash('success', 'L\'article a bien été ajouté à votre panier');
+        return $this->redirect($referer);
     }
 }

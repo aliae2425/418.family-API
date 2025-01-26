@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">Mon équipe</h1>
-    {% if app.user.plan == "business" %}
+    {% if is_granted("ROLE_BUSINESS_ADMIN") %}
         {{ form_start(form, {'attr': {'class': 'flex items-center space-x-4 mb-4'}}) }}
             <div class="flex items-center space-x-4">
                 <div class="mb-4">
@@ -29,20 +29,28 @@
             <p class="text-red-500 mt-2">Votre plan actuel ne permet pas d'ajouter des membres. <a href="{{path('user_plan')}}" class="text-blue-500 hover:underline">Retourner au dashboard</a></p>
         </div>
     {% endif %}
-    <table class="min-w-full bg-white dark:bg-gray-800 mb-4">
+    <table class="min-w-full mb-4">
         <thead>
             <tr>
-                <th class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-left">Email</th>
-                <th class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-left">Rôle</th>
-                <th class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-left">État</th>
-                <th class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-left">Actions</th>
+                <th class="py-2 px-4 border-b text-left">Email</th>
+                <th class="py-2 px-4 border-b text-left">Rôle</th>
+                <th class="py-2 px-4 border-b text-left">État</th>
+                <th class="py-2 px-4 border-b text-left">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for user in users %}
                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                     <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">{{ user.email }}</td>
-                    <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">{{ user.roles|join(', ') }}</td>
+                    <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">
+                        {% if 'ROLE_BUSINESS_ADMIN' in user.roles %}
+                            Administrateur
+                        {% elseif 'ROLE_CONTENT_MANAGER' in user.roles %}
+                            Gestionnaire de contenu
+                        {% else %}
+                            Utilisateur
+                        {% endif %}
+                    </td>
                     <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">{{ user.status ? 'Actif' : 'Inactif' }}</td>
                     {% if user.id == app.user.id %}
                         <td class="py-2 px-4 border-b border-gray-200 dark:border-gray-700">-</td>
