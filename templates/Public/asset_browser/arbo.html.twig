@@ -1,0 +1,19 @@
+{% for category in familyCategory %}
+    {{ dump(category.child | length ) }}
+    {% if category.child | length > 0 %}
+        <li>
+            <ul class="space-y-2">
+                <button class="text-gray-900 dark:text-gray-200 hover:text-gray-600 block w-full text-left" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                    <span class="mr-2">{{ category.name }} <i class="fas fa-chevron-down"></i></span>
+                </button>
+                <li class="hidden">
+                    {% include "Public/asset_browser/arbo.html.twig" with {'familyCategory' : category.child} %}
+                </li>
+            </ul>
+        </li>
+    {% else %}
+        <li>
+            <a href="{{ path('asset_browser_family', {'slug': category.slug}) }}" class="text-gray-900 dark:text-gray-200 hover:text-gray-600 block">{{ category.name }}</a>
+        </li>
+    {% endif %}
+{% endfor %}
