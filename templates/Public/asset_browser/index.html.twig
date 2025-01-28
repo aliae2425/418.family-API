@@ -20,7 +20,32 @@
             <div class="p-4 border-y border-gray-200">
                 <h4 class="text-lg font-semibold mb-4">Arborescence</h4>
                 <ul class="space-y-2">
-                    {% include "Public/asset_browser/arbo.html.twig" with {'familyCategory' : familyCategory}  %}
+                    {% for category in familyCategory %}
+                        {% set row = 0 %}
+                        {% if category.child | length > 0 %}
+                            <li>
+                                <ul class="space-y-2">
+                                    <button class="ml-{{ row*2 }} text-gray-900 dark:text-gray-200 hover:text-gray-600 block w-full text-left"
+                                            onclick="this.nextElementSibling.classList.toggle('hidden')">
+                                        <span class="mr-2">{{ category.name }} <i class="fas fa-chevron-down"></i></span>
+                                    </button>
+                                    <div class="hidden">
+                                        {% include "Public/asset_browser/arbo.html.twig"
+                                            with {
+                                                'familyCategory' : category.child ,
+                                                'row' : row + 2
+                                                } 
+                                            %}
+                                    </div>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{{ path('asset_browser_family', {'slug': category.slug}) }}"
+                                 class="ml-{{ row*2 }} text-gray-900 dark:text-gray-200 hover:text-gray-600 block">{{ category.name }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
                 </ul>
             </div> 
         </div>

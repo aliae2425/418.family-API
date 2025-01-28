@@ -13,15 +13,15 @@ use Symfony\Component\Routing\Attribute\Route;
 class AssetBrowserController extends AbstractController
 {
     #[Route('/familles', name: 'public_asset_index')]
-    public function index(FamilyRepository $Famillyrepo, FamilyCategoryRepository $familyCategoryRepository): Response
+    public function index(FamilyRepository $FamillyRepo, FamilyCategoryRepository $familyCategoryRepository): Response
     {
         
-        $assets = $Famillyrepo->findAll();
-        $familyCategoryRepository = $familyCategoryRepository->findAll();
+        $familyCategory = $familyCategoryRepository->findBy(['parents' => null]);
+        $assets = $FamillyRepo->findAll();
 
         return $this->render('Public/asset_browser/index.html.twig', [
             'items' => $assets,
-            'familyCategory' => $familyCategoryRepository
+            'familyCategory' => $familyCategory
         ]);
     }
 
