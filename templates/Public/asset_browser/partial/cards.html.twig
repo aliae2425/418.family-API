@@ -1,0 +1,33 @@
+<div class="max-w-sm rounded overflow-hidden shadow-lg bg-white dark:bg-gray-800 transition-shadow hover:shadow-xl">
+
+    <a href="{{ path('public_family_show', {'id':item.id}) }}" class="block">
+        {% if item.image is defined and item.image %}
+            <img class="w-full h-48 object-cover" src="{{ asset(item.image) }}" alt="Image de {{ item.name }}">
+        {% else %}
+            <div class="w-full h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                <i class="fas fa-image text-4xl text-gray-400 dark:text-gray-500"></i>
+            </div>
+        {% endif %}
+    </a>
+    
+    <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2 text-gray-900 dark:text-gray-100">
+            {{ item.name }}
+        </div>
+    </div>
+
+    <div class="flex justify-end space-x-2 px-6 py-2">
+        {% if item.price == 0 %}
+            <div class="m-2 bg-yellow-500 text-white px-2 py-1 rounded-full text-sm">
+                <i class="fas fa-gift"></i> 
+            </div>
+        {% endif %}
+        <button class="text-white p-2 rounded-full text-sm transition-colors">
+            <i class="fas fa-shopping-cart"></i> 
+        </button>
+        <button class="text-white p-2 rounded-full text-sm transition-colors">
+            <i class="fas fa-bolt"></i>
+        </button>
+    </div>
+
+</div>

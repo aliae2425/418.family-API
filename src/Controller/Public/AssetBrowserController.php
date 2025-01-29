@@ -9,6 +9,7 @@ use App\Repository\FamilyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Constraints\Required;
 
 class AssetBrowserController extends AbstractController
 {
@@ -25,16 +26,7 @@ class AssetBrowserController extends AbstractController
         ]);
     }
 
-    #[Route('/familles/{id}', name: 'public_asset_show')]
-    public function show(Family $family): Response
-    {
-        return $this->render('Public/asset_browser/show.html.twig', [
-            'family' => $family
-        ]);
-    }
-
-
-    #[Route('/familles/{slug}', name: 'asset_browser_family')]
+    #[Route('/familles/{slug}', name: 'asset_browser_family', requirements:['slug' => '[a-z0-9-]+'])]
     public function family(FamilyCategory $familyCategory): Response
     {
         $family = $familyCategory->getFamilies();
