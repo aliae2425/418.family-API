@@ -19,6 +19,7 @@
         {% else %}
             <li>
                 <a href="{{ path('asset_browser_family', {'slug': category.slug}) }}"
+                    data-turbo-frame="category-content"
                     class="ml-{{ row*2 }} text-gray-900 dark:text-gray-200 hover:text-gray-600 block">
                     {{ category.name }}
                 </a>

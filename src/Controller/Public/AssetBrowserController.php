@@ -27,11 +27,12 @@ class AssetBrowserController extends AbstractController
     }
 
     #[Route('/familles/{slug}', name: 'asset_browser_family', requirements:['slug' => '[a-z0-9-]+'])]
-    public function family(FamilyCategory $familyCategory): Response
+    public function category(FamilyRepository $familyRepository, FamilyCategoryRepository $familyCategoryRepository, string $slug): Response
     {
-        $family = $familyCategory->getFamilies();
-        return $this->render('Public/asset_browser/family.html.twig', [
-            'family' => $family
+        $familyCategory = $familyCategoryRepository->findBy(['slug' => $slug]);
+        $family = $familyRepository->findBy(['familyCategory' => $familyCategory]);
+        return $this->render('Public/asset_browser/index.html.twig', [
+            'slug' => $family,
         ]);
     }
-}
+}       

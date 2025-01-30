@@ -21,7 +21,7 @@ class FamilyFixture extends Fixture implements FixtureGroupInterface, OrderedFix
         $brands = $manager->getRepository(Brands::class)->findAll();
         $categories = $manager->getRepository(FamilyCategory::class)->findAll();    
 
-        for ($i = 1; $i <= 25; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
             $family = new Family();
             $family->setName($faker->word());
             $family->setCreatedAt(new DateTimeImmutable());
