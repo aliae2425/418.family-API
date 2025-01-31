@@ -1,0 +1,42 @@
+hello form arbo
+
+{# <div class="p-4 border-t border-gray-600 dark:border-gray-200">
+    <form method="get" action="#" class="flex items-center">
+        <input type="search" name="q" placeholder="Rechercher une famille..." 
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+            Rechercher
+        </button>
+    </form>
+</div>
+<div class="p-4 border-y border-gray-200">
+    <h4 class="text-lg font-semibold mb-4">Arborescence</h4>
+    <ul class="space-y-2">
+        {% for category in familyCategory %}
+            {% set row = 0 %}
+            {% if category.child | length > 0 %}
+                <li>
+                    <ul class="space-y-2">
+                        <button class="ml-{{ row*2 }} text-gray-900 dark:text-gray-200 hover:text-gray-600 block w-full text-left"
+                                onclick="this.nextElementSibling.classList.toggle('hidden')">
+                            <span class="mr-2">{{ category.name }} <i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="hidden">
+                            {% include "Public/asset_browser/partial/arbo.html.twig"
+                                with {
+                                    'familyCategory' : category.child ,
+                                    'row' : row + 2
+                                    } 
+                                %}
+                        </div>
+                    </ul>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ path('asset_browser_family', {'slug': category.slug}) }}"
+                        class="ml-{{ row*2 }} text-gray-900 dark:text-gray-200 hover:text-gray-600 block">{{ category.name }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>  #}

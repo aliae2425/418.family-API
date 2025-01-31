@@ -1,60 +1,49 @@
-<div class="text-right">
+
+<div class="h-1/4 text-right">
     <div class="text-6xl font-bold justify-end p-2">
         <span class="text-gray-">418</span>
         {# <img src="{{ asset('images/logo/logoText.svg') }}" alt="Logo" class=" justify-center w-1/2"> #}
     </div>
-    <div class="mt-8 text-sm">
-        <div><a href="{{ path('public.home') }}" class="font-semibold text-lg hover:text-gray-600">Accueil</a></div>
-        <div><a href="{{ path('public_asset_index') }}" class="font-semibold text-lg hover:text-gray-600">Familles</a></div>
-        <div><a href="#" class="font-semibold text-lg hover:text-gray-600">Fabricants</a></div>
+    <div class="mt-8 text-sm flex justify-between">
+        <a href="{{ path('public.home') }}" class="font-semibold text-lg hover:text-gray-600">Accueil</a>
+        <a href="{{ path('public_asset_index') }}" class="font-semibold text-lg hover:text-gray-600">Navigation</a>
+        <a href="#" class="font-semibold text-lg hover:text-gray-600">Fabricants</a>
     </div>
 </div>
 
-
-{# <div class="mt-8 text-sm">
-    <div class="font-bold uppercase">Notes</div>
-    {% block navigation %}
-        <ol class="list-decimal list-inside">
-            <li>Drawings are based on survey data and may vary. Property measurement is advised.</li>
-            <li>Check all details. Any discrepancies to be reported immediately.</li>
-            <li>Do not scale from this drawing.</li>
-            <li>Contractor is to verify all details.</li>
-            <li>Any revisions will be indicated in data above.</li>
-        </ol>
+<div class="h-1/2">
+    {% block Navigation %}
+        {{ include('Public/asset_browser/partial/sideNavigation.html.twig', { 'familyCategory': familyCategory }) }}
     {% endblock %}
-</div> #}
+</div>
 
-{% if is_granted('ROLE_CONTENT_MANAGER') or app.user == null %}
-    {{ include("partial/cart.html.twig") }}
-{% endif %}
-
-
-{% block SideDetails %}
-    
-{% endblock %}
-
-{% if app.user %}
-    <div class="mt-8 text-sm border-t pt-1">
-        <a href="{{path('user_profile')}}" class="flex justify-between border-b py-1 hover:text-gray-500">
-            <span>Client:</span>
-            <span>{{ app.user.fullName }}</span>
-        </a>
-        <div href="#" class="flex justify-between border-b py-1">
-            <span>Jetons : </span>
-            <span> {{app.user.coins}} </span>
+<div class="h-1/4">
+    {% if app.user %}
+        <div class="mt-8 text-sm border-t pt-1">
+            <a href="{{path('user_profile')}}" class="flex justify-between border-b py-1 hover:text-gray-500">
+                <span>Client:</span>
+                <span>{{ app.user.fullName }}</span>
+            </a>
+            <div href="#" class="flex justify-between border-b py-1">
+                <span>Jetons : </span>
+                <span> {{app.user.coins}} </span>
+            </div>
+            <a href="#" class="flex justify-between border-b py-1 hover:text-gray-500">
+                <span>collection : </span>
+                <span> {{app.user.familyCount}} </span>
+            </a>
         </div>
-        <a href="#" class="flex justify-between border-b py-1 hover:text-gray-500">
-            <span>collection : </span>
-            <span> {{app.user.familyCount}} </span>
+        <a href="{{path('app_logout')}}" class="flex justify-between border-b py-1 hover:text-gray-500">
+            <span></span>
+            <span class="font-bold">Logout</span>
         </a>
-    </div>
-    <a href="{{path('app_logout')}}" class="flex justify-between border-b py-1 hover:text-gray-500">
-        <span></span>
-        <span class="font-bold">Logout</span>
-    </a>
-{% else %}
-    <div class="flex justify-between border-b py-1">
-        <a href="{{path('user_register')}}" class="font-bold hover:text-gray-500">Register</a>
-        <a href="{{path('app_login')}}" class="font-black hover:text-gray-500">login</a>
-    </div>
-{% endif %}
+    {% else %}
+        <div class="flex justify-between border-b py-1">
+            <a href="{{path('user_register')}}" class="font-bold hover:text-gray-500">Register</a>
+            <a href="{{path('app_login')}}" class="font-black hover:text-gray-500">login</a>
+        </div>
+    {% endif %}
+    {% if is_granted('ROLE_CONTENT_MANAGER') or app.user == null %}
+        {{ include("partial/cart.html.twig") }}
+    {% endif %}
+</div>
