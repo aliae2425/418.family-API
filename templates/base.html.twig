@@ -31,7 +31,25 @@
         </div>
 
         <div class="w-1/5 h-screen px-5 fixed right-0 top-5">
+            <div class="h-1/4 text-right">
+                <div class="text-6xl font-bold justify-end p-2">
+                    <span class="text-gray-">418</span>
+                    {# <img src="{{ asset('images/logo/logoText.svg') }}" alt="Logo" class=" justify-center w-1/2"> #}
+                </div>
+                <div class="mt-8 text-sm flex justify-between">
+                    <a href="{{ path('public.home') }}" class="font-semibold text-lg hover:text-gray-600">Accueil</a>
+                    <a href="{{ path('public_asset_index') }}" class="font-semibold text-lg hover:text-gray-600">Navigation</a>
+                    <a href="#" class="font-semibold text-lg hover:text-gray-600">Fabricants</a>
+                </div>
+            </div>
+
+            <div class="h-1/2">
+                {% block Navigation %}
+                {% endblock %}
+            </div>
+
            {{ include('partial/sidebar.html.twig') }}
+
         </div>
 
 

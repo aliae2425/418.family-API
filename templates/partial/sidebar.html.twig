@@ -1,22 +1,4 @@
 
-<div class="h-1/4 text-right">
-    <div class="text-6xl font-bold justify-end p-2">
-        <span class="text-gray-">418</span>
-        {# <img src="{{ asset('images/logo/logoText.svg') }}" alt="Logo" class=" justify-center w-1/2"> #}
-    </div>
-    <div class="mt-8 text-sm flex justify-between">
-        <a href="{{ path('public.home') }}" class="font-semibold text-lg hover:text-gray-600">Accueil</a>
-        <a href="{{ path('public_asset_index') }}" class="font-semibold text-lg hover:text-gray-600">Navigation</a>
-        <a href="#" class="font-semibold text-lg hover:text-gray-600">Fabricants</a>
-    </div>
-</div>
-
-<div class="h-1/2">
-    {% block Navigation %}
-        {{ include('Public/asset_browser/partial/sideNavigation.html.twig', { 'familyCategory': familyCategory }) }}
-    {% endblock %}
-</div>
-
 <div class="h-1/4">
     {% if app.user %}
         <div class="mt-8 text-sm border-t pt-1">

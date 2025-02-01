@@ -18,7 +18,7 @@ class AssetBrowserController extends AbstractController
     {
         
         $familyCategory = $familyCategoryRepository->findBy(['parents' => null]);
-        $assets = $FamillyRepo->findAll();
+        $assets = $FamillyRepo->findAllPaginated(1,25);
 
         return $this->render('Public/asset_browser/index.html.twig', [
             'items' => $assets,
