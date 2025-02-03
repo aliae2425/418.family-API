@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Family;
+use App\Entity\FamilyCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
@@ -25,20 +26,27 @@ class FamilyRepository extends ServiceEntityRepository
         return $this->paginator->paginate($query, $page, $limit);
     }
 
-    //    /**
-    //     * @return Family[] Returns an array of Family objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('f.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function searchPaginated(int $page, int $limit, string $search)
+    {
+        $query = $this->createQueryBuilder('f')
+            ->where('f.name LIKE :search')
+            ->setParameter('search', "%$search%")
+            ->getQuery();
+
+        return $this->paginator->paginate($query, $page, $limit);
+    }
+
+       public function findByPaginate(FamilyCategory $value, int $page, int $limit)
+       {
+           $query = $this->createQueryBuilder('f')
+               ->andWhere('f.familyCategory = :val.id')
+               ->setParameter('val', $value)
+               ->orderBy('f.id', 'ASC')
+               ->getQuery()
+               ->getResult()
+           ;
+           return $this->paginator->paginate($query, $page, $limit);
+       }
 
     //    public function findOneBySomeField($value): ?Family
     //    {

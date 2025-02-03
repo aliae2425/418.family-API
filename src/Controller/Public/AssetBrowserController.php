@@ -30,9 +30,9 @@ class AssetBrowserController extends AbstractController
     public function category(FamilyRepository $familyRepository, FamilyCategoryRepository $familyCategoryRepository, string $slug): Response
     {
         $familyCategory = $familyCategoryRepository->findBy(['slug' => $slug]);
-        $family = $familyRepository->findBy(['familyCategory' => $familyCategory]);
+        $family = $familyRepository->findByPaginate($familyCategory[0], 1, 25);
         return $this->render('Public/asset_browser/index.html.twig', [
-            'slug' => $family,
+            'items' => $family,
         ]);
     }
 }       
