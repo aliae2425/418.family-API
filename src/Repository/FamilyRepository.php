@@ -39,8 +39,8 @@ class FamilyRepository extends ServiceEntityRepository
        public function findByPaginate(FamilyCategory $value, int $page, int $limit)
        {
            $query = $this->createQueryBuilder('f')
-               ->andWhere('f.familyCategory = :val.id')
-               ->setParameter('val', $value)
+               ->andWhere('f.familyCategory = :val')
+               ->setParameter('val', $value->getId())
                ->orderBy('f.id', 'ASC')
                ->getQuery()
                ->getResult()
