@@ -29,8 +29,17 @@ class AssetBrowserController extends AbstractController
     #[Route('/familles/{slug}', name: 'asset_browser_family', requirements:['slug' => '[a-z0-9-]+'])]
     public function category(FamilyRepository $familyRepository, FamilyCategoryRepository $familyCategoryRepository, string $slug): Response
     {
-        $familyCategory = $familyCategoryRepository->findBy(['slug' => $slug]);
-        $family = $familyRepository->findByPaginate($familyCategory[0], 1, 25);
+        $familyCategory = $familyCategoryRepository->findBy(['slug' => $slug])[0];
+        if (!$familyCategory) {
+            throw $this->createNotFoundException('La catégorie n\'existe pas');
+        }
+        $family = $familyRepository->findByPaginate($familyCategory, 1, 25);
+
+        if ($familyCategory->getParents() === null) {
+            $familyCategory = $familyCategoryRepository->findBy(['parents' => null]);
+        }else{
+            $familyCategory = $familyCategoryRepository->findBy(['parents' => $familyCategory->getParents()]);
+        }
         // dd($family);
         return $this->render('Public/asset_browser/index.html.twig', [
             'familyCategory' => $familyCategory,
