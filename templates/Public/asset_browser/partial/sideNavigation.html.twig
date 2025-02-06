@@ -8,8 +8,17 @@
     </form>
 </div>
 <div class="p-4 border-y border-gray-200">
-    <h4 class="text-lg font-semibold mb-4">Arborescence</h4>
+    <h4 class="text-lg font-semibold mb-4">Parcourir</h4>
     <ul class="space-y-2">
+        {% if familyCategory | first.level != 0 %}
+            <li>
+                <a href="{{ path('public_asset_index') }}"
+                    class="text-gray-900 dark:text-gray-200 hover:text-gray-600 block">
+                    <i class="fas fa-arrow-left"></i>
+                    Toutes les familles
+                </a>
+            </li>
+        {% endif %}
         {% for category in familyCategory %}
             {% set row = 0 %}
             {% if category.child | length > 0 %}

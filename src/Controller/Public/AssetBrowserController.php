@@ -38,7 +38,7 @@ class AssetBrowserController extends AbstractController
         if ($familyCategory->getParents() === null) {
             $familyCategory = $familyCategoryRepository->findBy(['parents' => null]);
         }else{
-            $familyCategory = $familyCategoryRepository->findBy(['parents' => $familyCategory->getParents()]);
+            $familyCategory = $familyCategoryRepository->findBy(['id' => $familyCategory->getParents()]);
         }
         // dd($family);
         return $this->render('Public/asset_browser/index.html.twig', [
