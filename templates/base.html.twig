@@ -12,49 +12,39 @@
         {% endblock %}
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-</head>
-<body class="bg-white dark:bg-slate-700 dark:text-white">
-    <div class="flex justify-end  p-5">
-
-        <div class="w-4/5">
-            <div class="text-left p-4">
-                <div class="text-4xl font-bold">{% block PageTitle %} Drawing Title {% endblock %} </div>
-                <div class="text-2xl font-bold text-gray-500"> {% block PageArbo %} <i class="fas fa-home"></i> {% endblock %} </div>
-            </div>
-            <div class="mt-8">
-                {{ include('partial/flash.html.twig') }}
-                {% block body %}{% endblock %}
-            </div>
-        </div>
-
-        <div class="w-1/5 px-5">
-        </div>
-
-        <div class="w-1/5 h-screen px-5 fixed right-0 top-5">
-            <div class="h-1/4 text-right">
-                <div class="text-6xl font-bold justify-end p-2">
-                    <span class="text-gray-">418</span>
-                    {# <img src="{{ asset('images/logo/logoText.svg') }}" alt="Logo" class=" justify-center w-1/2"> #}
+    </head>
+    <body class="bg-white dark:bg-slate-700 dark:text-white h-screen overflow-hidden">
+        <div class="flex h-full">
+            <div class="w-4/5 flex flex-col p-5">
+                <div class="text-left p-4">
+                    <div class="text-4xl font-bold">{% block PageTitle %} Drawing Title {% endblock %}</div>
+                    <div class="text-2xl font-bold text-gray-500">{% block PageArbo %} <i class="fas fa-home"></i> {% endblock %}</div>
                 </div>
-                <div class="mt-8 text-sm flex justify-between">
-                    <a href="{{ path('public.home') }}" class="font-semibold text-lg hover:text-gray-600">Accueil</a>
-                    <a href="{{ path('public_asset_index') }}" class="font-semibold text-lg hover:text-gray-600">Navigation</a>
-                    <a href="#" class="font-semibold text-lg hover:text-gray-600">Fabricants</a>
+                <div class="flex-1 overflow-y-auto">
+                    {{ include('partial/flash.html.twig') }}
+                    {% block body %}{% endblock %}
                 </div>
             </div>
+            <div class="w-1/5 h-full px-5 fixed right-0 top-5 flex flex-col">
+                <div class="h-1/4 text-right">
+                    <div class="text-6xl font-bold justify-end p-2">
+                        <span class="text-gray-">418</span>
+                        {# <img src="{{ asset('images/logo/logoText.svg') }}" alt="Logo" class=" justify-center w-1/2"> #}
+                    </div>
+                    <div class="mt-8 text-sm flex justify-between">
+                        <a href="{{ path('public.home') }}" class="font-semibold text-lg hover:text-gray-600">Accueil</a>
+                        <a href="{{ path('public_asset_index') }}" class="font-semibold text-lg hover:text-gray-600">Navigation</a>
+                        <a href="#" class="font-semibold text-lg hover:text-gray-600">Fabricants</a>
+                    </div>
+                </div>
 
-            <div class="h-1/2 overflow-y-scroll">
-                {% block Navigation %}
-                {% endblock %}
+                 <div class="h-1/2 overflow-y-scroll">
+                    {% block Navigation %}
+                    {% endblock %}
+                </div>
+
+                {{ include('partial/sidebar.html.twig') }}
             </div>
-
-           {{ include('partial/sidebar.html.twig') }}
-
         </div>
-
-
-    </div>
-</body>
+    </body>
 </html>
-
-
