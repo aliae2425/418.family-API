@@ -39,7 +39,6 @@ class UserCrudController extends AbstractCrudController
         $user = new User();
         $user->setCreatedAt(new \DateTimeImmutable());
         $user->setLastActivity(new \DateTimeImmutable());
-        $user->setCoins(0);
         return $user;
     }
 
