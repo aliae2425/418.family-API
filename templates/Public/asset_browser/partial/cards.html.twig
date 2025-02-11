@@ -22,12 +22,14 @@
                 <i class="fas fa-gift"></i> 
             </div>
         {% endif %}
-        <button class="text-white p-2 rounded-full text-sm transition-colors">
+        <a href="{{ path('user_cart_add', {'id':item.id}) }}"   
+            class="text-white p-2 rounded-full text-sm transition-colors">
             <i class="fas fa-shopping-cart"></i> 
-        </button>
-        <button class="text-white p-2 rounded-full text-sm transition-colors">
+        </a>
+        <a  href="{{ path('user_cart_quickAdd', {'id':item.id}) }}"
+            class="text-white p-2 rounded-full text-sm transition-colors">
             <i class="fas fa-bolt"></i>
-        </button>
+        </a>
     </div>
 
 </div>

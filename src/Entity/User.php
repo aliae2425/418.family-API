@@ -409,6 +409,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getFamilliesCollection():Collection
+    {
+        return $this->userCollection->getFamillies();
+    }
+
     public function getFamilyCount():int
     {
         return $this->userCollection->getFamillies()->count();
