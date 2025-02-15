@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: FamilyRepository::class)]
 #[Vich\Uploadable]
@@ -17,9 +18,11 @@ class Family
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['family:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['family:read'])]
     private ?string $name = null;
 
     #[ORM\Column]
@@ -29,6 +32,7 @@ class Family
     private ?\DateTimeImmutable $_updatedAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['family:read'])]
     private ?string $thumbnail = null;
 
     #[Vich\UploadableField(mapping: 'familyThumbnail', fileNameProperty: 'thumbnail')]
@@ -55,6 +59,7 @@ class Family
     private Collection $carts;
 
     #[ORM\Column( nullable: true)]
+    #[Groups(['family:read'])]
     private ?int $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'families')]
