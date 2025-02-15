@@ -20,7 +20,7 @@ class BrandsRepository extends ServiceEntityRepository
         parent::__construct($registry, Brands::class);
     }
 
-    public function indexPagniate($page, $limit)
+    public function findAllPaginated($page, $limit)
     {
         return $this->paginator->paginate(
             $this->createQueryBuilder('b')

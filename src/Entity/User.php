@@ -409,6 +409,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getFamilliesCollection():Collection
+    {
+        return $this->userCollection->getFamillies();
+    }
+
     public function getFamilyCount():int
     {
         return $this->userCollection->getFamillies()->count();
@@ -424,5 +429,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->Plan = $Plan;
 
         return $this;
+    }
+
+    public function getCurrentCart(): ?Cart
+    {
+        return $this->carts->last();
+    }
+
+    public function isOwner() :bool
+    {
+        if ($this->userCollection->getOwner() === $this) {
+            return true;
+        }
+
+        return false;
     }
 }

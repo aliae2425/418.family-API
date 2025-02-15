@@ -47,6 +47,9 @@ class FamilyCategory
     #[ORM\OneToMany(targetEntity: Family::class, mappedBy: 'familyCategory')]
     private Collection $families;
 
+    #[ORM\Column]
+    private ?int $level = null;
+
     public function __construct()
     {
         $this->child = new ArrayCollection();
@@ -191,5 +194,17 @@ class FamilyCategory
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): static
+    {
+        $this->level = $level;
+
+        return $this;
     }
 }

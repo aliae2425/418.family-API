@@ -3,33 +3,50 @@
 namespace App\Repository;
 
 use App\Entity\Family;
+use App\Entity\FamilyCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Family>
  */
 class FamilyRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private PaginatorInterface $paginator)
     {
         parent::__construct($registry, Family::class);
     }
 
-    //    /**
-    //     * @return Family[] Returns an array of Family objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('f.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findAllPaginated(int $page, int $limit)
+    {
+        $query = $this->createQueryBuilder('f')
+            ->getQuery();
+
+        return $this->paginator->paginate($query, $page, $limit);
+    }
+
+    public function searchPaginated(int $page, int $limit, string $search)
+    {
+        $query = $this->createQueryBuilder('f')
+            ->where('f.name LIKE :search')
+            ->setParameter('search', "%$search%")
+            ->getQuery();
+
+        return $this->paginator->paginate($query, $page, $limit);
+    }
+
+       public function findByPaginate(FamilyCategory $value, int $page, int $limit)
+       {
+           $query = $this->createQueryBuilder('f')
+               ->andWhere('f.familyCategory = :val')
+               ->setParameter('val', $value->getId())
+               ->orderBy('f.id', 'ASC')
+               ->getQuery()
+               ->getResult()
+           ;
+           return $this->paginator->paginate($query, $page, $limit);
+       }
 
     //    public function findOneBySomeField($value): ?Family
     //    {

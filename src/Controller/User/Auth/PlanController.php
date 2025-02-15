@@ -27,6 +27,9 @@ class PlanController extends AbstractController
         }else{
             $user = $repo->find($user->getId());
             $user->setPlan($choice);
+            if ($choice === 'business') {
+                $user->addRoles(['ROLE_BUSINESS_ADMIN']);
+            }
             $em->persist($user);
             $em->flush();
             $this->addFlash('success', 'Votre plan a été mis à jour avec succès');

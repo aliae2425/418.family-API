@@ -1,0 +1,51 @@
+<div class="mt-8 text-sm">
+    <div class="flex justify-between border-b py-1">
+        <a href="{{path('user_cart_index')}}" class="font-bold uppercase hover:text-gray-500">
+            Cart
+        </a>
+        <a href="{{path('user_cart_clear')}}" class="hover:text-gray-500">
+            <i class="fas fa-times"></i>
+        </a>
+    </div>
+    <div class="flex justify-between border-b font-semibold py-1">
+        <span>id</span>
+        <span>Nom</span>
+        <span>price</span>
+        <span></span>
+    </div>
+    {% if app.user %}
+        {% if app.user.carts.last %}
+            {% set total = 0 %}
+            {% for item in app.user.carts.last.famillies %}
+                <div class="flex justify-between border-b py-1">
+                    <span> {{item.id}} </span>
+                    <span> {{item.name}} </span>
+                    <span> {{item.price}} </span>
+                    <a href="{{path('user_cart_remove', {'id': item.id})}}" class="hover:text-gray-500">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                    {% set total = total + item.price %}
+                </div>
+                {% if loop.last %}
+                    <a href="#" class="flex justify-between border-b py-1 hover:text-gray-500">
+                        <span>Total</span>
+                        <span></span>
+                        <span><i class="fas fa-coins"></i>  {{ total }}</span>
+                    </a>
+                {% endif %}
+            {% else %}
+                <div class="border-b py-1 text-center">
+                    <span>votre pannier est vide</span>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="border-b py-1 text-center">
+                <span>votre pannier est vide</span>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="border-b py-1 text-center">
+            <a href="{{path('app_login')}}" class="font-semibold hover:text-gray-500"> Connectez vous pour voir votre pannier </a>
+        </div>
+    {% endif %}
+</div>

@@ -21,7 +21,7 @@ class FamilyFixture extends Fixture implements FixtureGroupInterface, OrderedFix
         $brands = $manager->getRepository(Brands::class)->findAll();
         $categories = $manager->getRepository(FamilyCategory::class)->findAll();    
 
-        for ($i = 1; $i <= 25; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
             $family = new Family();
             $family->setName($faker->word());
             $family->setCreatedAt(new DateTimeImmutable());
@@ -29,7 +29,7 @@ class FamilyFixture extends Fixture implements FixtureGroupInterface, OrderedFix
             $family->setRevitFamily('418_TeaPot.rfa');
             $family->setThumbnail("https://placehold.co/400");
             $family->setFamilyCategory($faker->randomElement($categories));
-            $family->setPrice($faker->randomElement([0,10,20]));
+            $family->setPrice($faker->randomElement([0,10]));
             $family->setBrand($faker->randomElement($brands));
 
             $manager->persist($family);

@@ -22,12 +22,7 @@ class FamilyBrowserController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        if($user->getRelatedBusiness() != null){
-            $items = $user->getRelatedBusiness()->getOwner()->getFamilliesCollection();
-        }else{
-            $items = $user->getFamilliesCollection();
-        }
-
+        $items = $user->getFamilliesCollection();
 
         return $this->render('User/Collection/family_browser/index.html.twig', [
             'items' => $items,

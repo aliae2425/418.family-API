@@ -37,7 +37,7 @@ class RegistrationController extends AbstractController
 
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
-            $user->setRoles(['ROLE_USER']);
+            $user->setRoles(['ROLE_USER', 'ROLE_CONTENT_MANAGER']);
             $user->setPlan('free');
 
             $collection = new UserCollection();

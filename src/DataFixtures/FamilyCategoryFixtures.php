@@ -22,7 +22,7 @@ class FamilyCategoryFixtures extends Fixture implements OrderedFixtureInterface
         $manager->flush();
     }
 
-    private function createFamilyCategory(array $categories, ?FamilyCategory $parent = null, ObjectManager $manager): void
+    private function createFamilyCategory(array $categories, ?FamilyCategory $parent = null, ObjectManager $manager, int $row = 0): void
     {
         foreach ($categories as $category) {
             $familyCategory = new FamilyCategory();
@@ -32,10 +32,11 @@ class FamilyCategoryFixtures extends Fixture implements OrderedFixtureInterface
             $familyCategory->setSlug(strtolower($slugger->slug($category['name'])));
             $familyCategory->setCreatedAt(new \DateTimeImmutable());
             $familyCategory->setUpdatedAt(new \DateTimeImmutable());
+            $familyCategory->setLevel($row);
             $manager->persist($familyCategory);
 
             if (isset($category['children'])) {
-                $this->createFamilyCategory($category['children'], $familyCategory, $manager);
+                $this->createFamilyCategory($category['children'], $familyCategory, $manager, $row + 1);
             }
         }
     }

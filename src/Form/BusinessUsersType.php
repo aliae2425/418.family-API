@@ -20,9 +20,9 @@ class BusinessUsersType extends AbstractType
             ->add('roles', ChoiceType::class, [
                 'label' => 'Rôles',
                 'choices' => [
-                    'Utilisateur' => 'ROLE_USER',
-                    'Gestionnaire de contenu' => 'BUSINESS_EDITOR',
-                    'Administrateur' => 'BUSINESS_ADMIN',
+                    'Utilisateur' => 'user',
+                    'Gestionnaire de contenu' => 'content_manager',
+                    'Administrateur' => 'admin',
                 ],
             ]);
     }

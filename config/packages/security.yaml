@@ -25,7 +25,7 @@ security:
                 lifetime: 604800
             logout:
                 path: app_logout
-                target: app_login
+                target: public.home
                 # where to redirect after logout
                 # target: app_any_route
 
