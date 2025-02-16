@@ -22,17 +22,19 @@ class Family
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['family:read'])]
+    #[Groups(['family:read', 'family:show'])]
     private ?string $name = null;
 
     #[ORM\Column]
+        #[Groups(['family:show'])]
     private ?\DateTimeImmutable $_createdAt = null;
 
     #[ORM\Column]
+    #[Groups(['family:show'])]
     private ?\DateTimeImmutable $_updatedAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['family:read'])]
+    #[Groups(['family:read', 'family:show'])]
     private ?string $thumbnail = null;
 
     #[Vich\UploadableField(mapping: 'familyThumbnail', fileNameProperty: 'thumbnail')]
@@ -47,9 +49,11 @@ class Family
 
     #[ORM\ManyToOne(inversedBy: 'families')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['family:show'])]
     private ?FamilyCategory $familyCategory = null;
 
     #[ORM\ManyToOne(inversedBy: 'families')]
+    #[Groups(['family:show'])]
     private ?Brands $brand = null;
 
     /**
@@ -59,10 +63,11 @@ class Family
     private Collection $carts;
 
     #[ORM\Column( nullable: true)]
-    #[Groups(['family:read'])]
+    #[Groups(['family:read', 'family:show'])]
     private ?int $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'families')]
+    #[Groups(['family:show'])]
     private ?User $_createdBy = null;
 
     /**

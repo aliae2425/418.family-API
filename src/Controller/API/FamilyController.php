@@ -22,7 +22,15 @@ final class FamilyController extends AbstractController
     #[Route('/API/family/{id}', name: 'api_family_show')]
     public function show(Family $family, SerializerInterface $serializer): Response
     {
-        $json = $serializer->serialize($family, 'json', ['groups' => 'family:read']);
+        $json = $serializer->serialize($family, 'json', ['groups' => 'family:show']);
+        return new Response($json, 200, ['Content-Type' => 'application/json']);
+    }
+
+    #[Route('/API/family/brand/{id}', name: 'api_family_brand')]
+    public function brand(FamilyRepository $familyRepository, int $id, SerializerInterface $serializer): Response
+    {
+        $families = $familyRepository->findBy(['brand' => $id]);
+        $json = $serializer->serialize($families, 'json', ['groups' => 'family:read']);
         return new Response($json, 200, ['Content-Type' => 'application/json']);
     }
 
