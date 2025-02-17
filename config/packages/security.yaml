@@ -9,6 +9,10 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+        api_user_provider:
+            entity:
+                class: App\Entity\User
+                property: apiToken
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -28,6 +32,12 @@ security:
                 target: public.home
                 # where to redirect after logout
                 # target: app_any_route
+        api:
+            pattern: ^/api/
+            provider: api_user_provider
+            custom_authenticator: App\Security\APIAuthenticator
+            stateless: true
+            lazy: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
