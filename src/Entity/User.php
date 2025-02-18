@@ -87,6 +87,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $apiToken = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $ApiTokenExpiresAt = null;
+
     public function __toString(): string
     {
         return $this->email;
@@ -456,6 +459,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setApiToken(?string $apiToken): static
     {
         $this->apiToken = bin2hex(random_bytes(32));
+
+        return $this;
+    }
+
+    public function getApiTokenExpiresAt(): ?\DateTimeImmutable
+    {
+        return $this->ApiTokenExpiresAt;
+    }
+
+    public function setApiTokenExpiresAt(?\DateTimeImmutable $ApiTokenExpiresAt): static
+    {
+        $this->ApiTokenExpiresAt = $ApiTokenExpiresAt;
 
         return $this;
     }

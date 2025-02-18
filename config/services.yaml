@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+        api_token_expiration: '2 weeks'
 
 services:
     # default configuration for services in *this* file
@@ -22,6 +23,7 @@ services:
     
     App\Security\TokenUserProvider:
         arguments: ['@doctrine.orm.entity_manager']
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
