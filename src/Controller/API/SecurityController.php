@@ -8,13 +8,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
     #[Route('/api/login', name: 'api_login', methods: ['POST'])]
-    public function login(#[CurrentUser] User $user = null, AuthenticationUtils $authenticationUtils): JsonResponse
+    public function login(AuthenticationUtils $authenticationUtils): JsonResponse
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -23,7 +22,9 @@ class SecurityController extends AbstractController
             return $this->json(['error' => $error->getMessageKey()], 400);
         }
 
-        if (null === $user) {
+        $user = $this->getUser();
+
+        if (!$user instanceof User) {
             return $this->json(['error' => 'User not found'], 404);
         }
 
